@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase
+package com.smmousavi.i_core.model.domain
 
-class SearchMovieUseCase {
-}
+data class MoviesGeneralInfoModel(
+    val genres: GenresModel?,
+    val types: TypesModel?,
+    val languages: LanguagesModel?,
+    val countries: CountriesModel?,
+)
