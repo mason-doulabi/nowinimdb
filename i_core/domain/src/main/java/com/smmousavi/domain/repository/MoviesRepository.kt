@@ -16,5 +16,18 @@
 
 package com.smmousavi.domain.repository
 
+import com.smmousavi.i_core.model.domain.CountriesModel
+import com.smmousavi.i_core.model.domain.GenresModel
+import com.smmousavi.i_core.model.domain.LanguagesModel
+import com.smmousavi.i_core.model.domain.TypesModel
+
 interface MoviesRepository {
+
+    suspend fun getTypes(): Result<TypesModel>
+
+    suspend fun getGenres(): Result<GenresModel>
+
+    suspend fun getCountries(): Result<CountriesModel>
+
+    suspend fun getLanguages(): Result<LanguagesModel>
 }

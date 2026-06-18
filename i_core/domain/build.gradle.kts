@@ -10,7 +10,7 @@ android {
 }
 
 dependencies {
-    api(projects.core.model)
+    api(projects.iCore.model)
 
     implementation(libs.javax.inject)
 
