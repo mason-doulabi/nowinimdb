@@ -16,5 +16,17 @@
 
 package com.smmousavi.i_core.data.di
 
-object RepositoryModule {
+import com.smmousavi.domain.repository.MoviesRepository
+import com.smmousavi.i_core.data.repository.DefaultMoviesRepository
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
+
+    @Binds
+    abstract fun bindsRepositoryModule(repository: DefaultMoviesRepository): MoviesRepository
 }

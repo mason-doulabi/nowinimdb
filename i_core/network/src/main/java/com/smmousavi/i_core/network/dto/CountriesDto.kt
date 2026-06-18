@@ -16,11 +16,14 @@
 
 package com.smmousavi.i_core.network.dto
 
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable
 
+@InternalSerializationApi
 @Serializable
 data class CountriesDto(val countries: List<CountryItemDto>?)
 
+@InternalSerializationApi
 @Serializable
 data class CountryItemDto(
     val name: String?,

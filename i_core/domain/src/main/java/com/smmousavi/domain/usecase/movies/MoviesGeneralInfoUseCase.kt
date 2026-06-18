@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.movies
+package com.smmousavi.domain.usecase.movies
 
-import com.smmousavi.i_core.network.dto.CountriesDto
-import com.smmousavi.i_core.network.dto.GenresDto
-import com.smmousavi.i_core.network.dto.LanguagesDto
-import com.smmousavi.i_core.network.dto.TypesDto
+import com.smmousavi.i_core.model.domain.MoviesGeneralInfoModel
+import kotlinx.coroutines.flow.Flow
 
-interface MoviesRemoteDataSource {
+interface MoviesGeneralInfoUseCase {
 
-    suspend fun getTypes(): Result<TypesDto>
-
-    suspend fun getGenres(): Result<GenresDto>
-
-    suspend fun getCountries(): Result<CountriesDto>
-
-    suspend fun getLanguages(): Result<LanguagesDto>
+    suspend operator fun invoke(): Flow<MoviesGeneralInfoModel>
 }

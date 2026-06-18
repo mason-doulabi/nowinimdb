@@ -19,8 +19,12 @@ dependencies {
     implementation(projects.core.analytics)
     implementation(projects.core.notifications)
 
+    implementation(libs.kotlinx.coroutines.core)
+
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.kotlinx.serialization.json)
     testImplementation(projects.core.datastoreTest)
     testImplementation(projects.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
 }

@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.movies
+package com.smmousavi.domain.usecase.search
 
-import com.smmousavi.i_core.network.dto.CountriesDto
-import com.smmousavi.i_core.network.dto.GenresDto
-import com.smmousavi.i_core.network.dto.LanguagesDto
-import com.smmousavi.i_core.network.dto.TypesDto
-
-interface MoviesRemoteDataSource {
-
-    suspend fun getTypes(): Result<TypesDto>
-
-    suspend fun getGenres(): Result<GenresDto>
-
-    suspend fun getCountries(): Result<CountriesDto>
-
-    suspend fun getLanguages(): Result<LanguagesDto>
+interface SearchMovieUseCase {
 }

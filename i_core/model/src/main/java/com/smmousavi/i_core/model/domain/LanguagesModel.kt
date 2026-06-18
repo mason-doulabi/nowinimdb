@@ -16,4 +16,30 @@
 
 package com.smmousavi.i_core.model.domain
 
-data class LanguagesModel(val languages: List<String>)
+
+data class LanguagesModel(val languages: List<LanguageItemModel>) {
+
+    companion object {
+        val DEFAULT = CountriesModel(
+            listOf(
+                CountryItemModel(
+                    name = "Farsi",
+                    label = "fa",
+                ),
+                CountryItemModel(
+                    name = "Abkhazian",
+                    label = "ab",
+                ),
+                CountryItemModel(
+                    name = "Afrikaans",
+                    label = "af",
+                ),
+            ),
+        )
+    }
+}
+
+data class LanguageItemModel(
+    val name: String,
+    val label: String,
+)

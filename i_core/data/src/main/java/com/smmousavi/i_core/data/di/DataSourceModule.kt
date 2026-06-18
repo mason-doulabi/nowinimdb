@@ -16,5 +16,19 @@
 
 package com.smmousavi.i_core.data.di
 
-object DataSourceModule {
+import com.smmousavi.i_core.data.datasource.movies.DefaultMoviesRemoteDataSource
+import com.smmousavi.i_core.data.datasource.movies.MoviesRemoteDataSource
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class DataSourceModule {
+
+    @Binds
+    abstract fun bindsMoviesRemoteDataSource(
+        moviesRemoteDataSource: DefaultMoviesRemoteDataSource,
+    ): MoviesRemoteDataSource
 }

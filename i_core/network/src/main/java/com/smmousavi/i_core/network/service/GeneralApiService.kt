@@ -20,19 +20,24 @@ import com.smmousavi.i_core.network.dto.CountriesDto
 import com.smmousavi.i_core.network.dto.GenresDto
 import com.smmousavi.i_core.network.dto.LanguagesDto
 import com.smmousavi.i_core.network.dto.TypesDto
+import kotlinx.serialization.InternalSerializationApi
 import retrofit2.http.GET
 
 interface GeneralApiService {
 
+    @OptIn(InternalSerializationApi::class)
     @GET(value = "types")
     suspend fun getTypes(): TypesDto
 
+    @OptIn(InternalSerializationApi::class)
     @GET(value = "genres")
     suspend fun getGenres(): GenresDto
 
+    @OptIn(InternalSerializationApi::class)
     @GET(value = "countries")
     suspend fun getCountries(): CountriesDto
 
+    @OptIn(InternalSerializationApi::class)
     @GET(value = "languages")
     suspend fun getLanguages(): LanguagesDto
 }

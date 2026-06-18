@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.movies
+package com.smmousavi.domain.usecase.di
 
-import com.smmousavi.i_core.network.dto.CountriesDto
-import com.smmousavi.i_core.network.dto.GenresDto
-import com.smmousavi.i_core.network.dto.LanguagesDto
-import com.smmousavi.i_core.network.dto.TypesDto
+import com.smmousavi.domain.usecase.movies.DefaultMoviesGeneralInfoUseCase
+import com.smmousavi.domain.usecase.movies.MoviesGeneralInfoUseCase
+import dagger.Binds
+import dagger.Module
 
-interface MoviesRemoteDataSource {
+@Module
+abstract class UseCaseModule {
 
-    suspend fun getTypes(): Result<TypesDto>
-
-    suspend fun getGenres(): Result<GenresDto>
-
-    suspend fun getCountries(): Result<CountriesDto>
-
-    suspend fun getLanguages(): Result<LanguagesDto>
+    @Binds
+    abstract fun bindsMoviesGeneralInfoUseCase(
+        useCase: DefaultMoviesGeneralInfoUseCase,
+    ): MoviesGeneralInfoUseCase
 }
