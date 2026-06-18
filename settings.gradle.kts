@@ -95,3 +95,9 @@ check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     https://developer.android.com/build/jdks#jdk-config-in-studio
     """.trimIndent()
 }
+include(":i_core:model")
+include(":i_core:domain")
+include(":i_core:data")
+include(":i_core:database")
+include(":i_core:common")
+include(":i_core:designsystem")

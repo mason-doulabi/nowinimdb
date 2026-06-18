@@ -14,25 +14,6 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.network.service
+package com.smmousavi.i_core.model.domain
 
-import com.smmousavi.i_core.network.dto.CountriesDto
-import com.smmousavi.i_core.network.dto.GenresDto
-import com.smmousavi.i_core.network.dto.LanguagesDto
-import com.smmousavi.i_core.network.dto.TypesDto
-import retrofit2.http.GET
-
-interface GeneralApiService {
-
-    @GET(value = "types")
-    suspend fun getTypes(): TypesDto
-
-    @GET(value = "genres")
-    suspend fun getGenres(): GenresDto
-
-    @GET(value = "countries")
-    suspend fun getCountries(): CountriesDto
-
-    @GET(value = "languages")
-    suspend fun getLanguages(): LanguagesDto
-}
+data class GenresModel(val genres: List<String>)

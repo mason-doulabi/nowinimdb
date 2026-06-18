@@ -40,6 +40,7 @@ android {
 
 dependencies {
     api(libs.kotlinx.datetime)
+    implementation(projects.iCore.model)
 
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.svg)

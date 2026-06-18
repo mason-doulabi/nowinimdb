@@ -48,7 +48,6 @@ internal object NetworkModule {
                 BuildConfig.API_KEY,
             )
             .build()
-
         chain.proceed(request)
     }
 
