@@ -20,14 +20,15 @@ import com.smmousavi.i_core.model.domain.CountriesModel
 import com.smmousavi.i_core.model.domain.GenresModel
 import com.smmousavi.i_core.model.domain.LanguagesModel
 import com.smmousavi.i_core.model.domain.TypesModel
+import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
 
-    suspend fun getTypes(): Result<TypesModel>
+    suspend fun getTypes(): Flow<Result<TypesModel>>
 
-    suspend fun getGenres(): Result<GenresModel>
+    suspend fun getGenres(): Flow<Result<GenresModel>>
 
-    suspend fun getCountries(): Result<CountriesModel>
+    suspend fun getCountries(): Flow<Result<CountriesModel>>
 
-    suspend fun getLanguages(): Result<LanguagesModel>
+    suspend fun getLanguages(): Flow<Result<LanguagesModel>>
 }
