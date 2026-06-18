@@ -1,31 +1,23 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.nowinandroid.android.library)
+    alias(libs.plugins.nowinandroid.android.library.compose)
+    alias(libs.plugins.nowinandroid.android.library.jacoco)
 }
 
 android {
     namespace = "com.smmousavi.i_core.presentation"
-    compileSdk {
-        version = release(36)
-    }
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    api(libs.androidx.metrics)
+    api(projects.core.analytics)
+    api(projects.iCore.designsystem)
+    api(projects.iCore.model)
+
+    implementation(libs.androidx.browser)
+    implementation(libs.coil.kt)
+    implementation(libs.coil.kt.compose)
+
+    androidTestImplementation(libs.bundles.androidx.compose.ui.test)
+    androidTestImplementation(projects.core.testing)
 }

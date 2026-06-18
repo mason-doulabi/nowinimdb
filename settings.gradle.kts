@@ -82,12 +82,6 @@ include(":sync:work")
 include(":sync:sync-test")
 include(":ui-test-hilt-manifest")
 
-//IMDb specific modules
-include(":app-imbd")
-include(":i_core:network")
-include(":i_core:presentation")
-include(":i_feature:search")
-
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     """
     Now in Android requires JDK 17+ but it is currently using JDK ${JavaVersion.current()}.
@@ -95,9 +89,17 @@ check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     https://developer.android.com/build/jdks#jdk-config-in-studio
     """.trimIndent()
 }
+
+//IMDb-specific modules
+include(":app-imbd")
+include(":i_core:network")
+include(":i_core:presentation")
 include(":i_core:model")
 include(":i_core:domain")
 include(":i_core:data")
 include(":i_core:database")
 include(":i_core:common")
 include(":i_core:designsystem")
+include(":i_feature:movies:api")
+include(":i_feature:movies:impl")
+include(":i_core:navigation")

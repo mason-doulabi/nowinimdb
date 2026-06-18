@@ -16,9 +16,6 @@ dependencies {
     api(projects.iCore.network)
     api(projects.iCore.domain)
 
-    implementation(projects.core.analytics)
-    implementation(projects.core.notifications)
-
     implementation(libs.kotlinx.coroutines.core)
 
     testImplementation(libs.kotlinx.coroutines.test)

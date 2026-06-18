@@ -1,31 +1,20 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.nowinandroid.android.library)
+    alias(libs.plugins.nowinandroid.android.library.jacoco)
+    alias(libs.plugins.nowinandroid.android.room)
+    alias(libs.plugins.nowinandroid.hilt)
 }
 
 android {
     namespace = "com.smmousavi.i_core.database"
-    compileSdk {
-        version = release(36)
-    }
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    api(projects.iCore.model)
+
+    implementation(libs.kotlinx.datetime)
+
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 }

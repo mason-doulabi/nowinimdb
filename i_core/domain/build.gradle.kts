@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.smmousavi.domain"
+    namespace = "com.smmousavi.i_core.domain"
 
 }
 

@@ -1,31 +1,36 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.nowinandroid.android.library)
+    alias(libs.plugins.nowinandroid.android.library.compose)
+    alias(libs.plugins.nowinandroid.android.library.jacoco)
+    alias(libs.plugins.roborazzi)
 }
 
 android {
     namespace = "com.smmousavi.i_core.designsystem"
-    compileSdk {
-        version = release(36)
-    }
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
+    testOptions.unitTests.isIncludeAndroidResources = true
 }
 
+
 dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    lintPublish(projects.lint)
+
+    api(projects.core.designsystem)
+
+    api(libs.androidx.compose.foundation)
+    api(libs.androidx.compose.foundation.layout)
+    api(libs.androidx.compose.material.iconsExtended)
+    api(libs.androidx.compose.material3)
+    api(libs.androidx.compose.material3.adaptive)
+    api(libs.androidx.compose.material3.navigationSuite)
+    api(libs.androidx.compose.runtime)
+    api(libs.androidx.compose.ui.util)
+
+    implementation(libs.coil.kt.compose)
+
+    testImplementation(libs.androidx.compose.ui.test)
+    testImplementation(libs.androidx.compose.ui.testManifest)
+
+    testImplementation(libs.hilt.android.testing)
+    testImplementation(libs.robolectric)
+    testImplementation(projects.core.screenshotTesting)
 }

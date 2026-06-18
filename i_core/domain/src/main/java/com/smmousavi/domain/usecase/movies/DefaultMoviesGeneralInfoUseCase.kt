@@ -17,7 +17,7 @@
 package com.smmousavi.domain.usecase.movies
 
 import com.smmousavi.domain.repository.MoviesRepository
-import com.smmousavi.i_core.model.domain.MoviesGeneralInfoModel
+import com.smmousavi.i_core.model.movies.MoviesGeneralInfoModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
