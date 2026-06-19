@@ -5,13 +5,28 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadingWheel
 import com.smmousavi.i_core.presentation.UiState
 import com.smmousavi.i_feature.movies.impl.MoviesScreen
 import com.smmousavi.imbd.ui.theme.NowinandroidTheme
@@ -26,20 +41,42 @@ class ImdbActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // request to get the general info every time the activity is started.
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getGeneralInfo()
             }
         }
-        setContent {
-            val infoState by viewModel.generalInfoUiState.collectAsStateWithLifecycle()
-            when (val state = infoState) {
-                is UiState.Loading -> {}
-                is UiState.Success -> {
-                    MoviesScreen(data = state.data)
-                }
 
-                is UiState.Error -> {}
+        setContent {
+            Scaffold { innerPadding ->
+                val generalInfoState by viewModel.generalInfoUiState.collectAsStateWithLifecycle()
+                when (val state = generalInfoState) {
+                    is UiState.Loading -> {
+                        Box(
+                            modifier = Modifier
+                                .padding(innerPadding)
+                                .fillMaxWidth(),
+                        ) {
+                            NiaLoadingWheel(
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .align(Alignment.TopCenter),
+                                contentDesc = "Loading General Info",
+                            )
+                        }
+                    }
+
+                    is UiState.Success -> {
+                        MoviesScreen(
+                            modifier = Modifier.padding(innerPadding),
+                            data = state.data,
+                        )
+                    }
+
+                    is UiState.Error -> {}
+                }
             }
         }
     }

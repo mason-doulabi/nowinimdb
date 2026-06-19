@@ -36,14 +36,17 @@ import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
 fun ImdbFilterChip(
     modifier: Modifier = Modifier,
     label: String,
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
 ) {
     var selected by rememberSaveable { mutableStateOf(false) }
 
     FilterChip(
         modifier = modifier,
         selected = selected,
-        onClick = { onClick(selected) },
+        onClick = {
+            onClick()
+            selected = selected.not()
+        },
         label = { Text(text = label) },
         leadingIcon = if (selected) {
             {

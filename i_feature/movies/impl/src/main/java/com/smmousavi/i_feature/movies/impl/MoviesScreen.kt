@@ -49,6 +49,7 @@ fun MoviesScreen(
                     key = { it },
                 ) { genre ->
                     ImdbFilterChip(label = genre) {
+                        // onClick actions
                     }
                 }
             }
@@ -65,6 +66,7 @@ fun MoviesScreen(
                     key = { it },
                 ) { type ->
                     ImdbFilterChip(label = type) {
+                        // onClick actions
                     }
                 }
             }
@@ -81,6 +83,7 @@ fun MoviesScreen(
                     key = { it.label },
                 ) { language ->
                     ImdbFilterChip(label = language.name) {
+                        // onClick actions
                     }
                 }
             }
@@ -96,6 +99,7 @@ fun MoviesScreen(
                     key = { it.label },
                 ) { country ->
                     ImdbFilterChip(label = country.name) {
+                        // onClick actions
                     }
                 }
             }
