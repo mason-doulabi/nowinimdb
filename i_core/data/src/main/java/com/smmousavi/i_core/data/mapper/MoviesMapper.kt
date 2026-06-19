@@ -16,39 +16,20 @@
 
 package com.smmousavi.i_core.data.mapper
 
-import com.smmousavi.i_core.model.domain.CountriesModel
-import com.smmousavi.i_core.model.domain.CountryItemModel
-import com.smmousavi.i_core.model.domain.GenresModel
-import com.smmousavi.i_core.model.domain.LanguageItemModel
-import com.smmousavi.i_core.model.domain.LanguagesModel
-import com.smmousavi.i_core.model.domain.TypesModel
-import com.smmousavi.i_core.network.dto.CountriesDto
-import com.smmousavi.i_core.network.dto.CountryItemDto
-import com.smmousavi.i_core.network.dto.GenresDto
-import com.smmousavi.i_core.network.dto.LanguageItemDto
-import com.smmousavi.i_core.network.dto.LanguagesDto
-import com.smmousavi.i_core.network.dto.TypesDto
+import com.smmousavi.i_core.model.movies.MoviesCountryItemModel
+import com.smmousavi.i_core.model.movies.MoviesLanguageItemModel
+import com.smmousavi.i_core.network.dto.MoviesCountryItemDto
+import com.smmousavi.i_core.network.dto.MoviesLanguageItemDto
 
 object MoviesMapper {
-    fun LanguagesDto.toDomain(): LanguagesModel = LanguagesModel(
-        languages?.map { it.toDomain() } ?: listOf(),
-    )
 
-    fun LanguageItemDto.toDomain(): LanguageItemModel = LanguageItemModel(
+    fun MoviesLanguageItemDto.toDomain(): MoviesLanguageItemModel = MoviesLanguageItemModel(
         name = this.name ?: "",
-        label = this.label ?: "",
+        label = this.iso_639_1 ?: "",
     )
 
-    fun CountriesDto.toDomain(): CountriesModel = CountriesModel(
-        countries?.map { it.toDomain() } ?: listOf(),
-    )
-
-    fun CountryItemDto.toDomain(): CountryItemModel = CountryItemModel(
+    fun MoviesCountryItemDto.toDomain(): MoviesCountryItemModel = MoviesCountryItemModel(
         name = this.name ?: "",
-        label = this.label ?: "",
+        label = this.iso_3166_1 ?: "",
     )
-
-    fun GenresDto.toDomain(): GenresModel = GenresModel(this.genres ?: listOf())
-
-    fun TypesDto.toDomain(): TypesModel = TypesModel(this.types ?: listOf())
 }

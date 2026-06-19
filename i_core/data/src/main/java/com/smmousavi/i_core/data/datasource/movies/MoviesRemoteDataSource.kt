@@ -16,18 +16,16 @@
 
 package com.smmousavi.i_core.data.datasource.movies
 
-import com.smmousavi.i_core.network.dto.CountriesDto
-import com.smmousavi.i_core.network.dto.GenresDto
-import com.smmousavi.i_core.network.dto.LanguagesDto
-import com.smmousavi.i_core.network.dto.TypesDto
+import com.smmousavi.i_core.network.dto.MoviesCountryItemDto
+import com.smmousavi.i_core.network.dto.MoviesLanguageItemDto
 
 interface MoviesRemoteDataSource {
 
-    suspend fun getTypes(): Result<TypesDto>
+    suspend fun getTypes(): Result<List<String>>
 
-    suspend fun getGenres(): Result<GenresDto>
+    suspend fun getGenres(): Result<List<String>>
 
-    suspend fun getCountries(): Result<CountriesDto>
+    suspend fun getCountries(): Result<List<MoviesCountryItemDto>>
 
-    suspend fun getLanguages(): Result<LanguagesDto>
+    suspend fun getLanguages(): Result<List<MoviesLanguageItemDto>>
 }

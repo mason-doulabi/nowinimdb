@@ -16,10 +16,8 @@
 
 package com.smmousavi.i_core.network.service
 
-import com.smmousavi.i_core.network.dto.CountriesDto
-import com.smmousavi.i_core.network.dto.GenresDto
-import com.smmousavi.i_core.network.dto.LanguagesDto
-import com.smmousavi.i_core.network.dto.TypesDto
+import com.smmousavi.i_core.network.dto.MoviesCountryItemDto
+import com.smmousavi.i_core.network.dto.MoviesLanguageItemDto
 import kotlinx.serialization.InternalSerializationApi
 import retrofit2.http.GET
 
@@ -27,17 +25,17 @@ interface GeneralApiService {
 
     @OptIn(InternalSerializationApi::class)
     @GET(value = "types")
-    suspend fun getTypes(): TypesDto
+    suspend fun getTypes(): List<String>
 
     @OptIn(InternalSerializationApi::class)
     @GET(value = "genres")
-    suspend fun getGenres(): GenresDto
+    suspend fun getGenres(): List<String>
 
     @OptIn(InternalSerializationApi::class)
     @GET(value = "countries")
-    suspend fun getCountries(): CountriesDto
+    suspend fun getCountries(): List<MoviesCountryItemDto>
 
     @OptIn(InternalSerializationApi::class)
     @GET(value = "languages")
-    suspend fun getLanguages(): LanguagesDto
+    suspend fun getLanguages(): List<MoviesLanguageItemDto>
 }

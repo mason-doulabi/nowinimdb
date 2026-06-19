@@ -4,6 +4,7 @@ import com.google.samples.apps.nowinandroid.NiaFlavor
 plugins {
     alias(libs.plugins.nowinandroid.android.application)
     alias(libs.plugins.nowinandroid.android.application.compose)
+    alias(libs.plugins.nowinandroid.hilt)
 }
 
 android {
@@ -37,8 +38,18 @@ android {
 dependencies {
     implementation(libs.androidx.activity.compose)
 
-    implementation(projects.core.designsystem)
-    implementation(projects.core.ui)
+    implementation(projects.iCore.common)
+    implementation(projects.iCore.data)
+    implementation(projects.iCore.database)
+    implementation(projects.iCore.designsystem)
+    implementation(projects.iCore.domain)
+    implementation(projects.iCore.model)
+    implementation(projects.iCore.navigation)
+    implementation(projects.iCore.network)
+    implementation(projects.iCore.presentation)
+
+    implementation(projects.iFeature.movies.api)
+    implementation(projects.iFeature.movies.impl)
 }
 
 dependencyGuard {
