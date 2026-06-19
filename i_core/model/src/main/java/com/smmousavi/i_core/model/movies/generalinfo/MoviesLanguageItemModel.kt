@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.movies
+package com.smmousavi.i_core.model.movies.generalinfo
 
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
-
-interface MoviesRemoteDataSource {
-
-    suspend fun getTop250(): Result<List<MovieItemDto>>
-}
+data class MoviesLanguageItemModel(
+    val name: String,
+    val label: String,
+)

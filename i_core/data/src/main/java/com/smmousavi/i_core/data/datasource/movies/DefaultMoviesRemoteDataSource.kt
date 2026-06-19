@@ -17,27 +17,15 @@
 package com.smmousavi.i_core.data.datasource.movies
 
 import com.smmousavi.i_core.network.di.IMDbQualifier
-import com.smmousavi.i_core.network.dto.MoviesCountryItemDto
-import com.smmousavi.i_core.network.dto.MoviesLanguageItemDto
-import com.smmousavi.i_core.network.service.GeneralApiService
+import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.network.service.MoviesApiService
 import javax.inject.Inject
 
 class DefaultMoviesRemoteDataSource @Inject constructor(
-    @IMDbQualifier private val generalApiService: GeneralApiService,
+   @IMDbQualifier val moviesApiService: MoviesApiService,
 ) : MoviesRemoteDataSource {
-    override suspend fun getTypes(): Result<List<String>> = runCatching {
-        generalApiService.getTypes()
-    }
 
-    override suspend fun getGenres(): Result<List<String>> = runCatching {
-        generalApiService.getGenres()
-    }
-
-    override suspend fun getCountries(): Result<List<MoviesCountryItemDto>> = runCatching {
-        generalApiService.getCountries()
-    }
-
-    override suspend fun getLanguages(): Result<List<MoviesLanguageItemDto>> = runCatching {
-        generalApiService.getLanguages()
+    override suspend fun getTop250(): Result<List<MovieItemDto>> = runCatching {
+        moviesApiService.getTop250Movies()
     }
 }

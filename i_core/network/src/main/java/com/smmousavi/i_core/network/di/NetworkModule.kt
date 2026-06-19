@@ -18,7 +18,6 @@ package com.smmousavi.i_core.network.di
 
 import androidx.tracing.trace
 import com.smmousavi.i_core.network.BuildConfig
-import com.smmousavi.i_core.network.service.GeneralApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

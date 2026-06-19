@@ -16,8 +16,8 @@
 
 package com.smmousavi.i_core.network.service
 
-import com.smmousavi.i_core.network.dto.MoviesCountryItemDto
-import com.smmousavi.i_core.network.dto.MoviesLanguageItemDto
+import com.smmousavi.i_core.network.dto.movies.MoviesCountryItemDto
+import com.smmousavi.i_core.network.dto.movies.MoviesLanguageItemDto
 import kotlinx.serialization.InternalSerializationApi
 import retrofit2.http.GET
 

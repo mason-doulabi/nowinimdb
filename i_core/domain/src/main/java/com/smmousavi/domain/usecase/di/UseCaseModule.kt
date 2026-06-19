@@ -16,8 +16,10 @@
 
 package com.smmousavi.domain.usecase.di
 
-import com.smmousavi.domain.usecase.movies.DefaultMoviesGeneralInfoUseCase
-import com.smmousavi.domain.usecase.movies.MoviesGeneralInfoUseCase
+import com.smmousavi.domain.usecase.generalinfo.DefaultMoviesGeneralInfoUseCase
+import com.smmousavi.domain.usecase.generalinfo.MoviesGeneralInfoUseCase
+import com.smmousavi.domain.usecase.movies.DefaultTop250MoviesUseCase
+import com.smmousavi.domain.usecase.movies.Top250MoviesUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -31,4 +33,9 @@ abstract class UseCaseModule {
     abstract fun bindsMoviesGeneralInfoUseCase(
         useCase: DefaultMoviesGeneralInfoUseCase,
     ): MoviesGeneralInfoUseCase
+
+    @Binds
+    abstract fun bindsTop250MoviesUseCase(
+        useCase: DefaultTop250MoviesUseCase,
+    ): Top250MoviesUseCase
 }

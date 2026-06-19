@@ -19,6 +19,9 @@ package com.smmousavi.i_feature.movies.impl
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -26,20 +29,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.smmousavi.i_core.designsystem.movies.ImdbFilterChip
-import com.smmousavi.i_core.model.movies.MoviesGeneralInfoModel
+import com.smmousavi.i_core.designsystem.movies.ImdbMovieCard
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
+import com.smmousavi.i_core.presentation.movies.MoviesTitledLazyRow
 
 @Composable
 fun MoviesScreen(
     modifier: Modifier = Modifier,
-    data: MoviesGeneralInfoModel,
+    top250Movies: List<MovieItemModel>,
+    generalInfo: MoviesGeneralInfoModel,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // top250Movies
+        MoviesTitledLazyRow(items = top250Movies, title = "Top 250 Movies") { item ->
+            ImdbMovieCard(data = item, onClick = {}, onFavoriteClick = {})
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         // genres row
-        data.genres?.let { genres ->
+        generalInfo.genres?.let { genres ->
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -56,7 +70,7 @@ fun MoviesScreen(
         }
 
         // types row
-        data.types?.let { types ->
+        generalInfo.types?.let { types ->
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -73,7 +87,7 @@ fun MoviesScreen(
         }
 
         // languages row
-        data.languages?.let { languages ->
+        generalInfo.languages?.let { languages ->
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -89,7 +103,7 @@ fun MoviesScreen(
             }
         }
 
-        data.countries?.let { countries ->
+        generalInfo.countries?.let { countries ->
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),

@@ -5,21 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -27,6 +21,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadingWheel
+import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
+import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
 import com.smmousavi.i_core.presentation.UiState
 import com.smmousavi.i_feature.movies.impl.MoviesScreen
 import com.smmousavi.imbd.ui.theme.NowinandroidTheme
@@ -45,6 +41,7 @@ class ImdbActivity : ComponentActivity() {
         // request to get the general info every time the activity is started.
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getTop250Movies()
                 viewModel.getGeneralInfo()
             }
         }
@@ -52,7 +49,9 @@ class ImdbActivity : ComponentActivity() {
         setContent {
             Scaffold { innerPadding ->
                 val generalInfoState by viewModel.generalInfoUiState.collectAsStateWithLifecycle()
-                when (val state = generalInfoState) {
+                val top250Movies by viewModel.top250MoviesState.collectAsStateWithLifecycle()
+
+                when (val state = top250Movies) {
                     is UiState.Loading -> {
                         Box(
                             modifier = Modifier
@@ -69,13 +68,26 @@ class ImdbActivity : ComponentActivity() {
                     }
 
                     is UiState.Success -> {
-                        MoviesScreen(
-                            modifier = Modifier.padding(innerPadding),
-                            data = state.data,
-                        )
+                        when (val generalState = generalInfoState) {
+                            is UiState.Error -> {}
+                            UiState.Loading -> {}
+                            is UiState.Success -> {
+                                NiaTheme {
+                                    MoviesScreen(
+                                        modifier = Modifier
+                                            .padding(innerPadding)
+                                            .padding(top = 16.dp),
+                                        top250Movies = state.data,
+                                        generalInfo = generalState.data,
+                                    )
+                                }
+                            }
+                        }
                     }
 
-                    is UiState.Error -> {}
+                    is UiState.Error -> {
+                        Text("Error Loading content.")
+                    }
                 }
             }
         }

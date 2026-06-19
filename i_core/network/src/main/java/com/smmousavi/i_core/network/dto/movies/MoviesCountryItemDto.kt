@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.movies
+package com.smmousavi.i_core.network.dto.movies
 
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.Serializable
 
-interface MoviesRemoteDataSource {
-
-    suspend fun getTop250(): Result<List<MovieItemDto>>
-}
+@InternalSerializationApi
+@Serializable
+data class MoviesCountryItemDto(
+    val name: String?,
+    val iso_3166_1: String?,
+)

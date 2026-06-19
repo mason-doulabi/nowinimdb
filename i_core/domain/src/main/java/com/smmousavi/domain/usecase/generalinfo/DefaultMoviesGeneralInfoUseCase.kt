@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.movies
+package com.smmousavi.domain.usecase.generalinfo
 
-import com.smmousavi.domain.repository.MoviesRepository
-import com.smmousavi.i_core.model.movies.MoviesGeneralInfoModel
+import com.smmousavi.domain.repository.MoviesGeneralInfoRepository
+import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class DefaultMoviesGeneralInfoUseCase @Inject constructor(
-    private val moviesRepository: MoviesRepository,
+    private val moviesGeneralInfoRepository: MoviesGeneralInfoRepository,
 ) : MoviesGeneralInfoUseCase {
 
     override suspend fun invoke(): Flow<MoviesGeneralInfoModel> = combine(
-        moviesRepository.getGenres(),
-        moviesRepository.getTypes(),
-        moviesRepository.getLanguages(),
-        moviesRepository.getCountries(),
+        moviesGeneralInfoRepository.getGenres(),
+        moviesGeneralInfoRepository.getTypes(),
+        moviesGeneralInfoRepository.getLanguages(),
+        moviesGeneralInfoRepository.getCountries(),
     ) { genresResult, typesResult, languagesResult, countriesResult ->
         MoviesGeneralInfoModel(
             genresResult.getOrNull(),

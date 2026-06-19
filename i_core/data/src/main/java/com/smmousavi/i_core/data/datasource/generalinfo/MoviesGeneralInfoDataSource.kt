@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.movies
+package com.smmousavi.i_core.data.datasource.generalinfo
 
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.network.dto.movies.MoviesCountryItemDto
+import com.smmousavi.i_core.network.dto.movies.MoviesLanguageItemDto
 
-interface MoviesRemoteDataSource {
+interface MoviesGeneralInfoDataSource {
 
-    suspend fun getTop250(): Result<List<MovieItemDto>>
+    suspend fun getTypes(): Result<List<String>>
+
+    suspend fun getGenres(): Result<List<String>>
+
+    suspend fun getCountries(): Result<List<MoviesCountryItemDto>>
+
+    suspend fun getLanguages(): Result<List<MoviesLanguageItemDto>>
 }

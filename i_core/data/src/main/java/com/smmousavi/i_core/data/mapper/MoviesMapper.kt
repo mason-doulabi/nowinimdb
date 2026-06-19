@@ -16,10 +16,19 @@
 
 package com.smmousavi.i_core.data.mapper
 
-import com.smmousavi.i_core.model.movies.MoviesCountryItemModel
-import com.smmousavi.i_core.model.movies.MoviesLanguageItemModel
-import com.smmousavi.i_core.network.dto.MoviesCountryItemDto
-import com.smmousavi.i_core.network.dto.MoviesLanguageItemDto
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.ProductionCompanyModel
+import com.smmousavi.i_core.model.movies.ThumbnailModel
+import com.smmousavi.i_core.model.movies.generalinfo.MoviesCountryItemModel
+import com.smmousavi.i_core.model.movies.generalinfo.MoviesLanguageItemModel
+import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.network.dto.movies.MoviesCountryItemDto
+import com.smmousavi.i_core.network.dto.movies.MoviesLanguageItemDto
+import com.smmousavi.i_core.network.dto.movies.ProductionCompanyDto
+import com.smmousavi.i_core.network.dto.movies.ThumbnailDto
+import kotlin.Double
+import kotlin.Int
+import kotlin.String
 
 object MoviesMapper {
 
@@ -31,5 +40,46 @@ object MoviesMapper {
     fun MoviesCountryItemDto.toDomain(): MoviesCountryItemModel = MoviesCountryItemModel(
         name = this.name ?: "",
         label = this.iso_3166_1 ?: "",
+    )
+
+    fun MovieItemDto.toDomain(): MovieItemModel = MovieItemModel(
+        id = this.id ?: "",
+        averageRating = this.averageRating ?: -1.0,
+        budget = this.budget ?: -1L,
+        contentRating = this.contentRating ?: "",
+        countriesOfOrigin = this.countriesOfOrigin ?: listOf(),
+        description = this.description ?: "",
+        startYear = this.startYear ?: -1,
+        endYear = this.endYear ?: -1,
+        releaseDate = this.releaseDate ?: "",
+        runtimeMinutes = this.runtimeMinutes ?: -1,
+        externalLinks = this.externalLinks ?: listOf(),
+        filmingLocations = this.filmingLocations ?: listOf(),
+        genres = this.genres ?: listOf(),
+        grossWorldwide = this.grossWorldwide ?: -1L,
+        interests = this.interests ?: listOf(),
+        isAdult = this.isAdult ?: false,
+        metascore = this.metascore ?: -1,
+        numVotes = this.numVotes ?: -1,
+        originalTitle = this.originalTitle ?: "",
+        primaryImage = this.primaryImage ?: "",
+        primaryTitle = this.primaryTitle ?: "",
+        productionCompanies = this.productionCompanies?.map { it.toDomain() } ?: listOf(),
+        spokenLanguages = this.spokenLanguages ?: listOf(),
+        thumbnails = this.thumbnails?.map { it.toDomain() } ?: listOf(),
+        trailer = this.trailer ?: "",
+        type = this.type ?: "",
+        url = this.url ?: "",
+    )
+
+    fun ProductionCompanyDto.toDomain(): ProductionCompanyModel = ProductionCompanyModel(
+        id = this.id ?: "",
+        name = this.name ?: "",
+    )
+
+    fun ThumbnailDto.toDomain(): ThumbnailModel = ThumbnailModel(
+        height = this.height ?: -1,
+        url = this.url ?: "",
+        width = this.width ?: -1,
     )
 }

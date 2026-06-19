@@ -1,49 +1,36 @@
+/*
+ * Copyright 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.smmousavi.i_core.data.repository
 
 import com.smmousavi.domain.repository.MoviesRepository
 import com.smmousavi.i_core.data.datasource.movies.MoviesRemoteDataSource
 import com.smmousavi.i_core.data.mapper.MoviesMapper.toDomain
-import com.smmousavi.i_core.model.movies.MoviesCountryItemModel
-import com.smmousavi.i_core.model.movies.MoviesLanguageItemModel
+import com.smmousavi.i_core.model.movies.MovieItemModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class DefaultMoviesRepository @Inject constructor(
-    private val moviesRemoteDataSource: MoviesRemoteDataSource,
+    val moviesRemoteDataSource: MoviesRemoteDataSource,
 ) : MoviesRepository {
 
-    override suspend fun getTypes(): Flow<Result<List<String>>> = flow {
+    override suspend fun getTop250(): Flow<Result<List<MovieItemModel>>> = flow {
         emit(
-            moviesRemoteDataSource.getTypes().fold(
-                onSuccess = { Result.success(it) },
-                onFailure = { Result.failure(it) },
-            ),
-        )
-    }
-
-    override suspend fun getGenres(): Flow<Result<List<String>>> = flow {
-        emit(
-            moviesRemoteDataSource.getGenres().fold(
-                onSuccess = { Result.success(it) },
-                onFailure = { Result.failure(it) },
-            ),
-        )
-    }
-
-    override suspend fun getCountries(): Flow<Result<List<MoviesCountryItemModel>>> = flow {
-        emit(
-            moviesRemoteDataSource.getCountries().fold(
-                onSuccess = { Result.success(it.map { country -> country.toDomain() }) },
-                onFailure = { Result.failure(it) },
-            ),
-        )
-    }
-
-    override suspend fun getLanguages(): Flow<Result<List<MoviesLanguageItemModel>>> = flow {
-        emit(
-            moviesRemoteDataSource.getLanguages().fold(
-                onSuccess = { Result.success(it.map { language -> language.toDomain() }) },
+            moviesRemoteDataSource.getTop250().fold(
+                onSuccess = { Result.success(it.map { movie -> movie.toDomain() }) },
                 onFailure = { Result.failure(it) },
             ),
         )

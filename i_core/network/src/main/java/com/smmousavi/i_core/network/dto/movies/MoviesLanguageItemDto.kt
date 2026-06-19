@@ -14,9 +14,14 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.model.movies
+package com.smmousavi.i_core.network.dto.movies
 
-data class MoviesCountryItemModel(
-    val name: String,
-    val label: String,
+import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.Serializable
+
+@InternalSerializationApi
+@Serializable
+data class MoviesLanguageItemDto(
+    val name: String?,
+    val iso_639_1: String?,
 )

@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.network.dto
+package com.smmousavi.domain.usecase.movies
 
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.Serializable
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.flow.Flow
 
-@InternalSerializationApi
-@Serializable
-data class MoviesCountryItemDto(
-    val name: String?,
-    val iso_3166_1: String?,
-)
+interface Top250MoviesUseCase {
+    suspend operator fun invoke(): Flow<Result<List<MovieItemModel>>>
+}

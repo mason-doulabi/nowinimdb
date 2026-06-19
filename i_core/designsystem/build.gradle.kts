@@ -15,6 +15,7 @@ dependencies {
     lintPublish(projects.lint)
 
     api(projects.core.designsystem)
+    api(projects.iCore.model)
 
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.foundation.layout)

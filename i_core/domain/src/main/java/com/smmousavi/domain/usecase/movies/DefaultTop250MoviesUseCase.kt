@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.model.movies
+package com.smmousavi.domain.usecase.movies
 
+import com.smmousavi.domain.repository.MoviesRepository
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
+class DefaultTop250MoviesUseCase @Inject constructor(
+    val repository: MoviesRepository,
+) : Top250MoviesUseCase {
 
-data class MoviesLanguageItemModel(
-    val name: String,
-    val label: String,
-)
+    override suspend fun invoke(): Flow<Result<List<MovieItemModel>>> {
+        return repository.getTop250()
+    }
+}

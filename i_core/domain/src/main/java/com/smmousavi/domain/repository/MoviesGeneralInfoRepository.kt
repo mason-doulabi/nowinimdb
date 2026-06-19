@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.movies
+package com.smmousavi.domain.repository
 
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.model.movies.generalinfo.MoviesCountryItemModel
+import com.smmousavi.i_core.model.movies.generalinfo.MoviesLanguageItemModel
+import kotlinx.coroutines.flow.Flow
 
-interface MoviesRemoteDataSource {
+interface MoviesGeneralInfoRepository {
 
-    suspend fun getTop250(): Result<List<MovieItemDto>>
+    suspend fun getTypes(): Flow<Result<List<String>>>
+
+    suspend fun getGenres(): Flow<Result<List<String>>>
+
+    suspend fun getCountries(): Flow<Result<List<MoviesCountryItemModel>>>
+
+    suspend fun getLanguages(): Flow<Result<List<MoviesLanguageItemModel>>>
 }

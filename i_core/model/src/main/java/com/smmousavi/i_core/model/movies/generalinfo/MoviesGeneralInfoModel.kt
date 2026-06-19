@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.model.movies
+package com.smmousavi.i_core.model.movies.generalinfo
 
 data class MoviesGeneralInfoModel(
     val genres: List<String>?,

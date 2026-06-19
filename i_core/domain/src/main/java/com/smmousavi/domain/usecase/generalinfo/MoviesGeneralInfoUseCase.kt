@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.movies
+package com.smmousavi.domain.usecase.generalinfo
 
-import com.smmousavi.i_core.model.movies.MoviesGeneralInfoModel
+import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
 import kotlinx.coroutines.flow.Flow
 
 interface MoviesGeneralInfoUseCase {
