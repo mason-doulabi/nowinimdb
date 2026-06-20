@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.repository
+package com.smmousavi.i_core.data.datasource.movies.local
 
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.database.entity.MovieItemEntity
 import kotlinx.coroutines.flow.Flow
 
-interface MoviesRepository {
+interface MoviesLocalDataSource {
 
-    fun fetchTop250(): Flow<Result<List<MovieItem>>>
+    suspend fun upsertMovie(movie: MovieItemEntity)
 
-    fun getTop250(): Flow<Result<List<MovieItemModel>>>
+    suspend fun getMovieById(id: String): MovieItemEntity?
 
-    suspend fun upsertMovie(movie: MovieItemModel)
+    fun observeAllMovies(): Flow<List<MovieItemEntity>>
 
-    fun getFavoriteMovies(): Flow<List<MovieItemModel>>
+    fun getFavoriteMovies(): Flow<List<MovieItemEntity>>
+
+    fun getWatchLaterMovies(): Flow<List<MovieItemEntity>>
 }

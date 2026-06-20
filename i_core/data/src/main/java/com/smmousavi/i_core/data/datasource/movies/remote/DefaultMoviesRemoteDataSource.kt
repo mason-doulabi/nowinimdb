@@ -14,7 +14,17 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.database.dao
+package com.smmousavi.i_core.data.datasource.movies.remote
 
-interface UseProfileDao {
+import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.network.service.MoviesApiService
+import javax.inject.Inject
+
+class DefaultMoviesRemoteDataSource @Inject constructor(
+    private val moviesApiService: MoviesApiService,
+) : MoviesRemoteDataSource {
+
+    override suspend fun getTop250(): Result<List<MovieItemDto>> = runCatching {
+        moviesApiService.getTop250Movies()
+    }
 }

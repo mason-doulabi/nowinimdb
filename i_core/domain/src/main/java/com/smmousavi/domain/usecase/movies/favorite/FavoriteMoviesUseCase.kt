@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.database
+package com.smmousavi.domain.usecase.movies.favorite
 
-class UserProfileDatabase {
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.flow.Flow
+
+interface FavoriteMoviesUseCase {
+
+    suspend fun upsertMovie(movie: MovieItemModel)
+
+    suspend fun getFavoriteMovies(): Flow<List<MovieItemModel>>
 }

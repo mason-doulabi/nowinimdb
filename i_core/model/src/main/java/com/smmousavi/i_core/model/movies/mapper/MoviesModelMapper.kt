@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.movies
+package com.smmousavi.i_core.model.movies.mapper
 
-import com.smmousavi.domain.repository.MoviesRepository
 import com.smmousavi.i_core.model.movies.MovieItemModel
-import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import com.smmousavi.i_core.model.movies.MovieItem
 
-class DefaultTop250MoviesUseCase @Inject constructor(
-    val repository: MoviesRepository,
-) : Top250MoviesUseCase {
+object MoviesModelMapper {
 
-    override suspend fun invoke(): Flow<Result<List<MovieItemModel>>> {
-        return repository.getTop250()
-    }
+    fun MovieItem.toModel(
+        favorite: Boolean = false,
+        watchLater: Boolean = false,
+    ): MovieItemModel =
+        MovieItemModel(
+            id = this.id,
+            title = this.originalTitle,
+            rating = this.averageRating,
+            description = this.description,
+            thumbnailUrl = this.thumbnails[0].url,
+            favorite = favorite,
+            watchLater = watchLater,
+        )
 }

@@ -47,22 +47,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.MovieItem
+import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 
 @Composable
 fun ImdbMovieCard(
     modifier: Modifier = Modifier,
-    data: MovieItemModel,
-    onFavoriteClick: (Boolean) -> Unit,
-    onClick: (String) -> Unit,
+    item: MovieItemModel,
+    favorite: Boolean,
+    onFavoriteClick: (MovieItemModel) -> Unit,
+    onClick: (MovieItemModel) -> Unit,
 ) {
-    var favorite by rememberSaveable { mutableStateOf(false) }
-
     Card(
         modifier = modifier
             .width(140.dp)
             .height(260.dp),
         shape = RoundedCornerShape(12.dp),
-        onClick = { onClick(data.id) },
+        onClick = { onClick(item) },
     ) {
         Column {
             Box(
@@ -71,17 +72,14 @@ fun ImdbMovieCard(
                     .height(180.dp),
             ) {
                 AsyncImage(
-                    model = data.thumbnails[0].url,
-                    contentDescription = data.description,
+                    model = item.thumbnailUrl,
+                    contentDescription = item.description,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
                 )
                 IconButton(
                     modifier = Modifier.align(Alignment.BottomStart),
-                    onClick = {
-                        favorite = favorite.not()
-                        onFavoriteClick(favorite)
-                    },
+                    onClick = { onFavoriteClick(item) },
                 ) {
                     Icon(
                         modifier = Modifier.size(24.dp),
@@ -109,7 +107,7 @@ fun ImdbMovieCard(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 4.dp),
-                    text = data.averageRating.toString(),
+                    text = item.rating.toString(),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -117,7 +115,7 @@ fun ImdbMovieCard(
 
             Text(
                 modifier = Modifier.padding(4.dp),
-                text = data.originalTitle,
+                text = item.title,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -129,7 +127,8 @@ fun ImdbMovieCard(
 @Preview(showBackground = true)
 fun ImdbMovieCardPreview() {
     ImdbMovieCard(
-        data = MovieItemModel.DEFAULT1,
+        item = MovieItem.DEFAULT1.toModel(),
+        favorite = false,
         onClick = {},
         onFavoriteClick = {},
     )

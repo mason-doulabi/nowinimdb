@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.movies
+package com.smmousavi.i_core.data.datasource.movies.remote
 
 import com.smmousavi.i_core.network.dto.movies.MovieItemDto
 

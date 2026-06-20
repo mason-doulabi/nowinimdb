@@ -16,10 +16,12 @@
 
 package com.smmousavi.i_core.data.di
 
-import com.smmousavi.i_core.data.datasource.generalinfo.DefaultMoviesGeneralInfoDataSource
-import com.smmousavi.i_core.data.datasource.generalinfo.MoviesGeneralInfoDataSource
-import com.smmousavi.i_core.data.datasource.movies.DefaultMoviesRemoteDataSource
-import com.smmousavi.i_core.data.datasource.movies.MoviesRemoteDataSource
+import com.smmousavi.i_core.data.datasource.movies.local.DefaultMoviesLocalDataSource
+import com.smmousavi.i_core.data.datasource.movies.local.MoviesLocalDataSource
+import com.smmousavi.i_core.data.datasource.movies.remote.generalinfo.DefaultMoviesGeneralInfoDataSource
+import com.smmousavi.i_core.data.datasource.movies.remote.generalinfo.MoviesGeneralInfoDataSource
+import com.smmousavi.i_core.data.datasource.movies.remote.DefaultMoviesRemoteDataSource
+import com.smmousavi.i_core.data.datasource.movies.remote.MoviesRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -38,4 +40,9 @@ abstract class DataSourceModule {
     abstract fun bindsMoviesRemoteDataSource(
         moviesRemoteDataSource: DefaultMoviesRemoteDataSource,
     ): MoviesRemoteDataSource
+
+    @Binds
+    abstract fun bindsMoviesLocalDataSource(
+        moviesLocalDataSource: DefaultMoviesLocalDataSource,
+    ): MoviesLocalDataSource
 }

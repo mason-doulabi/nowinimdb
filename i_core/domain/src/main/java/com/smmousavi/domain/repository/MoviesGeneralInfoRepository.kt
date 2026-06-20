@@ -22,11 +22,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface MoviesGeneralInfoRepository {
 
-    suspend fun getTypes(): Flow<Result<List<String>>>
+    fun getTypes(): Flow<Result<List<String>>>
 
-    suspend fun getGenres(): Flow<Result<List<String>>>
+    fun getGenres(): Flow<Result<List<String>>>
 
-    suspend fun getCountries(): Flow<Result<List<MoviesCountryItemModel>>>
+    fun getCountries(): Flow<Result<List<MoviesCountryItemModel>>>
 
-    suspend fun getLanguages(): Flow<Result<List<MoviesLanguageItemModel>>>
+    fun getLanguages(): Flow<Result<List<MoviesLanguageItemModel>>>
 }

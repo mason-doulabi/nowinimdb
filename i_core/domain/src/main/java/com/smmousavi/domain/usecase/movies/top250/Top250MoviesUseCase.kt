@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.movies
+package com.smmousavi.domain.usecase.movies.top250
 
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import kotlinx.coroutines.flow.Flow

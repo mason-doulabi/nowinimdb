@@ -17,11 +17,13 @@
 package com.smmousavi.i_core.network.dto.movies
 
 import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @InternalSerializationApi
 @Serializable
 data class MoviesCountryItemDto(
     val name: String?,
-    val iso_3166_1: String?,
+    @SerialName("iso_3166_1")
+    val label: String?,
 )

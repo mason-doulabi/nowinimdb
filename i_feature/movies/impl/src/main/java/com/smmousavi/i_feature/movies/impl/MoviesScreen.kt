@@ -20,11 +20,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -38,19 +44,39 @@ import com.smmousavi.i_core.presentation.movies.MoviesTitledLazyRow
 fun MoviesScreen(
     modifier: Modifier = Modifier,
     top250Movies: List<MovieItemModel>,
+    favoriteMovies: List<MovieItemModel>,
     generalInfo: MoviesGeneralInfoModel,
+    onMovieClick: (MovieItemModel) -> Unit,
+    onFavoriteClick: (MovieItemModel) -> Unit,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // top250Movies
-        MoviesTitledLazyRow(items = top250Movies, title = "Top 250 Movies") { item ->
-            ImdbMovieCard(data = item, onClick = {}, onFavoriteClick = {})
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        // top250Movies
+        if (top250Movies.isNotEmpty()) {
+            MoviesTitledLazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                items = top250Movies,
+                title = "Top 250 Movies",
+            ) { item ->
+                var favorite by rememberSaveable { mutableStateOf(item.favorite) }
+                ImdbMovieCard(
+                    item = item,
+                    onClick = onMovieClick,
+                    favorite = favorite,
+                    onFavoriteClick = {
+                        favorite = favorite.not()
+                        onFavoriteClick(item.copy(favorite = favorite))
+                    },
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
 
         // genres row
         generalInfo.genres?.let { genres ->
@@ -117,6 +143,28 @@ fun MoviesScreen(
                     }
                 }
             }
+        }
+
+        if (favoriteMovies.isNotEmpty()) {
+            MoviesTitledLazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                title = "Favorites Movies",
+                items = favoriteMovies,
+            ) { item ->
+                var favorite by rememberSaveable { mutableStateOf(item.favorite) }
+                ImdbMovieCard(
+                    item = item,
+                    onClick = onMovieClick,
+                    favorite = favorite,
+                    onFavoriteClick = {
+                        favorite = favorite.not()
+                        onFavoriteClick(item.copy(favorite = favorite))
+                    },
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

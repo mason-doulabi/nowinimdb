@@ -16,11 +16,11 @@
 
 package com.smmousavi.imbd
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.generalinfo.MoviesGeneralInfoUseCase
-import com.smmousavi.domain.usecase.movies.Top250MoviesUseCase
+import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
+import com.smmousavi.domain.usecase.movies.top250.Top250MoviesUseCase
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
 import com.smmousavi.i_core.presentation.UiState
@@ -34,6 +34,7 @@ import javax.inject.Inject
 class ImdbActivityViewModel @Inject constructor(
     private val generalUseCase: MoviesGeneralInfoUseCase,
     private val top250UseCase: Top250MoviesUseCase,
+    private val favoriteUseCase: FavoriteMoviesUseCase,
 ) : ViewModel() {
     private val _generaInfoUiState =
         MutableStateFlow<UiState<MoviesGeneralInfoModel>>(UiState.Loading)
@@ -42,6 +43,10 @@ class ImdbActivityViewModel @Inject constructor(
     private val _top250MoviesState =
         MutableStateFlow<UiState<List<MovieItemModel>>>(UiState.Loading)
     val top250MoviesState = _top250MoviesState.asStateFlow()
+
+    private val _favoriteMoviesState =
+        MutableStateFlow<List<MovieItemModel>>(listOf())
+    val favoriteMoviesState = _favoriteMoviesState.asStateFlow()
 
     fun getGeneralInfo() {
         viewModelScope.launch {
@@ -61,6 +66,20 @@ class ImdbActivityViewModel @Inject constructor(
                     },
                 )
             }
+        }
+    }
+
+    fun getFavoriteMovies() {
+        viewModelScope.launch {
+            favoriteUseCase.getFavoriteMovies().collect {
+                _favoriteMoviesState.value = it
+            }
+        }
+    }
+
+    fun setFavoriteMovie(movie: MovieItemModel) {
+        viewModelScope.launch {
+            favoriteUseCase.upsertMovie(movie)
         }
     }
 }

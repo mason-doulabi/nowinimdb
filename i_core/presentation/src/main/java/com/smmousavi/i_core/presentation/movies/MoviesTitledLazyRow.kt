@@ -19,8 +19,6 @@ package com.smmousavi.i_core.presentation.movies
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -33,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
 import com.smmousavi.i_core.designsystem.movies.ImdbMovieCard
 import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.MovieItem
+import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 
 @Composable
 fun MoviesTitledLazyRow(
@@ -71,12 +71,17 @@ fun MoviesTitledRowPreview() {
         MoviesTitledLazyRow(
             title = "Top 250 Movies",
             items = listOf(
-                MovieItemModel.DEFAULT1,
-                MovieItemModel.DEFAULT2,
-                MovieItemModel.DEFAULT3,
+                MovieItem.DEFAULT1.toModel(),
+                MovieItem.DEFAULT2.toModel(),
+                MovieItem.DEFAULT3.toModel(),
             ),
         ) { item ->
-            ImdbMovieCard(data = item, onClick = {}, onFavoriteClick = {})
+            ImdbMovieCard(
+                item = item,
+                favorite = false,
+                onClick = {},
+                onFavoriteClick = {},
+            )
         }
     }
 }

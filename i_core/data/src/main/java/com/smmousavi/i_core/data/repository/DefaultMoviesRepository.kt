@@ -16,23 +16,58 @@
 package com.smmousavi.i_core.data.repository
 
 import com.smmousavi.domain.repository.MoviesRepository
-import com.smmousavi.i_core.data.datasource.movies.MoviesRemoteDataSource
-import com.smmousavi.i_core.data.mapper.MoviesMapper.toDomain
+import com.smmousavi.i_core.data.datasource.movies.local.MoviesLocalDataSource
+import com.smmousavi.i_core.data.datasource.movies.remote.MoviesRemoteDataSource
+import com.smmousavi.i_core.data.mapper.dto.MoviesDtoMapper.toDomain
+import com.smmousavi.i_core.data.mapper.dto.MoviesDtoMapper.toModel
+import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toEntity
+import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toModel
+import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DefaultMoviesRepository @Inject constructor(
     val moviesRemoteDataSource: MoviesRemoteDataSource,
+    val moviesLocalDataSource: MoviesLocalDataSource,
 ) : MoviesRepository {
 
-    override suspend fun getTop250(): Flow<Result<List<MovieItemModel>>> = flow {
+    override fun fetchTop250(): Flow<Result<List<MovieItem>>> = flow {
         emit(
-            moviesRemoteDataSource.getTop250().fold(
-                onSuccess = { Result.success(it.map { movie -> movie.toDomain() }) },
-                onFailure = { Result.failure(it) },
-            ),
+            moviesRemoteDataSource.getTop250()
+                .map { movies -> movies.map { it.toDomain() } },
         )
     }
+
+    override fun getTop250(): Flow<Result<List<MovieItemModel>>> = combine(
+        fetchTop250(),
+        moviesLocalDataSource.getFavoriteMovies(),
+    ) { moviesResult, favorites ->
+        moviesResult.fold(
+            onSuccess = { movies ->
+                // reduce the search time complexity from O(N) to O(1)
+                val favoritesIds = favorites.map { it.id }.toHashSet()
+                Result.success(
+                    movies.map { movie ->
+                        // search the with O(N) in O(1) set
+                        movie.toModel(movie.id in favoritesIds)
+                    },
+                )
+            },
+            onFailure = { Result.failure(it) },
+        )
+    }
+
+    override suspend fun upsertMovie(movie: MovieItemModel) {
+        moviesLocalDataSource.upsertMovie(movie.toEntity())
+    }
+
+    override fun getFavoriteMovies(): Flow<List<MovieItemModel>> =
+        moviesLocalDataSource.getFavoriteMovies().map { movies ->
+            movies.map { it.toModel() }
+        }
 }

@@ -14,32 +14,33 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.network.di
+package com.smmousavi.i_core.database.di
 
-import com.smmousavi.i_core.network.service.GeneralApiService
-import com.smmousavi.i_core.network.service.ImbdApiService
-import com.smmousavi.i_core.network.service.SearchApiService
-import com.smmousavi.i_core.network.service.MoviesApiService
+import android.content.Context
+import androidx.room.Room
+import com.smmousavi.i_core.database.IMDbDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ServiceModule {
+object DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesGeneralApiService(@IMDbQualifier retrofit: Retrofit): GeneralApiService {
-        return retrofit.create(GeneralApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun providesMoviesApiService(@IMDbQualifier retrofit: Retrofit): MoviesApiService {
-        return retrofit.create(MoviesApiService::class.java)
+    fun providesImdbDatabase(
+        @ApplicationContext context: Context,
+    ): IMDbDatabase {
+        return Room.databaseBuilder(
+            context,
+            IMDbDatabase::class.java,
+            "imdb.db",
+        )
+            .fallbackToDestructiveMigration(false)
+            .build()
     }
 }

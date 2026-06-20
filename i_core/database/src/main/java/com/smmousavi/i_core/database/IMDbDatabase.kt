@@ -14,7 +14,19 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.search
+package com.smmousavi.i_core.database
 
-interface SearchMovieUseCase {
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.smmousavi.i_core.database.dao.MoviesDao
+import com.smmousavi.i_core.database.entity.MovieItemEntity
+
+@Database(
+    version = 1,
+    entities = [MovieItemEntity::class],
+    exportSchema = false,
+)
+abstract class IMDbDatabase : RoomDatabase() {
+
+    abstract fun moviesDao(): MoviesDao
 }

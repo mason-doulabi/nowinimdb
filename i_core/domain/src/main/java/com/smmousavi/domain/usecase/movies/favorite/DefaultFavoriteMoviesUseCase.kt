@@ -14,6 +14,22 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.database.entity
+package com.smmousavi.domain.usecase.movies.favorite
 
-data class UserProfileEntity(val id: Int)
+import com.smmousavi.domain.repository.MoviesRepository
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+class DefaultFavoriteMoviesUseCase @Inject constructor(
+    private val repository: MoviesRepository,
+) : FavoriteMoviesUseCase {
+
+    override suspend fun upsertMovie(movie: MovieItemModel) {
+        repository.upsertMovie(movie)
+    }
+
+    override suspend fun getFavoriteMovies(): Flow<List<MovieItemModel>> {
+        return repository.getFavoriteMovies()
+    }
+}

@@ -14,7 +14,23 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.mapper
+package com.smmousavi.i_core.database.di
 
-object UserProfileMapper {
+import com.smmousavi.i_core.database.IMDbDatabase
+import com.smmousavi.i_core.database.dao.MoviesDao
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object DaoModule {
+
+    @Singleton
+    @Provides
+    fun providesMoviesDao(imDbDatabase: IMDbDatabase): MoviesDao {
+        return imDbDatabase.moviesDao()
+    }
 }

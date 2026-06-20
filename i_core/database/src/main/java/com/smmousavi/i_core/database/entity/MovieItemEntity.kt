@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.movies
+package com.smmousavi.i_core.database.entity
 
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
-import com.smmousavi.i_core.network.service.MoviesApiService
-import javax.inject.Inject
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-class DefaultMoviesRemoteDataSource @Inject constructor(
-    private val moviesApiService: MoviesApiService,
-) : MoviesRemoteDataSource {
+@Entity(tableName = "movies")
+data class MovieItemEntity(
+    @PrimaryKey
+    val id: String,
+    val title: String,
+    val rating: Double,
+    val description: String,
+    val thumbnailUrl: String,
+    val favorite: Int,
+    val watchLater: Int,
+)
 
-    override suspend fun getTop250(): Result<List<MovieItemDto>> = runCatching {
-        moviesApiService.getTop250Movies()
-    }
-}

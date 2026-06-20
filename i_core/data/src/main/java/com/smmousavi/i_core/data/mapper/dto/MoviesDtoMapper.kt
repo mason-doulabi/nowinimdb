@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.mapper
+package com.smmousavi.i_core.data.mapper.dto
 
 import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.ProductionCompanyModel
 import com.smmousavi.i_core.model.movies.ThumbnailModel
 import com.smmousavi.i_core.model.movies.generalinfo.MoviesCountryItemModel
@@ -26,23 +27,20 @@ import com.smmousavi.i_core.network.dto.movies.MoviesCountryItemDto
 import com.smmousavi.i_core.network.dto.movies.MoviesLanguageItemDto
 import com.smmousavi.i_core.network.dto.movies.ProductionCompanyDto
 import com.smmousavi.i_core.network.dto.movies.ThumbnailDto
-import kotlin.Double
-import kotlin.Int
-import kotlin.String
 
-object MoviesMapper {
+object MoviesDtoMapper {
 
     fun MoviesLanguageItemDto.toDomain(): MoviesLanguageItemModel = MoviesLanguageItemModel(
         name = this.name ?: "",
-        label = this.iso_639_1 ?: "",
+        label = this.label ?: "",
     )
 
     fun MoviesCountryItemDto.toDomain(): MoviesCountryItemModel = MoviesCountryItemModel(
         name = this.name ?: "",
-        label = this.iso_3166_1 ?: "",
+        label = this.label ?: "",
     )
 
-    fun MovieItemDto.toDomain(): MovieItemModel = MovieItemModel(
+    fun MovieItemDto.toDomain(): MovieItem = MovieItem(
         id = this.id ?: "",
         averageRating = this.averageRating ?: -1.0,
         budget = this.budget ?: -1L,
@@ -71,6 +69,20 @@ object MoviesMapper {
         type = this.type ?: "",
         url = this.url ?: "",
     )
+
+    fun MovieItemDto.toModel(
+        favorite: Boolean = false,
+        watchLater: Boolean = false,
+    ): MovieItemModel =
+        MovieItemModel(
+            id = this.id ?: "",
+            title = this.originalTitle ?: "",
+            rating = this.averageRating ?: 0.0,
+            description = this.description ?: "",
+            thumbnailUrl = this.thumbnails?.get(0)?.url ?: "",
+            favorite = favorite,
+            watchLater = watchLater,
+        )
 
     fun ProductionCompanyDto.toDomain(): ProductionCompanyModel = ProductionCompanyModel(
         id = this.id ?: "",
