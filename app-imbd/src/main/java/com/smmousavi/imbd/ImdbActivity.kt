@@ -93,10 +93,3 @@ class ImdbActivity : ComponentActivity() {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingsPreview() {
-    NowinandroidTheme {
-    }
-}

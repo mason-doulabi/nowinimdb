@@ -16,6 +16,7 @@
 
 package com.smmousavi.i_core.network.di
 
+import android.util.Log
 import androidx.tracing.trace
 import com.smmousavi.i_core.network.BuildConfig
 import dagger.Module
@@ -66,7 +67,9 @@ object NetworkModule {
             OkHttpClient.Builder()
                 .addInterceptor(headerInterceptor)
                 .addInterceptor(
-                    HttpLoggingInterceptor().apply {
+                    HttpLoggingInterceptor { msg ->
+                        Log.d("IMDbNetwork", msg)
+                    }.apply {
                         if (BuildConfig.DEBUG) {
                             setLevel(HttpLoggingInterceptor.Level.BODY)
                         }

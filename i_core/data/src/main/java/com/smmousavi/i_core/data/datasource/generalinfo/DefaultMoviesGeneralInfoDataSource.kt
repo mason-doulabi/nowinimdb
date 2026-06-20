@@ -16,15 +16,15 @@
 
 package com.smmousavi.i_core.data.datasource.generalinfo
 
-import com.smmousavi.i_core.network.di.IMDbQualifier
 import com.smmousavi.i_core.network.dto.movies.MoviesCountryItemDto
 import com.smmousavi.i_core.network.dto.movies.MoviesLanguageItemDto
 import com.smmousavi.i_core.network.service.GeneralApiService
 import javax.inject.Inject
 
 class DefaultMoviesGeneralInfoDataSource @Inject constructor(
-    @IMDbQualifier private val generalApiService: GeneralApiService,
+    private val generalApiService: GeneralApiService,
 ) : MoviesGeneralInfoDataSource {
+
     override suspend fun getTypes(): Result<List<String>> = runCatching {
         generalApiService.getTypes()
     }

@@ -16,13 +16,12 @@
 
 package com.smmousavi.i_core.data.datasource.movies
 
-import com.smmousavi.i_core.network.di.IMDbQualifier
 import com.smmousavi.i_core.network.dto.movies.MovieItemDto
 import com.smmousavi.i_core.network.service.MoviesApiService
 import javax.inject.Inject
 
 class DefaultMoviesRemoteDataSource @Inject constructor(
-   @IMDbQualifier val moviesApiService: MoviesApiService,
+    private val moviesApiService: MoviesApiService,
 ) : MoviesRemoteDataSource {
 
     override suspend fun getTop250(): Result<List<MovieItemDto>> = runCatching {

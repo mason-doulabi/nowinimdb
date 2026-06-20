@@ -33,29 +33,25 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    @IMDbQualifier
     fun providesGeneralApiService(@IMDbQualifier retrofit: Retrofit): GeneralApiService {
         return retrofit.create(GeneralApiService::class.java)
     }
 
     @Provides
     @Singleton
-    @IMDbQualifier
+    fun providesMoviesApiService(@IMDbQualifier retrofit: Retrofit): MoviesApiService {
+        return retrofit.create(MoviesApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun providesImdbApiService(@IMDbQualifier retrofit: Retrofit): ImbdApiService {
         return retrofit.create(ImbdApiService::class.java)
     }
 
     @Provides
     @Singleton
-    @IMDbQualifier
     fun providesSearchApiService(@IMDbQualifier retrofit: Retrofit): SearchApiService {
         return retrofit.create(SearchApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    @IMDbQualifier
-    fun providesMoviesApiService(@IMDbQualifier retrofit: Retrofit): MoviesApiService {
-        return retrofit.create(MoviesApiService::class.java)
     }
 }
