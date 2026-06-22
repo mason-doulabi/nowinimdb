@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -66,7 +65,7 @@ fun MoviesScreen(
             ) { item ->
                 var favorite by rememberSaveable { mutableStateOf(item.favorite) }
                 ImdbMovieCard(
-                    item = item,
+                    data = item,
                     onClick = onMovieClick,
                     favorite = favorite,
                     onFavoriteClick = {
@@ -155,7 +154,7 @@ fun MoviesScreen(
             ) { item ->
                 var favorite by rememberSaveable { mutableStateOf(item.favorite) }
                 ImdbMovieCard(
-                    item = item,
+                    data = item,
                     onClick = onMovieClick,
                     favorite = favorite,
                     onFavoriteClick = {

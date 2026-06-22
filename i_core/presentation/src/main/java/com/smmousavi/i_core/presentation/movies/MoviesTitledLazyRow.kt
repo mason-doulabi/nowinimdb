@@ -39,7 +39,7 @@ fun MoviesTitledLazyRow(
     modifier: Modifier = Modifier,
     title: String? = null,
     items: List<MovieItemModel>,
-    movieItem: @Composable (MovieItemModel) -> Unit,
+    rowItem: @Composable (MovieItemModel) -> Unit,
 ) {
     Column(modifier = modifier) {
         title?.let {
@@ -58,7 +58,7 @@ fun MoviesTitledLazyRow(
                 items = items,
                 key = { it.id },
             ) { item ->
-                movieItem(item)
+                rowItem(item)
             }
         }
     }
@@ -77,7 +77,7 @@ fun MoviesTitledRowPreview() {
             ),
         ) { item ->
             ImdbMovieCard(
-                item = item,
+                data = item,
                 favorite = false,
                 onClick = {},
                 onFavoriteClick = {},

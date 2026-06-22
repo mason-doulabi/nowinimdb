@@ -19,6 +19,7 @@ package com.smmousavi.i_core.designsystem.movies
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,10 +37,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -53,7 +50,7 @@ import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 @Composable
 fun ImdbMovieCard(
     modifier: Modifier = Modifier,
-    item: MovieItemModel,
+    data: MovieItemModel,
     favorite: Boolean,
     onFavoriteClick: (MovieItemModel) -> Unit,
     onClick: (MovieItemModel) -> Unit,
@@ -61,9 +58,9 @@ fun ImdbMovieCard(
     Card(
         modifier = modifier
             .width(140.dp)
-            .height(260.dp),
+            .aspectRatio(1f / 1.8f),
         shape = RoundedCornerShape(12.dp),
-        onClick = { onClick(item) },
+        onClick = { onClick(data) },
     ) {
         Column {
             Box(
@@ -72,14 +69,14 @@ fun ImdbMovieCard(
                     .height(180.dp),
             ) {
                 AsyncImage(
-                    model = item.thumbnailUrl,
-                    contentDescription = item.description,
+                    model = data.thumbnailUrl,
+                    contentDescription = data.description,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
                 )
                 IconButton(
                     modifier = Modifier.align(Alignment.BottomStart),
-                    onClick = { onFavoriteClick(item) },
+                    onClick = { onFavoriteClick(data) },
                 ) {
                     Icon(
                         modifier = Modifier.size(24.dp),
@@ -107,7 +104,7 @@ fun ImdbMovieCard(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 4.dp),
-                    text = item.rating.toString(),
+                    text = data.rating.toString(),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -115,7 +112,7 @@ fun ImdbMovieCard(
 
             Text(
                 modifier = Modifier.padding(4.dp),
-                text = item.title,
+                text = data.title,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -127,7 +124,7 @@ fun ImdbMovieCard(
 @Preview(showBackground = true)
 fun ImdbMovieCardPreview() {
     ImdbMovieCard(
-        item = MovieItem.DEFAULT1.toModel(),
+        data = MovieItem.DEFAULT1.toModel(),
         favorite = false,
         onClick = {},
         onFavoriteClick = {},

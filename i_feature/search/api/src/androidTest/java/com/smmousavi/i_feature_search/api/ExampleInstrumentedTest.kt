@@ -1,4 +1,4 @@
-package com.smmousavi.i_feature.search
+package com.smmousavi.i_feature_search.api
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.smmousavi.i_feature.search.test", appContext.packageName)
+        assertEquals("com.smmousavi.i_feature_search.api.test", appContext.packageName)
     }
 }

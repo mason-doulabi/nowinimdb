@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.smmousavi.i_feature.search"
+    namespace = "com.smmousavi.i_feature_search.api"
     compileSdk {
         version = release(36)
     }
