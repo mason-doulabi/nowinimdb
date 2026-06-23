@@ -16,5 +16,21 @@
 
 package com.smmousavi.i_core.data.datasource.search
 
-class DefaultSearchMovieRemoteDataSource {
+import android.util.Log
+import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.network.dto.movies.SearchMovieItemDto
+import com.smmousavi.i_core.network.service.SearchApiService
+import javax.inject.Inject
+
+class DefaultSearchMovieRemoteDataSource @Inject constructor(
+    private val apiService: SearchApiService,
+) : SearchMovieRemoteDataSource {
+
+    override suspend fun searchMovie(query: String): Result<SearchMovieItemDto> = runCatching {
+        apiService.searchMovie(query)
+    }
+
+    override suspend fun autoComplete(query: String): Result<SearchMovieItemDto> = runCatching {
+        apiService.autoComplete(query)
+    }
 }

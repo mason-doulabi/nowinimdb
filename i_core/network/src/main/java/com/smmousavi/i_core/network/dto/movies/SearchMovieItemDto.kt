@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.database.entity
+package com.smmousavi.i_core.network.dto.movies
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.Serializable
 
-@Entity(tableName = "movies")
-data class MovieItemEntity(
-    @PrimaryKey
-    val id: String,
-    val title: String,
-    val rating: Double,
-    val description: String,
-    val imageUrl: String,
-    val thumbnailsUrl: List<String>,
-    val favorite: Int,
-    val watchLater: Int,
+@Serializable
+@InternalSerializationApi
+data class SearchMovieItemDto(
+    val nextCursorMark: String,
+    val numFound: Int,
+    val results: List<MovieItemDto>,
+    val rows: Int,
 )
-

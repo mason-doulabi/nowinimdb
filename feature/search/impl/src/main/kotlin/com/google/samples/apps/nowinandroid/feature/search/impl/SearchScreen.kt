@@ -106,6 +106,7 @@ internal fun SearchScreen(
     val recentSearchQueriesUiState by searchViewModel.recentSearchQueriesUiState.collectAsStateWithLifecycle()
     val searchResultUiState by searchViewModel.searchResultUiState.collectAsStateWithLifecycle()
     val searchQuery by searchViewModel.searchQuery.collectAsStateWithLifecycle()
+
     SearchScreen(
         modifier = modifier,
         searchQuery = searchQuery,

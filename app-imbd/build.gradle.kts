@@ -50,6 +50,9 @@ dependencies {
 
     implementation(projects.iFeature.movies.api)
     implementation(projects.iFeature.movies.impl)
+
+    implementation(projects.iFeature.search.api)
+    implementation(projects.iFeature.search.impl)
 }
 
 dependencyGuard {

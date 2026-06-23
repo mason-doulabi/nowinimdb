@@ -22,6 +22,7 @@ import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadi
 import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
 import com.smmousavi.i_core.presentation.UiState
 import com.smmousavi.i_feature.movies.impl.MoviesScreen
+import com.smmousavi.i_feature.search.impl.SearchScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,60 +38,15 @@ class ImdbActivity : ComponentActivity() {
         // request to get the general info every time the activity is started.
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getTop250Movies()
-                viewModel.getGeneralInfo()
-                viewModel.getFavoriteMovies()
+
             }
         }
 
         setContent {
             Scaffold { innerPadding ->
-                val generalInfoState by viewModel.generalInfoUiState.collectAsStateWithLifecycle()
-                val top250Movies by viewModel.top250MoviesState.collectAsStateWithLifecycle()
-                val favoriteMovies by viewModel.favoriteMoviesState.collectAsStateWithLifecycle()
-
-                when (val state = top250Movies) {
-                    is UiState.Loading -> {
-                        Box(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .fillMaxWidth(),
-                        ) {
-                            NiaLoadingWheel(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .align(Alignment.TopCenter),
-                                contentDesc = "Loading General Info",
-                            )
-                        }
-                    }
-
-                    is UiState.Success -> {
-                        when (val generalState = generalInfoState) {
-                            is UiState.Error -> {}
-                            UiState.Loading -> {}
-                            is UiState.Success -> {
-                                NiaTheme {
-                                    MoviesScreen(
-                                        modifier = Modifier
-                                            .padding(innerPadding)
-                                            .padding(top = 16.dp),
-                                        top250Movies = state.data,
-                                        favoriteMovies = favoriteMovies,
-                                        generalInfo = generalState.data,
-                                        onMovieClick = {},
-                                        onFavoriteClick = { movie ->
-                                            viewModel.setFavoriteMovie(movie)
-                                        },
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    is UiState.Error -> {
-                        Text("Error Loading content.")
-                    }
+                NiaTheme {
+//                    MoviesScreen(modifier = Modifier.padding(innerPadding))
+                    SearchScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

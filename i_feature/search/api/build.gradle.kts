@@ -1,24 +1,9 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.nowinandroid.android.feature.api)
 }
 
 android {
     namespace = "com.smmousavi.i_feature_search.api"
-    compileSdk {
-        version = release(36)
-    }
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
 }
 
 dependencies {

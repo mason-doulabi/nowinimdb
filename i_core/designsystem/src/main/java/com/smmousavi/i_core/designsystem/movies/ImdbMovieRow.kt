@@ -36,10 +36,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
@@ -63,7 +65,20 @@ fun ImdbMovieRow(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             AsyncImage(
-                model = data.thumbnailUrl,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(
+                        data.thumbnailsUrl.let {
+                            if (it.isNotEmpty()) {
+                                it[0]
+                            } else {
+                                data.imageUrl
+                            }
+                        },
+                    )
+                    .crossfade(true)
+                    .memoryCacheKey(data.id)
+                    .diskCacheKey(data.id)
+                    .build(),
                 contentDescription = null,
                 modifier = Modifier
                     .width(64.dp)
@@ -80,7 +95,7 @@ fun ImdbMovieRow(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     text = data.title,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.tertiary,
                 )
                 Spacer(
@@ -98,13 +113,13 @@ fun ImdbMovieRow(
                 modifier = Modifier.size(20.dp),
                 imageVector = Icons.Filled.Star,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.tertiary
+                tint = MaterialTheme.colorScheme.tertiary,
             )
 
             Text(
                 modifier = Modifier.padding(horizontal = 4.dp),
                 text = data.rating.toString(),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall,
             )
 
             Spacer(modifier = Modifier.width(4.dp))

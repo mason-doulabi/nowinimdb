@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.database.entity
+package com.smmousavi.i_core.presentation
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 
-@Entity(tableName = "movies")
-data class MovieItemEntity(
-    @PrimaryKey
-    val id: String,
-    val title: String,
-    val rating: Double,
-    val description: String,
-    val imageUrl: String,
-    val thumbnailsUrl: List<String>,
-    val favorite: Int,
-    val watchLater: Int,
-)
+@Composable
+fun MoviesErrorScreen(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    
+}
+
+@Composable
+@Preview
+fun MoviesErrorScreenPreview() {
+    MoviesErrorScreen() {}
+}
+
 

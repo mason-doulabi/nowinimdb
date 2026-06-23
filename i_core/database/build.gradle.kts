@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.nowinandroid.android.library.jacoco)
     alias(libs.plugins.nowinandroid.android.room)
     alias(libs.plugins.nowinandroid.hilt)
+    id("kotlinx-serialization")
 }
 
 android {
@@ -13,6 +14,7 @@ dependencies {
     api(projects.iCore.model)
 
     implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlinx.serialization.json)
 
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.runner)

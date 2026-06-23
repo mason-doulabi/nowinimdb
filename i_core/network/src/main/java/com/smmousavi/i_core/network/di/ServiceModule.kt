@@ -25,6 +25,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -41,5 +42,11 @@ object ServiceModule {
     @Singleton
     fun providesMoviesApiService(@IMDbQualifier retrofit: Retrofit): MoviesApiService {
         return retrofit.create(MoviesApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesSearchMoviesApiService(@IMDbQualifier retrofit: Retrofit): SearchApiService {
+        return retrofit.create(SearchApiService::class.java)
     }
 }

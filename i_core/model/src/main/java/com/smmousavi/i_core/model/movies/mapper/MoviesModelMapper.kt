@@ -30,7 +30,8 @@ object MoviesModelMapper {
             title = this.originalTitle,
             rating = this.averageRating,
             description = this.description,
-            thumbnailUrl = this.thumbnails[0].url,
+            imageUrl = this.primaryImage,
+            thumbnailsUrl = this.thumbnails.map { it.url },
             favorite = favorite,
             watchLater = watchLater,
         )

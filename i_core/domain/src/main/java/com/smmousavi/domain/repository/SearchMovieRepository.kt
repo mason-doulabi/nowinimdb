@@ -16,5 +16,12 @@
 
 package com.smmousavi.domain.repository
 
+import com.smmousavi.i_core.model.movies.MovieItem
+import kotlinx.coroutines.flow.Flow
+
 interface SearchMovieRepository {
+
+    fun searchMovie(query: String): Flow<Result<List<MovieItem>>>
+
+    fun autoComplete(query: String): Flow<Result<List<MovieItem>>>
 }

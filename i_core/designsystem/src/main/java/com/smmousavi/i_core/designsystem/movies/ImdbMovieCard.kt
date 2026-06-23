@@ -40,9 +40,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
@@ -69,7 +71,20 @@ fun ImdbMovieCard(
                     .height(180.dp),
             ) {
                 AsyncImage(
-                    model = data.thumbnailUrl,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(
+                            data.thumbnailsUrl.let {
+                                if (it.isNotEmpty()) {
+                                    it[0]
+                                } else {
+                                    data.imageUrl
+                                }
+                            },
+                        )
+                        .crossfade(true)
+                        .memoryCacheKey(data.id)
+                        .diskCacheKey(data.id)
+                        .build(),
                     contentDescription = data.description,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,

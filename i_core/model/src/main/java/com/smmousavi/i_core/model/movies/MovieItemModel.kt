@@ -5,7 +5,8 @@ data class MovieItemModel(
     val title: String,
     val rating: Double,
     val description: String,
-    val thumbnailUrl: String,
+    val imageUrl: String,
+    val thumbnailsUrl: List<String>,
     val favorite: Boolean,
     val watchLater: Boolean,
 )

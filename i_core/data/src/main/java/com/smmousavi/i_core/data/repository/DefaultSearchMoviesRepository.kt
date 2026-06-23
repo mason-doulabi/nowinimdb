@@ -16,5 +16,45 @@
 
 package com.smmousavi.i_core.data.repository
 
-class DefaultSearchMoviesRepository {
+import android.util.Log
+import com.smmousavi.domain.repository.SearchMovieRepository
+import com.smmousavi.i_core.data.datasource.search.SearchMovieRemoteDataSource
+import com.smmousavi.i_core.data.mapper.dto.MoviesDtoMapper.toDomain
+import com.smmousavi.i_core.model.movies.MovieItem
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+
+
+
+class DefaultSearchMoviesRepository @Inject constructor(
+    private val remoteDataSource: SearchMovieRemoteDataSource,
+) : SearchMovieRepository {
+
+    override fun searchMovie(query: String): Flow<Result<List<MovieItem>>> = flow {
+        emit(
+            remoteDataSource.searchMovie(query).fold(
+                onSuccess = { data ->
+
+                    Result.success(data.results.map { it.toDomain() })
+                },
+                onFailure = { error ->
+                    Result.failure(error)
+                },
+            ),
+        )
+    }
+
+    override fun autoComplete(query: String): Flow<Result<List<MovieItem>>> = flow {
+        emit(
+            remoteDataSource.autoComplete(query).fold(
+                onSuccess = { data ->
+                    Result.success(data.results.map { it.toDomain() })
+                },
+                onFailure = { error ->
+                    Result.failure(error)
+                },
+            ),
+        )
+    }
 }

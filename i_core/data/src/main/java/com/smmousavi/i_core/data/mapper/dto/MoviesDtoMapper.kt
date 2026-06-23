@@ -79,7 +79,8 @@ object MoviesDtoMapper {
             title = this.originalTitle ?: "",
             rating = this.averageRating ?: 0.0,
             description = this.description ?: "",
-            thumbnailUrl = this.thumbnails?.get(0)?.url ?: "",
+            imageUrl = this.primaryImage ?: "",
+            thumbnailsUrl = this.thumbnails?.map { it.url ?: "" } ?: listOf(),
             favorite = favorite,
             watchLater = watchLater,
         )

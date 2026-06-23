@@ -16,5 +16,23 @@
 
 package com.smmousavi.i_core.network.service
 
+import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.network.dto.movies.SearchMovieItemDto
+import kotlinx.serialization.InternalSerializationApi
+import retrofit2.http.GET
+import retrofit2.http.Query
+
 interface SearchApiService {
+
+    @GET(value = "search")
+    @OptIn(InternalSerializationApi::class)
+    suspend fun searchMovie(
+        @Query("originalTitle") query: String,
+    ): SearchMovieItemDto
+
+    @GET(value = "autocomplete")
+    @OptIn(InternalSerializationApi::class)
+    suspend fun autoComplete(
+        @Query("query") query: String,
+    ): SearchMovieItemDto
 }

@@ -17,6 +17,89 @@
 package com.smmousavi.i_feature.search.impl
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.smmousavi.domain.usecase.search.SearchMovieUseCase
+import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
+import com.smmousavi.i_core.presentation.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
-class SearchScreenViewModel : ViewModel() {
+
+@HiltViewModel
+class SearchScreenViewModel @Inject constructor(
+    val searchMovieUseCase: SearchMovieUseCase,
+) : ViewModel() {
+
+    private val _searchQueryState = MutableStateFlow("")
+    val searchQueryState = _searchQueryState.asStateFlow()
+
+    fun onQueryChange(query: String) {
+        _searchQueryState.value = query
+    }
+
+    @OptIn(FlowPreview::class)
+    val searchMovieState = _searchQueryState
+        .debounce(300)
+        .distinctUntilChanged()
+        .filter { it.isNotBlank() }
+        .flatMapLatest { query ->
+            searchMovieUseCase.searchMovie(query)
+                .map { result ->
+                    result.fold(
+                        onSuccess = { data ->
+                            UiState.Success(data.map { it.toModel() })
+                        },
+                        onFailure = { error ->
+                            UiState.Error(error.message, error)
+                        },
+                    )
+                }
+                .onStart { emit(UiState.Loading) }
+                .catch { e ->
+                    emit(UiState.Error(e.message, e))
+                }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = UiState.Success(emptyList()),
+        )
+
+    @OptIn(FlowPreview::class)
+    val autoCompleteState = _searchQueryState
+        .debounce(300)
+        .distinctUntilChanged()
+        .filter { it.length > 2 }
+        .flatMapLatest { query ->
+            searchMovieUseCase.searchMovie(query)
+                .map { result ->
+                    result.fold(
+                        onSuccess = { data ->
+                            UiState.Success(data.map { it.toModel() })
+                        },
+                        onFailure = { error ->
+                            UiState.Error(error.message, error)
+                        },
+                    )
+                }
+                .onStart { emit(UiState.Loading) }
+                .catch { e -> emit(UiState.Error(e.message, e)) }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = UiState.Success(emptyList()),
+        )
 }

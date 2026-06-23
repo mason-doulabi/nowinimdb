@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.database.entity
+package com.smmousavi.domain.usecase.search
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.smmousavi.i_core.model.movies.MovieItem
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.flow.Flow
 
-@Entity(tableName = "movies")
-data class MovieItemEntity(
-    @PrimaryKey
-    val id: String,
-    val title: String,
-    val rating: Double,
-    val description: String,
-    val imageUrl: String,
-    val thumbnailsUrl: List<String>,
-    val favorite: Int,
-    val watchLater: Int,
-)
+interface SearchMovieUseCase {
 
+    fun searchMovie(query: String): Flow<Result<List<MovieItem>>>
+
+    fun autoComplete(query: String): Flow<Result<List<MovieItem>>>
+}

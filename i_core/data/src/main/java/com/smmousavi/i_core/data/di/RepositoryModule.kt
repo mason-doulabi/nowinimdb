@@ -18,8 +18,10 @@ package com.smmousavi.i_core.data.di
 
 import com.smmousavi.domain.repository.MoviesGeneralInfoRepository
 import com.smmousavi.domain.repository.MoviesRepository
+import com.smmousavi.domain.repository.SearchMovieRepository
 import com.smmousavi.i_core.data.repository.DefaultMoviesGeneralInfoRepository
 import com.smmousavi.i_core.data.repository.DefaultMoviesRepository
+import com.smmousavi.i_core.data.repository.DefaultSearchMoviesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -34,4 +36,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindsMoviesRepository(repository: DefaultMoviesRepository): MoviesRepository
+
+    @Binds
+    abstract fun searchMoviesRepository(repository: DefaultSearchMoviesRepository): SearchMovieRepository
 }

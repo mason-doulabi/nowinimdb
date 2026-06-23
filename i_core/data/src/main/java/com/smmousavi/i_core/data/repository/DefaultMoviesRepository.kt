@@ -19,7 +19,6 @@ import com.smmousavi.domain.repository.MoviesRepository
 import com.smmousavi.i_core.data.datasource.movies.local.MoviesLocalDataSource
 import com.smmousavi.i_core.data.datasource.movies.remote.MoviesRemoteDataSource
 import com.smmousavi.i_core.data.mapper.dto.MoviesDtoMapper.toDomain
-import com.smmousavi.i_core.data.mapper.dto.MoviesDtoMapper.toModel
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toEntity
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toModel
 import com.smmousavi.i_core.model.movies.MovieItem

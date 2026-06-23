@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.database.entity
+package com.smmousavi.domain.usecase.search
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.smmousavi.domain.repository.SearchMovieRepository
+import com.smmousavi.i_core.model.movies.MovieItem
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-@Entity(tableName = "movies")
-data class MovieItemEntity(
-    @PrimaryKey
-    val id: String,
-    val title: String,
-    val rating: Double,
-    val description: String,
-    val imageUrl: String,
-    val thumbnailsUrl: List<String>,
-    val favorite: Int,
-    val watchLater: Int,
-)
+class DefaultSearchMovieUseCase @Inject constructor(
+    private val repository: SearchMovieRepository,
+) : SearchMovieUseCase {
 
+    override fun searchMovie(query: String): Flow<Result<List<MovieItem>>> {
+        return repository.searchMovie(query)
+    }
+
+    override fun autoComplete(query: String): Flow<Result<List<MovieItem>>> {
+        return repository.autoComplete(query)
+    }
+}

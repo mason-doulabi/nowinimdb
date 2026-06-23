@@ -32,54 +32,5 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImdbActivityViewModel @Inject constructor(
-    private val generalUseCase: MoviesGeneralInfoUseCase,
-    private val top250UseCase: Top250MoviesUseCase,
-    private val favoriteUseCase: FavoriteMoviesUseCase,
 ) : ViewModel() {
-    private val _generaInfoUiState =
-        MutableStateFlow<UiState<MoviesGeneralInfoModel>>(UiState.Loading)
-    val generalInfoUiState = _generaInfoUiState.asStateFlow()
-
-    private val _top250MoviesState =
-        MutableStateFlow<UiState<List<MovieItemModel>>>(UiState.Loading)
-    val top250MoviesState = _top250MoviesState.asStateFlow()
-
-    private val _favoriteMoviesState =
-        MutableStateFlow<List<MovieItemModel>>(listOf())
-    val favoriteMoviesState = _favoriteMoviesState.asStateFlow()
-
-    fun getGeneralInfo() {
-        viewModelScope.launch {
-            generalUseCase().collect { info ->
-                _generaInfoUiState.value = UiState.Success(info)
-            }
-        }
-    }
-
-    fun getTop250Movies() {
-        viewModelScope.launch {
-            top250UseCase().collect {
-                it.fold(
-                    onSuccess = { data -> _top250MoviesState.value = UiState.Success(data) },
-                    onFailure = {
-                        // display error
-                    },
-                )
-            }
-        }
-    }
-
-    fun getFavoriteMovies() {
-        viewModelScope.launch {
-            favoriteUseCase.getFavoriteMovies().collect {
-                _favoriteMoviesState.value = it
-            }
-        }
-    }
-
-    fun setFavoriteMovie(movie: MovieItemModel) {
-        viewModelScope.launch {
-            favoriteUseCase.upsertMovie(movie)
-        }
-    }
 }

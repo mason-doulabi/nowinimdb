@@ -18,7 +18,9 @@ package com.smmousavi.i_core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.smmousavi.i_core.database.dao.MoviesDao
+import com.smmousavi.i_core.database.entity.converter.Converters
 import com.smmousavi.i_core.database.entity.MovieItemEntity
 
 @Database(
@@ -26,6 +28,7 @@ import com.smmousavi.i_core.database.entity.MovieItemEntity
     entities = [MovieItemEntity::class],
     exportSchema = false,
 )
+@TypeConverters(Converters::class)
 abstract class IMDbDatabase : RoomDatabase() {
 
     abstract fun moviesDao(): MoviesDao

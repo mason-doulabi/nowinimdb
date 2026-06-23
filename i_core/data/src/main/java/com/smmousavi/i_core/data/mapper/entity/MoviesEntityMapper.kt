@@ -27,7 +27,8 @@ object MoviesEntityMapper {
         title = this.title,
         rating = this.rating,
         description = this.description,
-        thumbnailUrl = this.thumbnailUrl,
+        imageUrl = this.imageUrl,
+        thumbnailsUrl = this.thumbnailsUrl,
         favorite = this.favorite.fromDbBool(),
         watchLater = this.watchLater.fromDbBool(),
     )
@@ -37,7 +38,8 @@ object MoviesEntityMapper {
         title = this.title,
         rating = this.rating,
         description = this.description,
-        thumbnailUrl = this.thumbnailUrl,
+        imageUrl = this.imageUrl,
+        thumbnailsUrl = this.thumbnailsUrl,
         favorite = this.favorite.toDbBool(),
         watchLater = this.watchLater.toDbBool(),
     )
@@ -51,7 +53,8 @@ object MoviesEntityMapper {
             title = this.originalTitle,
             rating = this.averageRating,
             description = this.description,
-            thumbnailUrl = this.thumbnails[0].url,
+            imageUrl = this.primaryImage,
+            thumbnailsUrl = this.thumbnails.map { it.url },
             favorite = favorite.toDbBool(),
             watchLater = watchLater.toDbBool(),
         )

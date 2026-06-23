@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.database.entity
+package com.smmousavi.i_core.database.entity.converter
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import kotlinx.serialization.json.Json
 
-@Entity(tableName = "movies")
-data class MovieItemEntity(
-    @PrimaryKey
-    val id: String,
-    val title: String,
-    val rating: Double,
-    val description: String,
-    val imageUrl: String,
-    val thumbnailsUrl: List<String>,
-    val favorite: Int,
-    val watchLater: Int,
-)
+object Converters {
 
+    private val json = Json
+
+    @TypeConverter
+    fun fromList(value: List<String>): String {
+        return json.encodeToString(value)
+    }
+
+    @TypeConverter
+    fun toList(value: String): List<String> {
+        return json.decodeFromString(value)
+    }
+}
