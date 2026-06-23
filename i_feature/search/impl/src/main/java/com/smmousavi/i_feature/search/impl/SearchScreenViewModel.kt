@@ -29,13 +29,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
-
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
@@ -53,23 +52,26 @@ class SearchScreenViewModel @Inject constructor(
     val searchMovieState = _searchQueryState
         .debounce(300)
         .distinctUntilChanged()
-        .filter { it.isNotBlank() }
         .flatMapLatest { query ->
-            searchMovieUseCase.searchMovie(query)
-                .map { result ->
-                    result.fold(
-                        onSuccess = { data ->
-                            UiState.Success(data.map { it.toModel() })
-                        },
-                        onFailure = { error ->
-                            UiState.Error(error.message, error)
-                        },
-                    )
-                }
-                .onStart { emit(UiState.Loading) }
-                .catch { e ->
-                    emit(UiState.Error(e.message, e))
-                }
+            if (query.isBlank()) {
+                flowOf(UiState.Success(emptyList()))
+            } else {
+                searchMovieUseCase.searchMovie(query)
+                    .map { result ->
+                        result.fold(
+                            onSuccess = { data ->
+                                UiState.Success(data.map { it.toModel() })
+                            },
+                            onFailure = { error ->
+                                UiState.Error(error.message, error)
+                            },
+                        )
+                    }
+                    .onStart { emit(UiState.Loading) }
+                    .catch { e ->
+                        emit(UiState.Error(e.message, e))
+                    }
+            }
         }
         .stateIn(
             scope = viewModelScope,
@@ -81,7 +83,6 @@ class SearchScreenViewModel @Inject constructor(
     val autoCompleteState = _searchQueryState
         .debounce(300)
         .distinctUntilChanged()
-        .filter { it.length > 2 }
         .flatMapLatest { query ->
             searchMovieUseCase.searchMovie(query)
                 .map { result ->
