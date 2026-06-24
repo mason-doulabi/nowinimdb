@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.designsystem.movies
+package com.smmousavi.i_core.designsystem.components.movie
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

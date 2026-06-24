@@ -38,12 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadingWheel
-import com.smmousavi.i_core.designsystem.movies.ImdbFilterChip
-import com.smmousavi.i_core.designsystem.movies.ImdbMovieCard
+import com.smmousavi.i_core.designsystem.components.movie.ImdbFilterChip
+import com.smmousavi.i_core.designsystem.components.movie.ImdbMovieCard
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
 import com.smmousavi.i_core.presentation.UiState
-import com.smmousavi.i_core.presentation.movies.MoviesTitledLazyRow
+import com.smmousavi.i_core.designsystem.layouts.movie.MoviesTitledLazyRow
 
 @Composable
 fun MoviesScreen(

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.presentation.movies
+package com.smmousavi.i_core.designsystem.layouts.movie
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,13 +23,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.smmousavi.i_core.designsystem.movies.ImdbMovieRow
+import com.smmousavi.i_core.designsystem.components.movie.ImdbMovieRow
 import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 
 @Composable
-fun MoviesRowLazyColumn(
+fun MoviesDetailedLazyColumn(
     modifier: Modifier = Modifier,
     items: List<MovieItemModel>,
     columnItem: @Composable (MovieItemModel) -> Unit,
@@ -49,8 +49,8 @@ fun MoviesRowLazyColumn(
 
 @Composable
 @Preview
-fun MoviesRowLazyColumnPreview() {
-    MoviesRowLazyColumn(
+fun MoviesDetailedLazyColumnPreview() {
+    MoviesDetailedLazyColumn(
         items = listOf(
             MovieItem.DEFAULT1.toModel(),
             MovieItem.DEFAULT2.toModel(),

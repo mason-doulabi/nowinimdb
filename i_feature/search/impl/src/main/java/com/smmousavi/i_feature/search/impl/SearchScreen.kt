@@ -57,13 +57,13 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadingWheel
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.NiaIcons
-import com.smmousavi.i_core.designsystem.movies.ImdbMovieRow
-import com.smmousavi.i_core.designsystem.movies.ImdbMovieTitleRow
+import com.smmousavi.i_core.designsystem.components.movie.ImdbMovieRow
+import com.smmousavi.i_core.designsystem.components.movie.ImdbMovieTitleRow
+import com.smmousavi.i_core.designsystem.layouts.movie.MoviesDetailedLazyColumn
 import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 import com.smmousavi.i_core.presentation.UiState
-import com.smmousavi.i_core.presentation.movies.MoviesRowLazyColumn
 
 private const val TAG = "SearchScreen"
 
@@ -266,7 +266,7 @@ fun AutoCompleteSuggestions(
     onDeleteSuggestionClick: ((MovieItemModel) -> Unit)?,
     onSuggestionClick: (MovieItemModel) -> Unit,
 ) {
-    MoviesRowLazyColumn(
+    MoviesDetailedLazyColumn (
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
@@ -284,7 +284,7 @@ fun SearchResult(
     data: List<MovieItemModel>,
     onResultClick: (MovieItemModel) -> Unit,
 ) {
-    MoviesRowLazyColumn(
+    MoviesDetailedLazyColumn(
         modifier = modifier.padding(horizontal = 8.dp),
         items = data,
     ) { item ->
@@ -295,7 +295,7 @@ fun SearchResult(
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 fun SearchScreenPreview() {
     SearchScreenContent(
         searchMoviesState = UiState.Success(
@@ -311,10 +311,10 @@ fun SearchScreenPreview() {
             ),
         ),
         recentlySearchedMovies = listOf(
-            MovieItem.DEFAULT3.toModel(),
+            MovieItem.DEFAULT2.toModel(),
             MovieItem.DEFAULT3.toModel(),
         ),
-        query = "Dark Night",
+        query = "The Sha",
         onRecentlySearched = { _, _ -> },
     ) {}
 }

@@ -1,4 +1,4 @@
-package com.smmousavi.i_feature.search.impl
+package com.smmousavi.i_core.testing
 
 import org.junit.Test
 
