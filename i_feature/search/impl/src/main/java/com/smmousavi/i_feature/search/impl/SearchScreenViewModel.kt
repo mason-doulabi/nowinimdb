@@ -19,6 +19,7 @@ package com.smmousavi.i_feature.search.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.search.SearchMovieUseCase
+import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 import com.smmousavi.i_core.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,6 +35,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,6 +45,9 @@ class SearchScreenViewModel @Inject constructor(
 
     private val _searchQueryState = MutableStateFlow("")
     val searchQueryState = _searchQueryState.asStateFlow()
+
+    private val _recentlySearchedMoviesState = MutableStateFlow<List<MovieItemModel>>(emptyList())
+    val recentlySearchedMoviesState = _recentlySearchedMoviesState.asStateFlow()
 
     fun onQueryChange(query: String) {
         _searchQueryState.value = query
@@ -119,4 +124,18 @@ class SearchScreenViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000), // Keep upstream alive for 5 seconds after last subscriber disappears.
             initialValue = UiState.Idle, // every StateFlow should have an initial value
         )
+
+    fun setMovieAsRecentlySearched(movie: MovieItemModel, recentlySearched: Boolean) {
+        viewModelScope.launch {
+            searchMovieUseCase.setMovieAsRecentlySearched(movie, recentlySearched)
+        }
+    }
+
+    fun getRecentlySearchedMovies() {
+        viewModelScope.launch {
+            searchMovieUseCase.getRecentlySearchedMovies().collect { data ->
+                _recentlySearchedMoviesState.value = data
+            }
+        }
+    }
 }

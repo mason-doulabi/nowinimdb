@@ -73,6 +73,8 @@ object MoviesDtoMapper {
     fun MovieItemDto.toModel(
         favorite: Boolean = false,
         watchLater: Boolean = false,
+        recentlySearched: Boolean = false,
+        searchedTime: Long = 0,
     ): MovieItemModel =
         MovieItemModel(
             id = this.id ?: "",
@@ -83,6 +85,8 @@ object MoviesDtoMapper {
             thumbnailsUrl = this.thumbnails?.map { it.url ?: "" } ?: listOf(),
             favorite = favorite,
             watchLater = watchLater,
+            recentlySearched = recentlySearched,
+            searchedTime = searchedTime,
         )
 
     fun ProductionCompanyDto.toDomain(): ProductionCompanyModel = ProductionCompanyModel(

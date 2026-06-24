@@ -24,6 +24,8 @@ object MoviesModelMapper {
     fun MovieItem.toModel(
         favorite: Boolean = false,
         watchLater: Boolean = false,
+        recentlySearched: Boolean = false,
+        searchedTime: Long = 0,
     ): MovieItemModel =
         MovieItemModel(
             id = this.id,
@@ -34,5 +36,7 @@ object MoviesModelMapper {
             thumbnailsUrl = this.thumbnails.map { it.url },
             favorite = favorite,
             watchLater = watchLater,
+            recentlySearched = recentlySearched,
+            searchedTime = searchedTime,
         )
 }

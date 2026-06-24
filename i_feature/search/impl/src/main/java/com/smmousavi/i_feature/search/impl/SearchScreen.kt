@@ -16,6 +16,7 @@
 
 package com.smmousavi.i_feature.search.impl
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -64,6 +65,8 @@ import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 import com.smmousavi.i_core.presentation.UiState
 import com.smmousavi.i_core.presentation.movies.MoviesRowLazyColumn
 
+private const val TAG = "SearchScreen"
+
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
@@ -71,13 +74,22 @@ fun SearchScreen(
 ) {
     val searchMoviesState by searchScreenViewModel.searchMovieState.collectAsStateWithLifecycle()
     val autoCompleteState by searchScreenViewModel.autoCompleteState.collectAsStateWithLifecycle()
+    val recentlySearchedMovies by searchScreenViewModel.recentlySearchedMoviesState.collectAsStateWithLifecycle()
     val searchQuery by searchScreenViewModel.searchQueryState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        searchScreenViewModel.getRecentlySearchedMovies()
+    }
 
     SearchScreenContent(
         modifier = modifier,
         searchMoviesState = searchMoviesState,
         autoCompleteState = autoCompleteState,
+        recentlySearchedMovies = recentlySearchedMovies,
         query = searchQuery,
+        onRecentlySearched = { movie, recentlySearched ->
+            searchScreenViewModel.setMovieAsRecentlySearched(movie, recentlySearched)
+        },
     ) { query ->
         searchScreenViewModel.onQueryChange(query)
     }
@@ -88,7 +100,9 @@ fun SearchScreenContent(
     modifier: Modifier = Modifier,
     searchMoviesState: UiState<List<MovieItemModel>>,
     autoCompleteState: UiState<List<MovieItemModel>>,
+    recentlySearchedMovies: List<MovieItemModel>,
     query: String,
+    onRecentlySearched: (MovieItemModel, Boolean) -> Unit,
     onQueryChange: (String) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
@@ -96,8 +110,6 @@ fun SearchScreenContent(
     val focusRequester = remember { FocusRequester() }
 
     var isSearchFocused by remember { mutableStateOf(false) }
-
-    val showSuggestion = isSearchFocused && query.length >= 2
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -115,25 +127,43 @@ fun SearchScreenContent(
         )
 
         AnimatedVisibility(
-            visible = showSuggestion,
+            visible = isSearchFocused,
             enter = fadeIn(),
             exit = fadeOut(),
         ) {
             when (autoCompleteState) {
                 is UiState.Error -> {}
 
-                UiState.Idle -> {}
+                UiState.Idle -> {
+                    if (recentlySearchedMovies.isNotEmpty()) {
+                        Log.d(TAG, "recentlySearchedMovies: ${recentlySearchedMovies.size}")
+                        AutoCompleteSuggestions(
+                            modifier = Modifier.padding(top = 4.dp),
+                            data = recentlySearchedMovies,
+                            onDeleteSuggestionClick = { item -> onRecentlySearched(item, false) },
+                        ) { item ->
+                            onQueryChange(item.title)
+                            keyboardController?.hide()
+                            focusManager.clearFocus()
+                            onRecentlySearched(item, true)
+                        }
+                    }
+                }
 
                 UiState.Loading -> {}
 
                 is UiState.Success -> {
-                    AutoCompleteSuggestions(
-                        modifier = Modifier.padding(top = 4.dp),
-                        data = autoCompleteState.data,
-                    ) { item ->
-                        onQueryChange(item.title)
-                        keyboardController?.hide()
-                        focusManager.clearFocus()
+                    if (autoCompleteState.data.isNotEmpty()) {
+                        AutoCompleteSuggestions(
+                            modifier = Modifier.padding(top = 4.dp),
+                            data = autoCompleteState.data,
+                            onDeleteSuggestionClick = null,
+                        ) { item ->
+                            onQueryChange(item.title)
+                            keyboardController?.hide()
+                            focusManager.clearFocus()
+                            onRecentlySearched(item, true)
+                        }
                     }
                 }
             }
@@ -159,7 +189,9 @@ fun SearchScreenContent(
                 SearchResult(
                     modifier = Modifier.padding(top = 16.dp),
                     data = searchMoviesState.data,
-                ) { }
+                ) { item ->
+                    onRecentlySearched(item, true)
+                }
             }
         }
     }
@@ -231,6 +263,7 @@ fun SearchBar(
 fun AutoCompleteSuggestions(
     modifier: Modifier = Modifier,
     data: List<MovieItemModel>,
+    onDeleteSuggestionClick: ((MovieItemModel) -> Unit)?,
     onSuggestionClick: (MovieItemModel) -> Unit,
 ) {
     MoviesRowLazyColumn(
@@ -239,7 +272,7 @@ fun AutoCompleteSuggestions(
             .padding(horizontal = 16.dp),
         items = data,
     ) { item ->
-        ImdbMovieTitleRow(data = item) {
+        ImdbMovieTitleRow(data = item, onDeleteClick = { onDeleteSuggestionClick?.invoke(item) }) {
             onSuggestionClick(item)
         }
     }
@@ -277,6 +310,11 @@ fun SearchScreenPreview() {
                 MovieItem.DEFAULT3.toModel(),
             ),
         ),
+        recentlySearchedMovies = listOf(
+            MovieItem.DEFAULT3.toModel(),
+            MovieItem.DEFAULT3.toModel(),
+        ),
         query = "Dark Night",
+        onRecentlySearched = { _, _ -> },
     ) {}
 }

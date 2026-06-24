@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.repository
+package com.smmousavi.i_core.data.datasource.search.local
 
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.database.dao.MoviesDao
+import com.smmousavi.i_core.database.entity.MovieItemEntity
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-interface SearchMovieRepository {
+class DefaultSearchMoviesLocalDataSource @Inject constructor(
+    private val moviesDao: MoviesDao,
+) : SearchMoviesLocalDataSource {
 
-    fun searchMovie(query: String): Flow<Result<List<MovieItem>>>
+    override fun getRecentlySearchMovies(): Flow<List<MovieItemEntity>> {
+        return moviesDao.getRecentlySearchedMovies()
+    }
 
-    fun autoComplete(query: String): Flow<Result<List<MovieItem>>>
-
-    suspend fun setMovieAsRecentlySearched(movie: MovieItemModel, recentlySearched: Boolean)
-
-    fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>>
+    override suspend fun upsertMovieAsRecentlySearched(movie: MovieItemEntity) {
+        moviesDao.upsertMovie(movie)
+    }
 }

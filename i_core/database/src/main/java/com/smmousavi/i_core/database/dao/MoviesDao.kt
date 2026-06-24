@@ -39,4 +39,7 @@ interface MoviesDao {
 
     @Query("SELECT * FROM movies WHERE watchLater = 1")
     fun getWatchLaterMovies(): Flow<List<MovieItemEntity>>
+
+    @Query("SELECT * FROM movies WHERE recentlySearched = 1 ORDER BY searchedTime DESC LIMIT 10")
+    fun getRecentlySearchedMovies(): Flow<List<MovieItemEntity>>
 }

@@ -19,10 +19,12 @@ package com.smmousavi.i_core.designsystem.movies
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -41,14 +43,13 @@ import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 fun ImdbMovieTitleRow(
     modifier: Modifier = Modifier,
     data: MovieItemModel,
-    onClick: (MovieItemModel) -> Unit,
+    onDeleteClick: (() -> Unit)? = null,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(
-                onClick = { onClick(data) },
-            )
+            .clickable { onClick() }
             .padding(horizontal = 8.dp),
     ) {
         Row(
@@ -72,6 +73,19 @@ fun ImdbMovieTitleRow(
                 text = data.rating.toString(),
                 style = MaterialTheme.typography.bodyMedium,
             )
+
+            Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+
+            onDeleteClick?.let {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .padding(4.dp)
+                        .clickable { it() },
+                )
+            }
         }
 
         HorizontalDivider()
@@ -81,7 +95,7 @@ fun ImdbMovieTitleRow(
 @Composable
 @Preview(showBackground = true)
 fun ImdbMovieTitleRowPreview() {
-    ImdbMovieTitleRow(data = MovieItem.DEFAULT1.toModel()) {}
+    ImdbMovieTitleRow(data = MovieItem.DEFAULT1.toModel(), onDeleteClick = {}) {}
 }
 
 

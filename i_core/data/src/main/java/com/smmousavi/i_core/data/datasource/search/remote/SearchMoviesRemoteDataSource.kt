@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.data.datasource.search
+package com.smmousavi.i_core.data.datasource.search.remote
 
-import android.util.Log
 import com.smmousavi.i_core.network.dto.movies.MovieItemDto
 import com.smmousavi.i_core.network.dto.movies.SearchMovieItemDto
-import com.smmousavi.i_core.network.service.SearchApiService
-import javax.inject.Inject
 
-class DefaultSearchMovieRemoteDataSource @Inject constructor(
-    private val apiService: SearchApiService,
-) : SearchMovieRemoteDataSource {
+interface SearchMoviesRemoteDataSource {
 
-    override suspend fun searchMovie(query: String): Result<SearchMovieItemDto> = runCatching {
-        apiService.searchMovie(query)
-    }
+    suspend fun searchMovie(query: String): Result<SearchMovieItemDto>
 
-    override suspend fun autoComplete(query: String): Result<List<MovieItemDto>> = runCatching {
-        apiService.autoComplete(query)
-    }
+    suspend fun autoComplete(query: String): Result<List<MovieItemDto>>
 }

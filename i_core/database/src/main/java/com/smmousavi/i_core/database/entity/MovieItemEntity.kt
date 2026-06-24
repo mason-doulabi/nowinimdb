@@ -30,5 +30,7 @@ data class MovieItemEntity(
     val thumbnailsUrl: List<String>,
     val favorite: Int,
     val watchLater: Int,
+    val recentlySearched: Int,
+    val searchedTime: Long,
 )
 

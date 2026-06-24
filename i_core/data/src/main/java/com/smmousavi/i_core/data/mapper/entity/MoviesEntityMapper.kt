@@ -31,6 +31,8 @@ object MoviesEntityMapper {
         thumbnailsUrl = this.thumbnailsUrl,
         favorite = this.favorite.fromDbBool(),
         watchLater = this.watchLater.fromDbBool(),
+        recentlySearched = this.recentlySearched.fromDbBool(),
+        searchedTime = this.searchedTime,
     )
 
     fun MovieItemModel.toEntity(): MovieItemEntity = MovieItemEntity(
@@ -42,11 +44,15 @@ object MoviesEntityMapper {
         thumbnailsUrl = this.thumbnailsUrl,
         favorite = this.favorite.toDbBool(),
         watchLater = this.watchLater.toDbBool(),
+        recentlySearched = this.recentlySearched.toDbBool(),
+        searchedTime = this.searchedTime,
     )
 
     fun MovieItem.toEntity(
         favorite: Boolean = false,
         watchLater: Boolean = false,
+        recentlySearched: Boolean = false,
+        searchedTime: Long = 0,
     ): MovieItemEntity =
         MovieItemEntity(
             id = this.id,
@@ -57,6 +63,8 @@ object MoviesEntityMapper {
             thumbnailsUrl = this.thumbnails.map { it.url },
             favorite = favorite.toDbBool(),
             watchLater = watchLater.toDbBool(),
+            recentlySearched = recentlySearched.toDbBool(),
+            searchedTime = searchedTime,
         )
 
     fun Boolean.toDbBool(): Int = if (this) 1 else 0

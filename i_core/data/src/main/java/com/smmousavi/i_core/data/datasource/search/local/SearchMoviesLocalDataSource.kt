@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.repository
+package com.smmousavi.i_core.data.datasource.search.local
 
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.database.entity.MovieItemEntity
 import kotlinx.coroutines.flow.Flow
 
-interface SearchMovieRepository {
+interface SearchMoviesLocalDataSource {
 
-    fun searchMovie(query: String): Flow<Result<List<MovieItem>>>
+    fun getRecentlySearchMovies(): Flow<List<MovieItemEntity>>
 
-    fun autoComplete(query: String): Flow<Result<List<MovieItem>>>
-
-    suspend fun setMovieAsRecentlySearched(movie: MovieItemModel, recentlySearched: Boolean)
-
-    fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>>
+    suspend fun upsertMovieAsRecentlySearched(movie: MovieItemEntity)
 }

@@ -9,4 +9,6 @@ data class MovieItemModel(
     val thumbnailsUrl: List<String>,
     val favorite: Boolean,
     val watchLater: Boolean,
+    val recentlySearched: Boolean,
+    val searchedTime: Long,
 )
