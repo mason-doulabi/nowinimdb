@@ -18,13 +18,14 @@ package com.smmousavi.i_core.network.di
 
 import com.smmousavi.i_core.network.service.GeneralApiService
 import com.smmousavi.i_core.network.service.ImbdApiService
-import com.smmousavi.i_core.network.service.MoviesApiService
 import com.smmousavi.i_core.network.service.SearchApiService
+import com.smmousavi.i_core.network.service.MoviesApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -33,29 +34,19 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    @IMDbQualifier
     fun providesGeneralApiService(@IMDbQualifier retrofit: Retrofit): GeneralApiService {
         return retrofit.create(GeneralApiService::class.java)
     }
 
     @Provides
     @Singleton
-    @IMDbQualifier
-    fun providesImdbApiService(@IMDbQualifier retrofit: Retrofit): ImbdApiService {
-        return retrofit.create(ImbdApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    @IMDbQualifier
     fun providesMoviesApiService(@IMDbQualifier retrofit: Retrofit): MoviesApiService {
         return retrofit.create(MoviesApiService::class.java)
     }
 
     @Provides
     @Singleton
-    @IMDbQualifier
-    fun providesSearchApiService(@IMDbQualifier retrofit: Retrofit): SearchApiService {
+    fun providesSearchMoviesApiService(@IMDbQualifier retrofit: Retrofit): SearchApiService {
         return retrofit.create(SearchApiService::class.java)
     }
 }

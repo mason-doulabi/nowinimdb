@@ -16,9 +16,9 @@
 
 package com.smmousavi.i_core.network.di
 
-import androidx.tracing.trace
+import android.util.Log
+import androidx.core.os.trace
 import com.smmousavi.i_core.network.BuildConfig
-import com.smmousavi.i_core.network.service.GeneralApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,14 +60,16 @@ object NetworkModule {
     @Provides
     @Singleton
     @IMDbQualifier
-    fun okHttpCallFactory(
+    fun providesOkHttpCallFactory(
         @IMDbQualifier headerInterceptor: Interceptor,
     ): Call.Factory =
         trace("ImdbOkHttpClient") {
             OkHttpClient.Builder()
                 .addInterceptor(headerInterceptor)
                 .addInterceptor(
-                    HttpLoggingInterceptor().apply {
+                    HttpLoggingInterceptor { msg ->
+                        Log.d("IMDbNetwork", msg)
+                    }.apply {
                         if (BuildConfig.DEBUG) {
                             setLevel(HttpLoggingInterceptor.Level.BODY)
                         }
@@ -79,7 +81,7 @@ object NetworkModule {
     @Provides
     @Singleton
     @IMDbQualifier
-    fun provideRetrofit(
+    fun providesRetrofit(
         @IMDbQualifier okhttpCallFactory: dagger.Lazy<Call.Factory>,
         json: Json,
     ): Retrofit {

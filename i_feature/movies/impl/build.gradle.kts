@@ -11,6 +11,7 @@ android {
 dependencies {
     api(projects.iCore.domain)
     api(projects.iCore.designsystem)
+    api(projects.iCore.presentation)
 
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.activity.compose)

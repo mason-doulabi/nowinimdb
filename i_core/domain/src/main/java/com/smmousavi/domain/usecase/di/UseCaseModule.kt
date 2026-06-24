@@ -16,8 +16,15 @@
 
 package com.smmousavi.domain.usecase.di
 
-import com.smmousavi.domain.usecase.movies.DefaultMoviesGeneralInfoUseCase
-import com.smmousavi.domain.usecase.movies.MoviesGeneralInfoUseCase
+import com.smmousavi.domain.repository.SearchMovieRepository
+import com.smmousavi.domain.usecase.generalinfo.DefaultMoviesGeneralInfoUseCase
+import com.smmousavi.domain.usecase.generalinfo.MoviesGeneralInfoUseCase
+import com.smmousavi.domain.usecase.movies.favorite.DefaultFavoriteMoviesUseCase
+import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
+import com.smmousavi.domain.usecase.movies.top250.DefaultTop250MoviesUseCase
+import com.smmousavi.domain.usecase.movies.top250.Top250MoviesUseCase
+import com.smmousavi.domain.usecase.search.DefaultSearchMovieUseCase
+import com.smmousavi.domain.usecase.search.SearchMovieUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -31,4 +38,19 @@ abstract class UseCaseModule {
     abstract fun bindsMoviesGeneralInfoUseCase(
         useCase: DefaultMoviesGeneralInfoUseCase,
     ): MoviesGeneralInfoUseCase
+
+    @Binds
+    abstract fun bindsTop250MoviesUseCase(
+        useCase: DefaultTop250MoviesUseCase,
+    ): Top250MoviesUseCase
+
+    @Binds
+    abstract fun bindsFavoriteMoviesUseCase(
+        useCase: DefaultFavoriteMoviesUseCase,
+    ): FavoriteMoviesUseCase
+
+    @Binds
+    abstract fun bindsSearchMoviesUseCase(
+        useCase: DefaultSearchMovieUseCase,
+    ): SearchMovieUseCase
 }

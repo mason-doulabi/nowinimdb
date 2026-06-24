@@ -16,5 +16,65 @@
 
 package com.smmousavi.i_core.data.repository
 
-class DefaultSearchMoviesRepository {
+import com.smmousavi.domain.repository.SearchMovieRepository
+import com.smmousavi.i_core.data.datasource.search.local.SearchMoviesLocalDataSource
+import com.smmousavi.i_core.data.datasource.search.remote.SearchMoviesRemoteDataSource
+import com.smmousavi.i_core.data.mapper.dto.MoviesDtoMapper.toDomain
+import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toEntity
+import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toModel
+import com.smmousavi.i_core.model.movies.MovieItem
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+
+class DefaultSearchMoviesRepository @Inject constructor(
+    private val remoteDataSource: SearchMoviesRemoteDataSource,
+    private val localDataSource: SearchMoviesLocalDataSource,
+) : SearchMovieRepository {
+
+    override fun searchMovie(query: String): Flow<Result<List<MovieItem>>> = flow {
+        emit(
+            remoteDataSource.searchMovie(query).fold(
+                onSuccess = { data ->
+
+                    Result.success(data.results.map { it.toDomain() })
+                },
+                onFailure = { error ->
+                    Result.failure(error)
+                },
+            ),
+        )
+    }
+
+    override fun autoComplete(query: String): Flow<Result<List<MovieItem>>> = flow {
+        emit(
+            remoteDataSource.autoComplete(query).fold(
+                onSuccess = { data ->
+                    Result.success(data.map { it.toDomain() })
+                },
+                onFailure = { error ->
+                    Result.failure(error)
+                },
+            ),
+        )
+    }
+
+    override suspend fun setMovieAsRecentlySearched(
+        movie: MovieItemModel,
+        recentlySearched: Boolean,
+    ) {
+        localDataSource.upsertMovieAsRecentlySearched(
+            movie.copy(
+                recentlySearched = recentlySearched,
+                searchedTime = System.currentTimeMillis(),
+            ).toEntity(),
+        )
+    }
+
+    override fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>> =
+        localDataSource.getRecentlySearchMovies().map { movies ->
+            movies.map { it.toModel() }
+        }
 }

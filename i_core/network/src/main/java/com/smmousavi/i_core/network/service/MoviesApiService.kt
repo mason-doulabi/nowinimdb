@@ -16,5 +16,13 @@
 
 package com.smmousavi.i_core.network.service
 
+import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import kotlinx.serialization.InternalSerializationApi
+import retrofit2.http.GET
+
 interface MoviesApiService {
+
+    @GET("top250-movies")
+    @OptIn(InternalSerializationApi::class)
+    suspend fun getTop250Movies(): List<MovieItemDto>
 }

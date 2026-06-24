@@ -16,5 +16,17 @@
 
 package com.smmousavi.domain.usecase.search
 
+import com.smmousavi.i_core.model.movies.MovieItem
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.flow.Flow
+
 interface SearchMovieUseCase {
+
+    fun searchMovie(query: String): Flow<Result<List<MovieItem>>>
+
+    fun autoComplete(query: String): Flow<Result<List<MovieItem>>>
+
+    suspend fun setMovieAsRecentlySearched(movie: MovieItemModel, recentlySearched: Boolean)
+
+    fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>>
 }

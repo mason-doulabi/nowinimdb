@@ -16,8 +16,16 @@
 
 package com.smmousavi.i_core.data.di
 
-import com.smmousavi.i_core.data.datasource.movies.DefaultMoviesRemoteDataSource
-import com.smmousavi.i_core.data.datasource.movies.MoviesRemoteDataSource
+import com.smmousavi.i_core.data.datasource.movies.local.DefaultMoviesLocalDataSource
+import com.smmousavi.i_core.data.datasource.movies.local.MoviesLocalDataSource
+import com.smmousavi.i_core.data.datasource.movies.remote.generalinfo.DefaultMoviesGeneralInfoDataSource
+import com.smmousavi.i_core.data.datasource.movies.remote.generalinfo.MoviesGeneralInfoDataSource
+import com.smmousavi.i_core.data.datasource.movies.remote.DefaultMoviesRemoteDataSource
+import com.smmousavi.i_core.data.datasource.movies.remote.MoviesRemoteDataSource
+import com.smmousavi.i_core.data.datasource.search.remote.DefaultSearchMoviesRemoteDataSource
+import com.smmousavi.i_core.data.datasource.search.remote.SearchMoviesRemoteDataSource
+import com.smmousavi.i_core.data.datasource.search.local.DefaultSearchMoviesLocalDataSource
+import com.smmousavi.i_core.data.datasource.search.local.SearchMoviesLocalDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,7 +36,27 @@ import dagger.hilt.components.SingletonComponent
 abstract class DataSourceModule {
 
     @Binds
+    abstract fun bindsMoviesGeneralInfoDataSource(
+        moviesRemoteDataSource: DefaultMoviesGeneralInfoDataSource,
+    ): MoviesGeneralInfoDataSource
+
+    @Binds
     abstract fun bindsMoviesRemoteDataSource(
         moviesRemoteDataSource: DefaultMoviesRemoteDataSource,
     ): MoviesRemoteDataSource
+
+    @Binds
+    abstract fun bindsMoviesLocalDataSource(
+        moviesLocalDataSource: DefaultMoviesLocalDataSource,
+    ): MoviesLocalDataSource
+
+    @Binds
+    abstract fun bindsSearchMoviesRemoteDataSource(
+        searchMovieDataSource: DefaultSearchMoviesRemoteDataSource,
+    ): SearchMoviesRemoteDataSource
+
+    @Binds
+    abstract fun bindsSearchMoviesLocalDataSource(
+        searchMoviesDataSource: DefaultSearchMoviesLocalDataSource
+    ): SearchMoviesLocalDataSource
 }

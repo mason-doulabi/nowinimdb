@@ -18,8 +18,11 @@ package com.smmousavi.imbd
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.smmousavi.domain.usecase.movies.MoviesGeneralInfoUseCase
-import com.smmousavi.i_core.model.movies.MoviesGeneralInfoModel
+import com.smmousavi.domain.usecase.generalinfo.MoviesGeneralInfoUseCase
+import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
+import com.smmousavi.domain.usecase.movies.top250.Top250MoviesUseCase
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
 import com.smmousavi.i_core.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,17 +32,5 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImdbActivityViewModel @Inject constructor(
-    private val generalUseCase: MoviesGeneralInfoUseCase,
 ) : ViewModel() {
-    private val _generaInfoUiState =
-        MutableStateFlow<UiState<MoviesGeneralInfoModel>>(UiState.Loading)
-    val generalInfoUiState = _generaInfoUiState.asStateFlow()
-
-    fun getGeneralInfo() {
-        viewModelScope.launch {
-            generalUseCase().collect { info ->
-                _generaInfoUiState.value = UiState.Success(info)
-            }
-        }
-    }
 }
