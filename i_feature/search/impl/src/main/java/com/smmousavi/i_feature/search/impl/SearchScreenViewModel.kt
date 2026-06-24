@@ -54,7 +54,7 @@ class SearchScreenViewModel @Inject constructor(
         .distinctUntilChanged()
         .flatMapLatest { query ->
             if (query.isBlank()) {
-                flowOf(UiState.Success(emptyList()))
+                flowOf(UiState.Idle)
             } else {
                 searchMovieUseCase.searchMovie(query)
                     .map { result ->
@@ -76,31 +76,47 @@ class SearchScreenViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = UiState.Success(emptyList()),
+            initialValue = UiState.Idle,
         )
 
     @OptIn(FlowPreview::class)
     val autoCompleteState = _searchQueryState
-        .debounce(300)
-        .distinctUntilChanged()
-        .flatMapLatest { query ->
-            searchMovieUseCase.searchMovie(query)
-                .map { result ->
-                    result.fold(
-                        onSuccess = { data ->
-                            UiState.Success(data.map { it.toModel() })
-                        },
-                        onFailure = { error ->
-                            UiState.Error(error.message, error)
-                        },
-                    )
-                }
-                .onStart { emit(UiState.Loading) }
-                .catch { e -> emit(UiState.Error(e.message, e)) }
+        .debounce(300) // prevents successive requests to server
+        .distinctUntilChanged() // avoids requesting repetitive requests
+        .flatMapLatest { query -> // cancels previous request and takes only one last request
+            if (query.length < 2) {
+                flowOf(UiState.Idle)
+            } else {
+                searchMovieUseCase.autoComplete(query)
+                    .map { result ->
+                        result.fold(
+                            onSuccess = { data ->
+                                UiState.Success(
+                                    data
+                                        .take(5)
+                                        .map { it.toModel() },
+                                )
+                            },
+                            onFailure = { error ->
+                                UiState.Error(error.message, error)
+                            },
+                        )
+                    }
+                    .onStart { emit(UiState.Loading) } // before doing any emits
+                    .catch { e -> // catch any errors on any emits
+                        emit(
+                            UiState.Error(
+                                e.message,
+                                e,
+                            ),
+                        )
+                    }
+            }
         }
+        // converts cold flow to hot flow(Flow to StateFlow), otherwise, every new collect would start the whole pipeline again
         .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = UiState.Success(emptyList()),
+            scope = viewModelScope, // binding to the lifecycle of the viewModel
+            started = SharingStarted.WhileSubscribed(5000), // Keep upstream alive for 5 seconds after last subscriber disappears.
+            initialValue = UiState.Idle, // every StateFlow should have an initial value
         )
 }

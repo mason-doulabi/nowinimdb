@@ -30,7 +30,7 @@ class DefaultSearchMovieRemoteDataSource @Inject constructor(
         apiService.searchMovie(query)
     }
 
-    override suspend fun autoComplete(query: String): Result<SearchMovieItemDto> = runCatching {
+    override suspend fun autoComplete(query: String): Result<List<MovieItemDto>> = runCatching {
         apiService.autoComplete(query)
     }
 }

@@ -93,6 +93,8 @@ fun MoviesScreenContent(
                 // display the error page
             }
 
+            UiState.Idle -> {}
+
             UiState.Loading -> {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
@@ -132,6 +134,8 @@ fun MoviesScreenContent(
         // genres row
         when (generalInfoState) {
             is UiState.Error -> {}
+
+            UiState.Idle -> {}
 
             UiState.Loading -> {
                 Box(

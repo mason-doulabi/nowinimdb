@@ -17,7 +17,6 @@
 package com.smmousavi.domain.usecase.search
 
 import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
 import kotlinx.coroutines.flow.Flow
 
 interface SearchMovieUseCase {

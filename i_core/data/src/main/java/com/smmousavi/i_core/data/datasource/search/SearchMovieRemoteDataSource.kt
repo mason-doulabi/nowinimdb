@@ -23,5 +23,5 @@ interface SearchMovieRemoteDataSource {
 
     suspend fun searchMovie(query: String): Result<SearchMovieItemDto>
 
-    suspend fun autoComplete(query: String): Result<SearchMovieItemDto>
+    suspend fun autoComplete(query: String): Result<List<MovieItemDto>>
 }

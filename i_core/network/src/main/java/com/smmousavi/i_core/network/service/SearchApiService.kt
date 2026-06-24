@@ -34,5 +34,5 @@ interface SearchApiService {
     @OptIn(InternalSerializationApi::class)
     suspend fun autoComplete(
         @Query("query") query: String,
-    ): SearchMovieItemDto
+    ): List<MovieItemDto>
 }

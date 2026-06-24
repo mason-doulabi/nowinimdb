@@ -49,7 +49,7 @@ class DefaultSearchMoviesRepository @Inject constructor(
         emit(
             remoteDataSource.autoComplete(query).fold(
                 onSuccess = { data ->
-                    Result.success(data.results.map { it.toDomain() })
+                    Result.success(data.map { it.toDomain() })
                 },
                 onFailure = { error ->
                     Result.failure(error)
