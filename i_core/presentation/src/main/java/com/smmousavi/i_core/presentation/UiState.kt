@@ -16,6 +16,9 @@
 
 package com.smmousavi.i_core.presentation
 
+import androidx.compose.runtime.Stable
+
+@Stable
 sealed interface UiState<out T> {
 
     data object Loading : UiState<Nothing>

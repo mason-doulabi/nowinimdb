@@ -23,7 +23,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.truth)
-
+    testImplementation(libs.turbine)
 
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
 }

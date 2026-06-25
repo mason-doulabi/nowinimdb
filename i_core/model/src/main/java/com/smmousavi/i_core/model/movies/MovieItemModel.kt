@@ -1,5 +1,8 @@
 package com.smmousavi.i_core.model.movies
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class MovieItemModel(
     val id: String,
     val title: String,

@@ -28,8 +28,11 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -239,6 +242,12 @@ fun MoviesScreenContent(
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
+
+    @Stable
+    class MoviesScreenState(visible: Boolean = true)
+
+    @Composable
+    fun rememberMovieScreenState(): MoviesScreenState = remember { MoviesScreenState() }
 }
 
 

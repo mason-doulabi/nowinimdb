@@ -14,15 +14,25 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.search
+package com.smmousavi.domain.usecase.search.recent
 
-import com.smmousavi.i_core.model.movies.MovieItem
+import com.smmousavi.domain.repository.SearchMovieRepository
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-interface SearchMovieUseCase {
+class DefaultRecentSearchesUseCase @Inject constructor(
+    private val repository: SearchMovieRepository,
+) : RecentSearchesUseCase {
 
-    fun searchMovie(query: String): Flow<Result<List<MovieItem>>>
+    override suspend fun setMovieAsRecentlySearched(
+        movie: MovieItemModel,
+        recentlySearched: Boolean,
+    ) {
+        repository.setMovieAsRecentlySearched(movie, recentlySearched)
+    }
 
-    fun autoComplete(query: String): Flow<Result<List<MovieItem>>>
+    override fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>> {
+        return repository.getRecentlySearchedMovies()
+    }
 }

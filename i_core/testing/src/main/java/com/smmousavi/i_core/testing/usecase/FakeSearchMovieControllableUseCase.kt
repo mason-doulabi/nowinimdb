@@ -14,23 +14,31 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.search
+package com.smmousavi.i_core.testing.usecase
 
-import com.smmousavi.domain.repository.SearchMovieRepository
+import com.smmousavi.domain.usecase.search.SearchMovieUseCase
 import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flowOf
 
-class DefaultSearchMovieUseCase @Inject constructor(
-    private val repository: SearchMovieRepository,
-) : SearchMovieUseCase {
+class FakeSearchMovieControllableUseCase : SearchMovieUseCase {
+
+    var callCount = 0
+    var lastQuery = ""
+    private val flowController = MutableSharedFlow<Result<List<MovieItem>>>()
 
     override fun searchMovie(query: String): Flow<Result<List<MovieItem>>> {
-        return repository.searchMovie(query)
+        callCount++
+        lastQuery = query
+        return flowController
     }
 
     override fun autoComplete(query: String): Flow<Result<List<MovieItem>>> {
-        return repository.autoComplete(query)
+        return flowOf(Result.success(emptyList()))
+    }
+
+    suspend fun emit(result: Result<List<MovieItem>>) {
+        flowController.emit(result)
     }
 }

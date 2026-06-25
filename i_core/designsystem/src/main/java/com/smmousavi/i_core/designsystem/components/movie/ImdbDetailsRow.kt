@@ -47,7 +47,7 @@ import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 
 @Composable
-fun ImdbMovieRow(
+fun ImdbDetailsRow(
     modifier: Modifier = Modifier,
     data: MovieItemModel,
     onClick: () -> Unit,
@@ -129,8 +129,8 @@ fun ImdbMovieRow(
 
 @Composable
 @Preview
-fun ImdbMovieRowPreview() {
-    ImdbMovieRow(
+fun ImdbDetailsRowPreview() {
+    ImdbDetailsRow(
         data = MovieItem.DEFAULT1.toModel(),
     ) {}
 }

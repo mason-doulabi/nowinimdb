@@ -18,38 +18,29 @@ package com.smmousavi.i_core.testing.usecase
 
 import com.smmousavi.domain.usecase.search.SearchMovieUseCase
 import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 class FakeSearchMovieUseCase : SearchMovieUseCase {
 
-    var searchMovieCallCount = 0
+    var callCount = 0
     var lastQuery = ""
     var result: Result<List<MovieItem>> =
         Result.success(
             listOf(MovieItem.DEFAULT1),
         )
 
-    override fun searchMovie(query: String): Flow<Result<List<MovieItem>>> {
-        searchMovieCallCount++
+    override fun searchMovie(query: String): Flow<Result<List<MovieItem>>> = flow {
+        callCount++
         lastQuery = query
 
-        return flowOf(result)
+        delay(100)
+        emit(result)
     }
 
     override fun autoComplete(query: String): Flow<Result<List<MovieItem>>> {
         return flowOf(result)
-    }
-
-    override suspend fun setMovieAsRecentlySearched(
-        movie: MovieItemModel,
-        recentlySearched: Boolean,
-    ) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>> {
-        TODO("Not yet implemented")
     }
 }

@@ -14,15 +14,29 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.search
+package com.smmousavi.i_core.testing.usecase
 
+import com.smmousavi.domain.usecase.search.SearchMovieUseCase
+import com.smmousavi.domain.usecase.search.recent.RecentSearchesUseCase
 import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
-interface SearchMovieUseCase {
+class FakeRecentSearchUseCase : RecentSearchesUseCase {
 
-    fun searchMovie(query: String): Flow<Result<List<MovieItem>>>
+    val result = MutableSharedFlow<List<MovieItemModel>>()
 
-    fun autoComplete(query: String): Flow<Result<List<MovieItem>>>
+    override suspend fun setMovieAsRecentlySearched(
+        movie: MovieItemModel,
+        recentlySearched: Boolean,
+    ) {
+    }
+
+    override fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>> {
+        return result
+    }
 }

@@ -16,6 +16,9 @@
 
 package com.smmousavi.i_core.model.movies
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class MovieItem(
     val id: String,
     val averageRating: Double,
@@ -251,11 +254,13 @@ data class MovieItem(
     }
 }
 
+@Immutable
 data class ProductionCompanyModel(
     val id: String,
     val name: String,
 )
 
+@Immutable
 data class ThumbnailModel(
     val height: Int,
     val url: String,

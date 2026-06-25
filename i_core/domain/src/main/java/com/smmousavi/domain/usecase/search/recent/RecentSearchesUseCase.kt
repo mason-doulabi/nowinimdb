@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.model.movies.generalinfo
+package com.smmousavi.domain.usecase.search.recent
 
-import androidx.compose.runtime.Immutable
+import com.smmousavi.i_core.model.movies.MovieItemModel
+import kotlinx.coroutines.flow.Flow
 
-@Immutable
-data class MoviesGeneralInfoModel(
-    val genres: List<String>?,
-    val types: List<String>?,
-    val languages: List<MoviesLanguageItemModel>?,
-    val countries: List<MoviesCountryItemModel>?,
-)
+interface RecentSearchesUseCase {
+    suspend fun setMovieAsRecentlySearched(movie: MovieItemModel, recentlySearched: Boolean)
+
+    fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>>
+}

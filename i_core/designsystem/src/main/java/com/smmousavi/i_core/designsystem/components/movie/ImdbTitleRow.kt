@@ -40,7 +40,7 @@ import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 
 @Composable
-fun ImdbMovieTitleRow(
+fun ImdbTitleRow(
     modifier: Modifier = Modifier,
     data: MovieItemModel,
     onDeleteClick: (() -> Unit)? = null,
@@ -94,8 +94,8 @@ fun ImdbMovieTitleRow(
 
 @Composable
 @Preview(showBackground = true)
-fun ImdbMovieTitleRowPreview() {
-    ImdbMovieTitleRow(data = MovieItem.DEFAULT1.toModel(), onDeleteClick = {}) {}
+fun ImdbTitleRowPreview() {
+    ImdbTitleRow(data = MovieItem.DEFAULT1.toModel(), onDeleteClick = {}) {}
 }
 
 

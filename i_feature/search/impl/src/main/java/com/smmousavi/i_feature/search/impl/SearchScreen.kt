@@ -16,16 +16,18 @@
 
 package com.smmousavi.i_feature.search.impl
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -57,15 +59,12 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadingWheel
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.NiaIcons
-import com.smmousavi.i_core.designsystem.components.movie.ImdbMovieRow
-import com.smmousavi.i_core.designsystem.components.movie.ImdbMovieTitleRow
-import com.smmousavi.i_core.designsystem.layouts.movie.MoviesDetailedLazyColumn
+import com.smmousavi.i_core.designsystem.components.movie.ImdbDetailsRow
+import com.smmousavi.i_core.designsystem.components.movie.ImdbTitleRow
 import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 import com.smmousavi.i_core.presentation.UiState
-
-private const val TAG = "SearchScreen"
 
 @Composable
 fun SearchScreen(
@@ -74,18 +73,18 @@ fun SearchScreen(
 ) {
     val searchMoviesState by searchScreenViewModel.searchMovieState.collectAsStateWithLifecycle()
     val autoCompleteState by searchScreenViewModel.autoCompleteState.collectAsStateWithLifecycle()
-    val recentlySearchedMovies by searchScreenViewModel.recentlySearchedMoviesState.collectAsStateWithLifecycle()
     val searchQuery by searchScreenViewModel.searchQueryState.collectAsStateWithLifecycle()
+    val recentSearches by searchScreenViewModel.recentSearchesState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        searchScreenViewModel.getRecentlySearchedMovies()
+        searchScreenViewModel.recentlySearchedMovies()
     }
 
     SearchScreenContent(
         modifier = modifier,
         searchMoviesState = searchMoviesState,
         autoCompleteState = autoCompleteState,
-        recentlySearchedMovies = recentlySearchedMovies,
+        recentSearches = recentSearches,
         query = searchQuery,
         onRecentlySearched = { movie, recentlySearched ->
             searchScreenViewModel.setMovieAsRecentlySearched(movie, recentlySearched)
@@ -100,7 +99,7 @@ fun SearchScreenContent(
     modifier: Modifier = Modifier,
     searchMoviesState: UiState<List<MovieItemModel>>,
     autoCompleteState: UiState<List<MovieItemModel>>,
-    recentlySearchedMovies: List<MovieItemModel>,
+    recentSearches: List<MovieItemModel>,
     query: String,
     onRecentlySearched: (MovieItemModel, Boolean) -> Unit,
     onQueryChange: (String) -> Unit,
@@ -135,11 +134,10 @@ fun SearchScreenContent(
                 is UiState.Error -> {}
 
                 UiState.Idle -> {
-                    if (recentlySearchedMovies.isNotEmpty()) {
-                        Log.d(TAG, "recentlySearchedMovies: ${recentlySearchedMovies.size}")
+                    if (recentSearches.isNotEmpty()) {
                         AutoCompleteSuggestions(
                             modifier = Modifier.padding(top = 4.dp),
-                            data = recentlySearchedMovies,
+                            data = recentSearches,
                             onDeleteSuggestionClick = { item -> onRecentlySearched(item, false) },
                         ) { item ->
                             onQueryChange(item.title)
@@ -266,14 +264,22 @@ fun AutoCompleteSuggestions(
     onDeleteSuggestionClick: ((MovieItemModel) -> Unit)?,
     onSuggestionClick: (MovieItemModel) -> Unit,
 ) {
-    MoviesDetailedLazyColumn (
+    LazyColumn(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        items = data,
-    ) { item ->
-        ImdbMovieTitleRow(data = item, onDeleteClick = { onDeleteSuggestionClick?.invoke(item) }) {
-            onSuggestionClick(item)
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        items(
+            items = data,
+            key = { it.id },
+        ) { item ->
+            ImdbTitleRow(
+                data = item,
+                onDeleteClick = { onDeleteSuggestionClick?.invoke(item) },
+            ) {
+                onSuggestionClick(item)
+            }
         }
     }
 }
@@ -284,12 +290,19 @@ fun SearchResult(
     data: List<MovieItemModel>,
     onResultClick: (MovieItemModel) -> Unit,
 ) {
-    MoviesDetailedLazyColumn(
-        modifier = modifier.padding(horizontal = 8.dp),
-        items = data,
-    ) { item ->
-        ImdbMovieRow(data = item) {
-            onResultClick(item)
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(
+            items = data,
+            key = { it.id },
+        ) { item ->
+            ImdbDetailsRow(data = item) {
+                onResultClick(item)
+            }
         }
     }
 }
@@ -310,7 +323,7 @@ fun SearchScreenPreview() {
                 MovieItem.DEFAULT3.toModel(),
             ),
         ),
-        recentlySearchedMovies = listOf(
+        recentSearches = listOf(
             MovieItem.DEFAULT2.toModel(),
             MovieItem.DEFAULT3.toModel(),
         ),

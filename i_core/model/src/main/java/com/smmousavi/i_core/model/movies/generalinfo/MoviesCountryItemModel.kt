@@ -16,6 +16,9 @@
 
 package com.smmousavi.i_core.model.movies.generalinfo
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class MoviesCountryItemModel(
     val name: String,
     val label: String,

@@ -16,7 +16,6 @@
 
 package com.smmousavi.domain.usecase.di
 
-import com.smmousavi.domain.repository.SearchMovieRepository
 import com.smmousavi.domain.usecase.generalinfo.DefaultMoviesGeneralInfoUseCase
 import com.smmousavi.domain.usecase.generalinfo.MoviesGeneralInfoUseCase
 import com.smmousavi.domain.usecase.movies.favorite.DefaultFavoriteMoviesUseCase
@@ -25,6 +24,8 @@ import com.smmousavi.domain.usecase.movies.top250.DefaultTop250MoviesUseCase
 import com.smmousavi.domain.usecase.movies.top250.Top250MoviesUseCase
 import com.smmousavi.domain.usecase.search.DefaultSearchMovieUseCase
 import com.smmousavi.domain.usecase.search.SearchMovieUseCase
+import com.smmousavi.domain.usecase.search.recent.DefaultRecentSearchesUseCase
+import com.smmousavi.domain.usecase.search.recent.RecentSearchesUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -53,4 +54,9 @@ abstract class UseCaseModule {
     abstract fun bindsSearchMoviesUseCase(
         useCase: DefaultSearchMovieUseCase,
     ): SearchMovieUseCase
+
+    @Binds
+    abstract fun bindsRecentSearchesUseCase(
+        useCase: DefaultRecentSearchesUseCase,
+    ): RecentSearchesUseCase
 }

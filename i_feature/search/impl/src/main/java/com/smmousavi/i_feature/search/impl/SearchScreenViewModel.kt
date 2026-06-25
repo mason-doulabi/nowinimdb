@@ -19,6 +19,7 @@ package com.smmousavi.i_feature.search.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.search.SearchMovieUseCase
+import com.smmousavi.domain.usecase.search.recent.RecentSearchesUseCase
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
 import com.smmousavi.i_core.presentation.UiState
@@ -41,13 +42,14 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
     val searchMovieUseCase: SearchMovieUseCase,
+    val recentSearchesUseCase: RecentSearchesUseCase,
 ) : ViewModel() {
 
     private val _searchQueryState = MutableStateFlow("")
     val searchQueryState = _searchQueryState.asStateFlow()
 
-    private val _recentlySearchedMoviesState = MutableStateFlow<List<MovieItemModel>>(emptyList())
-    val recentlySearchedMoviesState = _recentlySearchedMoviesState.asStateFlow()
+    private val _recentSearchesState = MutableStateFlow<List<MovieItemModel>>(emptyList())
+    val recentSearchesState = _recentSearchesState.asStateFlow()
 
     fun onQueryChange(query: String) {
         _searchQueryState.value = query
@@ -55,9 +57,9 @@ class SearchScreenViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     val searchMovieState = _searchQueryState
-        .debounce(300)
-        .distinctUntilChanged()
-        .flatMapLatest { query ->
+        .debounce(300) // prevent successive requests to server
+        .distinctUntilChanged() // avoid making repetitive requests
+        .flatMapLatest { query -> // cancel all the previous request and takes only the last one
             if (query.isBlank()) {
                 flowOf(UiState.Idle)
             } else {
@@ -72,23 +74,25 @@ class SearchScreenViewModel @Inject constructor(
                             },
                         )
                     }
-                    .onStart { emit(UiState.Loading) }
-                    .catch { e ->
+                    .onStart { emit(UiState.Loading) } // on flow starts emitting
+                    .catch { e -> // catch any errors on any emits
                         emit(UiState.Error(e.message, e))
                     }
             }
         }
+        // convert cold flow to hot flow(Flow to StateFlow), otherwise,
+        // every new collect would start the whole pipeline again
         .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = UiState.Idle,
+            scope = viewModelScope, // binding to the lifecycle of the viewModel
+            started = SharingStarted.WhileSubscribed(5000), // Keep upstream alive for 5 seconds after last subscriber disappears.
+            initialValue = UiState.Idle, // every StateFlow should have an initial value
         )
 
     @OptIn(FlowPreview::class)
     val autoCompleteState = _searchQueryState
-        .debounce(300) // prevents successive requests to server
-        .distinctUntilChanged() // avoids requesting repetitive requests
-        .flatMapLatest { query -> // cancels previous request and takes only one last request
+        .debounce(300)
+        .distinctUntilChanged()
+        .flatMapLatest { query ->
             if (query.length < 2) {
                 flowOf(UiState.Idle)
             } else {
@@ -107,34 +111,31 @@ class SearchScreenViewModel @Inject constructor(
                             },
                         )
                     }
-                    .onStart { emit(UiState.Loading) } // before doing any emits
-                    .catch { e -> // catch any errors on any emits
+                    .onStart { emit(UiState.Loading) }
+                    .catch { e ->
                         emit(
-                            UiState.Error(
-                                e.message,
-                                e,
-                            ),
+                            UiState.Error(e.message, e),
                         )
                     }
             }
         }
-        // converts cold flow to hot flow(Flow to StateFlow), otherwise, every new collect would start the whole pipeline again
+
         .stateIn(
-            scope = viewModelScope, // binding to the lifecycle of the viewModel
-            started = SharingStarted.WhileSubscribed(5000), // Keep upstream alive for 5 seconds after last subscriber disappears.
-            initialValue = UiState.Idle, // every StateFlow should have an initial value
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = UiState.Idle,
         )
 
     fun setMovieAsRecentlySearched(movie: MovieItemModel, recentlySearched: Boolean) {
         viewModelScope.launch {
-            searchMovieUseCase.setMovieAsRecentlySearched(movie, recentlySearched)
+            recentSearchesUseCase.setMovieAsRecentlySearched(movie, recentlySearched)
         }
     }
 
-    fun getRecentlySearchedMovies() {
+    fun recentlySearchedMovies() {
         viewModelScope.launch {
-            searchMovieUseCase.getRecentlySearchedMovies().collect { data ->
-                _recentlySearchedMoviesState.value = data
+            recentSearchesUseCase.getRecentlySearchedMovies().collect { data ->
+                _recentSearchesState.value = data
             }
         }
     }
