@@ -22,7 +22,7 @@ import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.presentation.UiState
 import com.smmousavi.i_core.testing.usecase.FakeRecentSearchUseCase
-import com.smmousavi.i_core.testing.usecase.FakeSearchMovieControllableUseCase
+import com.smmousavi.i_core.testing.usecase.FakeSearchMovieSharedUseCase
 import com.smmousavi.i_core.testing.usecase.FakeSearchMovieUseCase
 import com.smmousavi.i_feature.search.impl.SearchScreenViewModel
 import kotlinx.coroutines.Dispatchers
@@ -161,7 +161,7 @@ class SearchScreenViewModelTest {
 
     @Test
     fun search_uses_only_latest_query_with_flatMapLatest() = runTest {
-        val searchUseCase = FakeSearchMovieControllableUseCase()
+        val searchUseCase = FakeSearchMovieSharedUseCase()
         val recentUseCase = FakeRecentSearchUseCase()
         val viewModel = SearchScreenViewModel(
             searchMovieUseCase = searchUseCase,
@@ -182,11 +182,7 @@ class SearchScreenViewModelTest {
 
             assertIs<UiState.Loading>(awaitItem())
 
-            searchUseCase.emit(
-                Result.success(
-                    listOf(MovieItem.DEFAULT1),
-                ),
-            )
+            searchUseCase.emitSuccess(listOf(MovieItem.DEFAULT1))
             runCurrent()
 
             val success = awaitItem()

@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flowOf
 
-class FakeSearchMovieControllableUseCase : SearchMovieUseCase {
+class FakeSearchMovieSharedUseCase : SearchMovieUseCase {
 
     var callCount = 0
     var lastQuery = ""
@@ -38,7 +38,11 @@ class FakeSearchMovieControllableUseCase : SearchMovieUseCase {
         return flowOf(Result.success(emptyList()))
     }
 
-    suspend fun emit(result: Result<List<MovieItem>>) {
-        flowController.emit(result)
+    suspend fun emitSuccess(movies: List<MovieItem>) {
+        return flowController.emit(Result.success(movies))
+    }
+
+    suspend fun emitFailure(throwable: Throwable) {
+        return flowController.emit(Result.failure(throwable))
     }
 }
