@@ -1,6 +1,7 @@
 
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
+    alias(libs.plugins.nowinandroid.android.library.compose)
     alias(libs.plugins.nowinandroid.hilt)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
@@ -12,9 +13,10 @@ android {
 }
 
 dependencies {
-    api(libs.androidx.navigation3.runtime)
+    implementation(projects.iCore.designsystem)
+
+    api(libs.androidx.navigation.compose)
     implementation(libs.androidx.savedstate.compose)
-    implementation(libs.androidx.lifecycle.viewModel.navigation3)
 
     testImplementation(libs.truth)
 
