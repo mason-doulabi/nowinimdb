@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.designsystem.layouts.movie
+package com.smmousavi.i_core.designsystem.layouts
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
-import com.smmousavi.i_core.designsystem.components.movie.ImdbMovieCard
+import com.smmousavi.i_core.designsystem.components.ImdbMovieCard
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.MovieItem
 import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel

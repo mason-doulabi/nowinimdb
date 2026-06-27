@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.designsystem.components.movie
+package com.smmousavi.i_core.designsystem.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons

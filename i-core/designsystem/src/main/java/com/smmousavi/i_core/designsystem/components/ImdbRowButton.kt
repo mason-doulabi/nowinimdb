@@ -14,22 +14,40 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_feature.profile.impl
+package com.smmousavi.i_core.designsystem.components
 
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProfilScreen(
+fun ImdbRowButton(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    content: @Composable RowScope.() -> Unit,
 ) {
-
+    Button(
+        modifier = modifier
+            .padding(horizontal = 8.dp)
+            .fillMaxWidth(),
+        onClick = onClick,
+        shape = RoundedCornerShape(4.dp),
+    ) {
+        content()
+    }
 }
 
 @Composable
-@Preview(showBackground = true)
-fun ProfileScreenPreview() {
-    ProfilScreen()
+@Preview
+fun ImdbRowButtonPreview() {
+    ImdbRowButton(onClick = {}) {
+        Text(text = "Sign In / Sign Up")
+    }
 }
-

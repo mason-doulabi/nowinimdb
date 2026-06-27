@@ -16,8 +16,6 @@
 
 package com.smmousavi.i_feature.movies.impl
 
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,7 +30,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,12 +42,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadingWheel
-import com.smmousavi.i_core.designsystem.components.movie.ImdbFilterChip
-import com.smmousavi.i_core.designsystem.components.movie.ImdbMovieCard
+import com.smmousavi.i_core.designsystem.components.ImdbFilterChip
+import com.smmousavi.i_core.designsystem.components.ImdbMovieCard
 import com.smmousavi.i_core.model.movies.MovieItemModel
 import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
 import com.smmousavi.i_core.presentation.UiState
-import com.smmousavi.i_core.designsystem.layouts.movie.MoviesTitledLazyRow
+import com.smmousavi.i_core.designsystem.layouts.MoviesTitledLazyRow
 
 @Composable
 fun MoviesScreen(
