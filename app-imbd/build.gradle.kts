@@ -42,6 +42,7 @@ dependencies {
     implementation(projects.iCore.data)
     implementation(projects.iCore.database)
     implementation(projects.iCore.designsystem)
+    implementation(projects.iCore.navigation)
     implementation(projects.iCore.domain)
     implementation(projects.iCore.model)
     implementation(projects.iCore.navigation)
@@ -53,6 +54,11 @@ dependencies {
 
     implementation(projects.iFeature.search.api)
     implementation(projects.iFeature.search.impl)
+
+    implementation(projects.iFeature.profile.api)
+    implementation(projects.iFeature.profile.impl)
+
+    implementation(projects.iFeature.details)
 }
 
 dependencyGuard {
