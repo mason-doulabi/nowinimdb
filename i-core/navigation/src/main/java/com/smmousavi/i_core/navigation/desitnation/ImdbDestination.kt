@@ -21,15 +21,23 @@ sealed class ImdbDestination(val route: String) {
     data object Movies : ImdbDestination(route = "movies")
     data object Search : ImdbDestination(route = "search")
     data object Profile : ImdbDestination(route = "profile")
+
+    data object MovieDetails : ImdbDestination(route = "movie_details/{movieId}") {
+        const val ARG_MOVIE_ID = "movieId"
+
+        fun createRoute(movieId: String) = "movie_details/$movieId"
+    }
+
     data object Login : ImdbDestination(route = "login")
 
     companion object {
         fun fromRoute(route: String?): ImdbDestination =
-            when (route) {
-                Movies.route -> Movies
-                Search.route -> Search
-                Profile.route -> Profile
-                Login.route -> Login
+            when {
+                route == Movies.route -> Movies
+                route == Search.route -> Search
+                route == Profile.route -> Profile
+                route == Login.route -> Login
+                route?.startsWith("movie_details") == true -> MovieDetails
                 else -> Movies
             }
     }

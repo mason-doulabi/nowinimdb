@@ -16,10 +16,14 @@
 
 package com.smmousavi.domain.usecase.generalinfo
 
-import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
+import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieCountry
+import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieLanguage
 import kotlinx.coroutines.flow.Flow
 
 interface MoviesGeneralInfoUseCase {
 
-    suspend operator fun invoke(): Flow<MoviesGeneralInfoModel>
+    suspend fun getGenres(): Flow<Result<List<String>>>
+    suspend fun getTypes(): Flow<Result<List<String>>>
+    suspend fun getCountries(): Flow<Result<List<MovieCountry>>>
+    suspend fun getLanguages(): Flow<Result<List<MovieLanguage>>>
 }

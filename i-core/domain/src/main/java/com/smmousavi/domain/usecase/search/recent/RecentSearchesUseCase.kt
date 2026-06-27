@@ -16,11 +16,11 @@
 
 package com.smmousavi.domain.usecase.search.recent
 
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 
 interface RecentSearchesUseCase {
-    suspend fun setMovieAsRecentlySearched(movie: MovieItemModel, recentlySearched: Boolean)
+    suspend fun setMovieAsRecentlySearched(movie: MovieModel, recentlySearched: Boolean)
 
-    fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>>
+    fun getRecentlySearchedMovies(): Flow<List<MovieModel>>
 }

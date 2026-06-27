@@ -16,17 +16,31 @@
 
 package com.smmousavi.domain.repository
 
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.movie.MovieCast
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.movie.MoviePoster
 import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
 
-    fun fetchTop250(): Flow<Result<List<MovieItem>>>
+    fun fetchTop250Movies(): Flow<Result<List<Movie>>>
 
-    fun getTop250(): Flow<Result<List<MovieItemModel>>>
+    fun fetchMostPopularMovies(): Flow<Result<List<Movie>>>
 
-    suspend fun upsertMovie(movie: MovieItemModel)
+    fun getTop250Movies(): Flow<Result<List<MovieModel>>>
 
-    fun getFavoriteMovies(): Flow<List<MovieItemModel>>
+    fun getMostPopularMovies(): Flow<Result<List<MovieModel>>>
+
+    fun fetchMovieDetailsById(id: String): Flow<Result<Movie>>
+
+    fun getMovieDetailsById(id: String): Flow<Result<MovieModel>>
+
+    fun getMovieCastsById(id: String): Flow<Result<List<MovieCast>>>
+
+    fun getMoviePosterById(id: String): Flow<Result<MoviePoster>>
+
+    suspend fun upsertMovie(movie: MovieModel)
+
+    fun getFavoriteMovies(): Flow<List<MovieModel>>
 }

@@ -16,8 +16,8 @@
 
 package com.smmousavi.domain.repository
 
-import com.smmousavi.i_core.model.movies.generalinfo.MoviesCountryItemModel
-import com.smmousavi.i_core.model.movies.generalinfo.MoviesLanguageItemModel
+import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieCountry
+import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieLanguage
 import kotlinx.coroutines.flow.Flow
 
 interface MoviesGeneralInfoRepository {
@@ -26,7 +26,7 @@ interface MoviesGeneralInfoRepository {
 
     fun getGenres(): Flow<Result<List<String>>>
 
-    fun getCountries(): Flow<Result<List<MoviesCountryItemModel>>>
+    fun getCountries(): Flow<Result<List<MovieCountry>>>
 
-    fun getLanguages(): Flow<Result<List<MoviesLanguageItemModel>>>
+    fun getLanguages(): Flow<Result<List<MovieLanguage>>>
 }

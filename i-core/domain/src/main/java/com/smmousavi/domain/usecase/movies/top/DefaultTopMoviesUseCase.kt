@@ -14,11 +14,22 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.movies.top250
+package com.smmousavi.domain.usecase.movies.top
 
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.domain.repository.MoviesRepository
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-interface Top250MoviesUseCase {
-    suspend operator fun invoke(): Flow<Result<List<MovieItemModel>>>
+class DefaultTopMoviesUseCase @Inject constructor(
+    val repository: MoviesRepository,
+) : TopMoviesUseCase {
+
+    override suspend fun top250Movies(): Flow<Result<List<MovieModel>>> {
+        return repository.getTop250Movies()
+    }
+
+    override suspend fun mostPopularMovies(): Flow<Result<List<MovieModel>>> {
+        return repository.getMostPopularMovies()
+    }
 }

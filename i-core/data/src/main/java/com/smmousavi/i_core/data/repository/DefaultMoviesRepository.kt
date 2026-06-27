@@ -18,12 +18,14 @@ package com.smmousavi.i_core.data.repository
 import com.smmousavi.domain.repository.MoviesRepository
 import com.smmousavi.i_core.data.datasource.movies.local.MoviesLocalDataSource
 import com.smmousavi.i_core.data.datasource.movies.remote.MoviesRemoteDataSource
-import com.smmousavi.i_core.data.mapper.dto.MoviesDtoMapper.toDomain
+import com.smmousavi.i_core.data.mapper.dto.MovieDtoMapper.toDomain
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toEntity
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toModel
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
+import com.smmousavi.i_core.model.movies.movie.MovieCast
+import com.smmousavi.i_core.model.movies.movie.MoviePoster
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
@@ -35,15 +37,24 @@ class DefaultMoviesRepository @Inject constructor(
     val moviesLocalDataSource: MoviesLocalDataSource,
 ) : MoviesRepository {
 
-    override fun fetchTop250(): Flow<Result<List<MovieItem>>> = flow {
+    override fun fetchTop250Movies(): Flow<Result<List<Movie>>> = flow {
         emit(
-            moviesRemoteDataSource.getTop250()
-                .map { movies -> movies.map { it.toDomain() } },
+            moviesRemoteDataSource.fetchTop250Movies().map { movies ->
+                movies.map { it.toDomain() }
+            },
         )
     }
 
-    override fun getTop250(): Flow<Result<List<MovieItemModel>>> = combine(
-        fetchTop250(),
+    override fun fetchMostPopularMovies(): Flow<Result<List<Movie>>> = flow {
+        emit(
+            moviesRemoteDataSource.fetchMostPopularMovies().map { movies ->
+                movies.map { it.toDomain() }
+            },
+        )
+    }
+
+    override fun getTop250Movies(): Flow<Result<List<MovieModel>>> = combine(
+        fetchTop250Movies(),
         moviesLocalDataSource.getFavoriteMovies(),
     ) { moviesResult, favorites ->
         moviesResult.fold(
@@ -61,11 +72,67 @@ class DefaultMoviesRepository @Inject constructor(
         )
     }
 
-    override suspend fun upsertMovie(movie: MovieItemModel) {
+    override fun getMostPopularMovies(): Flow<Result<List<MovieModel>>> = combine(
+        fetchMostPopularMovies(),
+        moviesLocalDataSource.getFavoriteMovies(),
+    ) { popularMovies, favorites ->
+        popularMovies.fold(
+            onSuccess = { movies ->
+                val favoriteIds = favorites.map { it.id }.toHashSet()
+                Result.success(
+                    movies.map { movie ->
+                        movie.toModel(favorite = movie.id in favoriteIds)
+                    },
+                )
+            },
+            onFailure = { Result.failure(it) },
+        )
+    }
+
+    override fun fetchMovieDetailsById(id: String): Flow<Result<Movie>> = flow {
+        emit(
+            moviesRemoteDataSource.fetchMovieDetailsById(id).map { it.toDomain() },
+        )
+    }
+
+    override fun getMovieDetailsById(id: String): Flow<Result<MovieModel>> = combine(
+        fetchMovieDetailsById(id),
+        moviesLocalDataSource.getFavoriteMovies(),
+    ) { movie, favorites ->
+        val favoritesId = favorites.map { it.id }.toHashSet()
+        movie.fold(
+            onSuccess = { movie ->
+                Result.success(movie.toModel(favorite = movie.id in favoritesId))
+            },
+            onFailure = { Result.failure(it) },
+        )
+    }
+
+    override fun getMovieCastsById(id: String): Flow<Result<List<MovieCast>>> = flow {
+        emit(
+            moviesRemoteDataSource.fetchMovieCastsById(id).fold(
+                onSuccess = { casts ->
+                    Result.success(casts.map { it.toDomain() })
+                },
+                onFailure = { Result.failure(it) },
+            ),
+        )
+    }
+
+    override fun getMoviePosterById(id: String): Flow<Result<MoviePoster>> = flow {
+        emit(
+            moviesRemoteDataSource.fetchMoviePosterById(id).fold(
+                onSuccess = { poster -> Result.success(poster.toDomain()) },
+                onFailure = { Result.failure(it) },
+            ),
+        )
+    }
+
+    override suspend fun upsertMovie(movie: MovieModel) {
         moviesLocalDataSource.upsertMovie(movie.toEntity())
     }
 
-    override fun getFavoriteMovies(): Flow<List<MovieItemModel>> =
+    override fun getFavoriteMovies(): Flow<List<MovieModel>> =
         moviesLocalDataSource.getFavoriteMovies().map { movies ->
             movies.map { it.toModel() }
         }

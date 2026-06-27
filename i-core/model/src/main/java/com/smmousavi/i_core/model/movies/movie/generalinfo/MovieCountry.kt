@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.model.movies.generalinfo
+package com.smmousavi.i_core.model.movies.movie.generalinfo
 
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class MoviesGeneralInfoModel(
-    val genres: List<String>?,
-    val types: List<String>?,
-    val languages: List<MoviesLanguageItemModel>?,
-    val countries: List<MoviesCountryItemModel>?,
+data class MovieCountry(
+    val name: String,
+    val label: String,
 )

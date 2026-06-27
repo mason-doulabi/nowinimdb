@@ -17,26 +17,28 @@
 package com.smmousavi.domain.usecase.generalinfo
 
 import com.smmousavi.domain.repository.MoviesGeneralInfoRepository
-import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
+import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieCountry
+import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieLanguage
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class DefaultMoviesGeneralInfoUseCase @Inject constructor(
-    private val moviesGeneralInfoRepository: MoviesGeneralInfoRepository,
+    private val generalInfoRepository: MoviesGeneralInfoRepository,
 ) : MoviesGeneralInfoUseCase {
 
-    override suspend fun invoke(): Flow<MoviesGeneralInfoModel> = combine(
-        moviesGeneralInfoRepository.getGenres(),
-        moviesGeneralInfoRepository.getTypes(),
-        moviesGeneralInfoRepository.getLanguages(),
-        moviesGeneralInfoRepository.getCountries(),
-    ) { genresResult, typesResult, languagesResult, countriesResult ->
-        MoviesGeneralInfoModel(
-            genresResult.getOrNull(),
-            typesResult.getOrNull(),
-            languagesResult.getOrNull(),
-            countriesResult.getOrNull(),
-        )
+    override suspend fun getGenres(): Flow<Result<List<String>>> {
+        return generalInfoRepository.getGenres()
+    }
+
+    override suspend fun getTypes(): Flow<Result<List<String>>> {
+        return generalInfoRepository.getTypes()
+    }
+
+    override suspend fun getCountries(): Flow<Result<List<MovieCountry>>> {
+        return generalInfoRepository.getCountries()
+    }
+
+    override suspend fun getLanguages(): Flow<Result<List<MovieLanguage>>> {
+        return generalInfoRepository.getLanguages()
     }
 }

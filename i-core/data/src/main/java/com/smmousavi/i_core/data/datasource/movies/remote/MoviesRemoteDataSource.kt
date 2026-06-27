@@ -16,9 +16,19 @@
 
 package com.smmousavi.i_core.data.datasource.movies.remote
 
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.network.dto.movies.MovieCastDto
+import com.smmousavi.i_core.network.dto.movies.MovieDto
+import com.smmousavi.i_core.network.dto.movies.MoviePosterDto
 
 interface MoviesRemoteDataSource {
 
-    suspend fun getTop250(): Result<List<MovieItemDto>>
+    suspend fun fetchTop250Movies(): Result<List<MovieDto>>
+
+    suspend fun fetchMostPopularMovies(): Result<List<MovieDto>>
+
+    suspend fun fetchMovieDetailsById(id: String): Result<MovieDto>
+
+    suspend fun fetchMovieCastsById(id: String): Result<List<MovieCastDto>>
+
+    suspend fun fetchMoviePosterById(id: String): Result<MoviePosterDto>
 }

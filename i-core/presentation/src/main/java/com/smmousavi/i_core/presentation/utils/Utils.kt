@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.model.movies.generalinfo
+package com.smmousavi.i_core.presentation.utils
 
-import androidx.compose.runtime.Immutable
+fun Int.priceSeparated(): String {
+    val result = StringBuilder()
+    val inputStr = this.toString()
+    var count = 1
 
-@Immutable
-data class MoviesCountryItemModel(
-    val name: String,
-    val label: String,
-)
+    if (inputStr.length < 4) return inputStr
+
+    for (c in inputStr.reversed()) {
+        result.insert(0, c)
+        if (count != inputStr.length && count % 3 == 0) {
+            result.insert(0, ',')
+        }
+        count++
+    }
+
+    return result.toString()
+}

@@ -36,7 +36,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,9 +46,9 @@ import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadi
 import com.smmousavi.i_core.designsystem.components.ImdbDetailsRow
 import com.smmousavi.i_core.designsystem.components.ImdbSearchBar
 import com.smmousavi.i_core.designsystem.components.ImdbTitleRow
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 import com.smmousavi.i_core.presentation.UiState
 
 @Composable
@@ -83,11 +82,11 @@ fun SearchScreen(
 @Composable
 fun SearchScreenContent(
     modifier: Modifier = Modifier,
-    searchMoviesState: UiState<List<MovieItemModel>>,
-    autoCompleteState: UiState<List<MovieItemModel>>,
-    recentSearches: List<MovieItemModel>,
+    searchMoviesState: UiState<List<MovieModel>>,
+    autoCompleteState: UiState<List<MovieModel>>,
+    recentSearches: List<MovieModel>,
     query: String,
-    onRecentlySearched: (MovieItemModel, Boolean) -> Unit,
+    onRecentlySearched: (MovieModel, Boolean) -> Unit,
     onQueryChange: (String) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
@@ -185,9 +184,9 @@ fun SearchScreenContent(
 @Composable
 fun AutoCompleteSuggestions(
     modifier: Modifier = Modifier,
-    data: List<MovieItemModel>,
-    onDeleteSuggestionClick: ((MovieItemModel) -> Unit)?,
-    onSuggestionClick: (MovieItemModel) -> Unit,
+    data: List<MovieModel>,
+    onDeleteSuggestionClick: ((MovieModel) -> Unit)?,
+    onSuggestionClick: (MovieModel) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -196,7 +195,7 @@ fun AutoCompleteSuggestions(
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         items(
-            items = data,
+            items = data.distinctBy { it.id },
             key = { it.id },
         ) { item ->
             ImdbTitleRow(
@@ -212,8 +211,8 @@ fun AutoCompleteSuggestions(
 @Composable
 fun SearchResult(
     modifier: Modifier = Modifier,
-    data: List<MovieItemModel>,
-    onResultClick: (MovieItemModel) -> Unit,
+    data: List<MovieModel>,
+    onResultClick: (MovieModel) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -222,7 +221,7 @@ fun SearchResult(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(
-            items = data,
+            items = data.distinctBy { it.id },
             key = { it.id },
         ) { item ->
             ImdbDetailsRow(data = item) {
@@ -238,19 +237,19 @@ fun SearchScreenPreview() {
     SearchScreenContent(
         searchMoviesState = UiState.Success(
             listOf(
-                MovieItem.DEFAULT1.toModel(),
-                MovieItem.DEFAULT2.toModel(),
-                MovieItem.DEFAULT3.toModel(),
+                Movie.DEFAULT1.toModel(),
+                Movie.DEFAULT2.toModel(),
+                Movie.DEFAULT3.toModel(),
             ),
         ),
         autoCompleteState = UiState.Success(
             listOf(
-                MovieItem.DEFAULT3.toModel(),
+                Movie.DEFAULT3.toModel(),
             ),
         ),
         recentSearches = listOf(
-            MovieItem.DEFAULT2.toModel(),
-            MovieItem.DEFAULT3.toModel(),
+            Movie.DEFAULT2.toModel(),
+            Movie.DEFAULT3.toModel(),
         ),
         query = "The Sha",
         onRecentlySearched = { _, _ -> },

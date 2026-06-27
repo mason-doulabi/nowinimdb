@@ -45,17 +45,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 
 @Composable
 fun ImdbMovieCard(
     modifier: Modifier = Modifier,
-    data: MovieItemModel,
+    data: MovieModel,
     favorite: Boolean,
-    onFavoriteClick: (MovieItemModel) -> Unit,
-    onClick: (MovieItemModel) -> Unit,
+    onFavoriteClick: (MovieModel) -> Unit,
+    onClick: (MovieModel) -> Unit,
 ) {
     Card(
         modifier = modifier
@@ -73,7 +73,7 @@ fun ImdbMovieCard(
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(
-                            data.thumbnailsUrl.let {
+                            data.thumbnails.let {
                                 if (it.isNotEmpty()) {
                                     it[0]
                                 } else {
@@ -107,7 +107,11 @@ fun ImdbMovieCard(
             }
 
             Row(
-                modifier = Modifier.padding(4.dp),
+                modifier = Modifier
+                    .padding(
+                        horizontal = 8.dp,
+                        vertical = 4.dp,
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
@@ -126,7 +130,7 @@ fun ImdbMovieCard(
             }
 
             Text(
-                modifier = Modifier.padding(4.dp),
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                 text = data.title,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -139,7 +143,7 @@ fun ImdbMovieCard(
 @Preview(showBackground = true)
 fun ImdbMovieCardPreview() {
     ImdbMovieCard(
-        data = MovieItem.DEFAULT1.toModel(),
+        data = Movie.DEFAULT1.toModel(),
         favorite = false,
         onClick = {},
         onFavoriteClick = {},

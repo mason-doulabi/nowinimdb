@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.network.dto.movies
+package com.smmousavi.domain.usecase.movies.details
 
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.Serializable
+import com.smmousavi.i_core.model.movies.movie.MovieCast
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.movie.MoviePoster
+import kotlinx.coroutines.flow.Flow
 
-@Serializable
-@InternalSerializationApi
-data class SearchMovieItemDto(
-    val nextCursorMark: String,
-    val numFound: Int,
-    val results: List<MovieItemDto>,
-    val rows: Int,
-)
+interface MovieDetailsUseCase {
+    suspend fun getMovieDetailsById(id: String): Flow<Result<MovieModel>>
+
+    suspend fun getMovieCastsById(id: String): Flow<Result<List<MovieCast>>>
+
+    suspend fun getMoviePosterById(id: String): Flow<Result<MoviePoster>>
+}

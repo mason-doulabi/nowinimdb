@@ -30,33 +30,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
 import com.smmousavi.i_core.designsystem.components.ImdbMovieCard
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 
 @Composable
-fun MoviesTitledLazyRow(
+fun <T> MoviesTitledLazyRow(
     modifier: Modifier = Modifier,
     title: String? = null,
-    items: List<MovieItemModel>,
-    rowItem: @Composable (MovieItemModel) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+    items: List<T>,
+    key: (T) -> Any,
+    rowItem: @Composable (T) -> Unit,
 ) {
     Column(modifier = modifier) {
         title?.let {
             Text(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(contentPadding),
                 text = it,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.tertiary,
             )
         }
         LazyRow(
-            contentPadding = PaddingValues(16.dp),
+            contentPadding = contentPadding,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(
                 items = items,
-                key = { it.id },
+                key = { item -> key(item) },
             ) { item ->
                 rowItem(item)
             }
@@ -71,10 +72,11 @@ fun MoviesTitledRowPreview() {
         MoviesTitledLazyRow(
             title = "Top 250 Movies",
             items = listOf(
-                MovieItem.DEFAULT1.toModel(),
-                MovieItem.DEFAULT2.toModel(),
-                MovieItem.DEFAULT3.toModel(),
+                Movie.DEFAULT1.toModel(),
+                Movie.DEFAULT2.toModel(),
+                Movie.DEFAULT3.toModel(),
             ),
+            key = { it.id },
         ) { item ->
             ImdbMovieCard(
                 data = item,

@@ -20,8 +20,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.search.SearchMovieUseCase
 import com.smmousavi.domain.usecase.search.recent.RecentSearchesUseCase
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 import com.smmousavi.i_core.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -48,7 +48,7 @@ class SearchScreenViewModel @Inject constructor(
     private val _searchQueryState = MutableStateFlow("")
     val searchQueryState = _searchQueryState.asStateFlow()
 
-    private val _recentSearchesState = MutableStateFlow<List<MovieItemModel>>(emptyList())
+    private val _recentSearchesState = MutableStateFlow<List<MovieModel>>(emptyList())
     val recentSearchesState = _recentSearchesState.asStateFlow()
 
     fun onQueryChange(query: String) {
@@ -126,7 +126,7 @@ class SearchScreenViewModel @Inject constructor(
             initialValue = UiState.Idle,
         )
 
-    fun setMovieAsRecentlySearched(movie: MovieItemModel, recentlySearched: Boolean) {
+    fun setMovieAsRecentlySearched(movie: MovieModel, recentlySearched: Boolean) {
         viewModelScope.launch {
             recentSearchesUseCase.setMovieAsRecentlySearched(movie, recentlySearched)
         }

@@ -16,7 +16,9 @@
 
 package com.smmousavi.i_core.data.datasource.movies.remote
 
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.network.dto.movies.MovieCastDto
+import com.smmousavi.i_core.network.dto.movies.MovieDto
+import com.smmousavi.i_core.network.dto.movies.MoviePosterDto
 import com.smmousavi.i_core.network.service.MoviesApiService
 import javax.inject.Inject
 
@@ -24,7 +26,23 @@ class DefaultMoviesRemoteDataSource @Inject constructor(
     private val moviesApiService: MoviesApiService,
 ) : MoviesRemoteDataSource {
 
-    override suspend fun getTop250(): Result<List<MovieItemDto>> = runCatching {
-        moviesApiService.getTop250Movies()
+    override suspend fun fetchTop250Movies(): Result<List<MovieDto>> = runCatching {
+        moviesApiService.fetchTop250Movies()
+    }
+
+    override suspend fun fetchMostPopularMovies(): Result<List<MovieDto>> = runCatching {
+        moviesApiService.fetchMostPopularMovies()
+    }
+
+    override suspend fun fetchMovieDetailsById(id: String): Result<MovieDto> = runCatching {
+        moviesApiService.fetchMovieDetailsById(id)
+    }
+
+    override suspend fun fetchMovieCastsById(id: String): Result<List<MovieCastDto>> = runCatching {
+        moviesApiService.fetchMovieCastsById(id)
+    }
+
+    override suspend fun fetchMoviePosterById(id: String): Result<MoviePosterDto> = runCatching {
+        moviesApiService.fetchMoviePosterById(id)
     }
 }

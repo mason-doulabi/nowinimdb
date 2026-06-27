@@ -18,8 +18,8 @@ package com.smmousavi.i_feature.search.impl.viewmodel
 
 import app.cash.turbine.test
 import com.smmousavi.domain.usecase.search.recent.RecentSearchesUseCase
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.presentation.UiState
 import com.smmousavi.i_core.testing.usecase.FakeRecentSearchUseCase
 import com.smmousavi.i_core.testing.usecase.FakeSearchMovieSharedUseCase
@@ -110,7 +110,7 @@ class SearchScreenViewModelTest {
     @Test
     fun search_emits_idle_then_loading_then_success() = runTest {
         // Arrange
-        val emittedStates = mutableListOf<UiState<List<MovieItemModel>>>()
+        val emittedStates = mutableListOf<UiState<List<MovieModel>>>()
         val collector = launch {
             viewModel.searchMovieState
                 .collect {
@@ -148,10 +148,10 @@ class SearchScreenViewModelTest {
 
             val success = awaitItem()
 
-            assertIs<UiState.Success<List<MovieItemModel>>>(success)
+            assertIs<UiState.Success<List<MovieModel>>>(success)
 
             assertEquals(
-                expected = MovieItem.DEFAULT1.originalTitle,
+                expected = Movie.DEFAULT1.originalTitle,
                 actual = success.data.first().title,
             )
 
@@ -182,12 +182,12 @@ class SearchScreenViewModelTest {
 
             assertIs<UiState.Loading>(awaitItem())
 
-            searchUseCase.emitSuccess(listOf(MovieItem.DEFAULT1))
+            searchUseCase.emitSuccess(listOf(Movie.DEFAULT1))
             runCurrent()
 
             val success = awaitItem()
 
-            assertIs<UiState.Success<List<MovieItemModel>>>(success)
+            assertIs<UiState.Success<List<MovieModel>>>(success)
 
             assertEquals(
                 expected = "Dark",
@@ -200,7 +200,7 @@ class SearchScreenViewModelTest {
             )
 
             assertEquals(
-                expected = MovieItem.DEFAULT1.originalTitle,
+                expected = Movie.DEFAULT1.originalTitle,
                 actual = success.data.first().title,
             )
 

@@ -17,7 +17,7 @@
 package com.smmousavi.domain.usecase.movies.favorite
 
 import com.smmousavi.domain.repository.MoviesRepository
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -25,11 +25,11 @@ class DefaultFavoriteMoviesUseCase @Inject constructor(
     private val repository: MoviesRepository,
 ) : FavoriteMoviesUseCase {
 
-    override suspend fun upsertMovie(movie: MovieItemModel) {
+    override suspend fun upsertMovie(movie: MovieModel) {
         repository.upsertMovie(movie)
     }
 
-    override suspend fun getFavoriteMovies(): Flow<List<MovieItemModel>> {
+    override suspend fun getFavoriteMovies(): Flow<List<MovieModel>> {
         return repository.getFavoriteMovies()
     }
 }

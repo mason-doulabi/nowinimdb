@@ -19,11 +19,11 @@ package com.smmousavi.i_core.data.repository
 import com.smmousavi.domain.repository.SearchMovieRepository
 import com.smmousavi.i_core.data.datasource.search.local.SearchMoviesLocalDataSource
 import com.smmousavi.i_core.data.datasource.search.remote.SearchMoviesRemoteDataSource
-import com.smmousavi.i_core.data.mapper.dto.MoviesDtoMapper.toDomain
+import com.smmousavi.i_core.data.mapper.dto.MovieDtoMapper.toDomain
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toEntity
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toModel
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -34,7 +34,7 @@ class DefaultSearchMoviesRepository @Inject constructor(
     private val localDataSource: SearchMoviesLocalDataSource,
 ) : SearchMovieRepository {
 
-    override fun searchMovie(query: String): Flow<Result<List<MovieItem>>> = flow {
+    override fun searchMovie(query: String): Flow<Result<List<Movie>>> = flow {
         emit(
             remoteDataSource.searchMovie(query).fold(
                 onSuccess = { data ->
@@ -48,7 +48,7 @@ class DefaultSearchMoviesRepository @Inject constructor(
         )
     }
 
-    override fun autoComplete(query: String): Flow<Result<List<MovieItem>>> = flow {
+    override fun autoComplete(query: String): Flow<Result<List<Movie>>> = flow {
         emit(
             remoteDataSource.autoComplete(query).fold(
                 onSuccess = { data ->
@@ -62,7 +62,7 @@ class DefaultSearchMoviesRepository @Inject constructor(
     }
 
     override suspend fun setMovieAsRecentlySearched(
-        movie: MovieItemModel,
+        movie: MovieModel,
         recentlySearched: Boolean,
     ) {
         localDataSource.upsertMovieAsRecentlySearched(
@@ -73,7 +73,7 @@ class DefaultSearchMoviesRepository @Inject constructor(
         )
     }
 
-    override fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>> =
+    override fun getRecentlySearchedMovies(): Flow<List<MovieModel>> =
         localDataSource.getRecentlySearchMovies().map { movies ->
             movies.map { it.toModel() }
         }

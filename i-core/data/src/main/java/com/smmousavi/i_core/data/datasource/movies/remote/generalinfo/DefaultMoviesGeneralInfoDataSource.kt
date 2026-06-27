@@ -16,8 +16,8 @@
 
 package com.smmousavi.i_core.data.datasource.movies.remote.generalinfo
 
-import com.smmousavi.i_core.network.dto.movies.MoviesCountryItemDto
-import com.smmousavi.i_core.network.dto.movies.MoviesLanguageItemDto
+import com.smmousavi.i_core.network.dto.movies.MoviesCountryDto
+import com.smmousavi.i_core.network.dto.movies.MoviesLanguageDto
 import com.smmousavi.i_core.network.service.GeneralApiService
 import javax.inject.Inject
 
@@ -26,18 +26,18 @@ class DefaultMoviesGeneralInfoDataSource @Inject constructor(
 ) : MoviesGeneralInfoDataSource {
 
     override suspend fun getTypes(): Result<List<String>> = runCatching {
-        generalApiService.getTypes()
+        generalApiService.fetchTypes()
     }
 
     override suspend fun getGenres(): Result<List<String>> = runCatching {
-        generalApiService.getGenres()
+        generalApiService.fetchGenres()
     }
 
-    override suspend fun getCountries(): Result<List<MoviesCountryItemDto>> = runCatching {
-        generalApiService.getCountries()
+    override suspend fun getCountries(): Result<List<MoviesCountryDto>> = runCatching {
+        generalApiService.fetchCountries()
     }
 
-    override suspend fun getLanguages(): Result<List<MoviesLanguageItemDto>> = runCatching {
-        generalApiService.getLanguages()
+    override suspend fun getLanguages(): Result<List<MoviesLanguageDto>> = runCatching {
+        generalApiService.fetchLanguages()
     }
 }

@@ -22,8 +22,8 @@ import kotlinx.serialization.Serializable
 
 @InternalSerializationApi
 @Serializable
-data class MoviesCountryItemDto(
+data class MoviesLanguageDto(
     val name: String?,
-    @SerialName("iso_3166_1")
+    @SerialName("iso_639_1")
     val label: String?,
 )

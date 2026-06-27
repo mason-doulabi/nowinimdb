@@ -16,12 +16,12 @@
 
 package com.smmousavi.i_core.data.datasource.search.remote
 
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
-import com.smmousavi.i_core.network.dto.movies.SearchMovieItemDto
+import com.smmousavi.i_core.network.dto.movies.MovieDto
+import com.smmousavi.i_core.network.dto.movies.SearchMovieDto
 
 interface SearchMoviesRemoteDataSource {
 
-    suspend fun searchMovie(query: String): Result<SearchMovieItemDto>
+    suspend fun searchMovie(query: String): Result<SearchMovieDto>
 
-    suspend fun autoComplete(query: String): Result<List<MovieItemDto>>
+    suspend fun autoComplete(query: String): Result<List<MovieDto>>
 }

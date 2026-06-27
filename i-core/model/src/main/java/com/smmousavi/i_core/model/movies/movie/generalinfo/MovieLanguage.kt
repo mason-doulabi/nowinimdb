@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.network.dto.movies
+package com.smmousavi.i_core.model.movies.movie.generalinfo
 
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import androidx.compose.runtime.Immutable
 
-@InternalSerializationApi
-@Serializable
-data class MoviesLanguageItemDto(
-    val name: String?,
-    @SerialName("iso_639_1")
-    val label: String?,
+@Immutable
+data class MovieLanguage(
+    val name: String,
+    val label: String,
 )

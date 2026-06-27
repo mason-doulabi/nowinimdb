@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @InternalSerializationApi
-data class MovieItemDto(
+data class MovieDto(
     val averageRating: Double?,
     val budget: Long?,
     val contentRating: String?,
@@ -41,11 +41,11 @@ data class MovieItemDto(
     val originalTitle: String?,
     val primaryImage: String?,
     val primaryTitle: String?,
-    val productionCompanies: List<ProductionCompanyDto>?,
+    val productionCompanies: List<MovieProductionCompanyDto>?,
     val releaseDate: String?,
     val runtimeMinutes: Int?,
     val spokenLanguages: List<String>?,
-    val thumbnails: List<ThumbnailDto>?,
+    val thumbnails: List<MovieThumbnailDto>?,
     val trailer: String?,
     val type: String?,
     val url: String?,
@@ -53,14 +53,14 @@ data class MovieItemDto(
 
 @Serializable
 @InternalSerializationApi
-data class ProductionCompanyDto(
+data class MovieProductionCompanyDto(
     val id: String?,
     val name: String?,
 )
 
 @Serializable
 @InternalSerializationApi
-data class ThumbnailDto(
+data class MovieThumbnailDto(
     val height: Int?,
     val url: String?,
     val width: Int?,

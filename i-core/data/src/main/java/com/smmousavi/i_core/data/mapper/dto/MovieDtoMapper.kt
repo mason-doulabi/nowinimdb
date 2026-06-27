@@ -16,31 +16,35 @@
 
 package com.smmousavi.i_core.data.mapper.dto
 
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.ProductionCompanyModel
-import com.smmousavi.i_core.model.movies.ThumbnailModel
-import com.smmousavi.i_core.model.movies.generalinfo.MoviesCountryItemModel
-import com.smmousavi.i_core.model.movies.generalinfo.MoviesLanguageItemModel
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
-import com.smmousavi.i_core.network.dto.movies.MoviesCountryItemDto
-import com.smmousavi.i_core.network.dto.movies.MoviesLanguageItemDto
-import com.smmousavi.i_core.network.dto.movies.ProductionCompanyDto
-import com.smmousavi.i_core.network.dto.movies.ThumbnailDto
+import com.smmousavi.i_core.model.movies.movie.MovieCast
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MoviePoster
+import com.smmousavi.i_core.model.movies.movie.MovieProductionCompany
+import com.smmousavi.i_core.model.movies.movie.MovieThumbnail
+import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieCountry
+import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieLanguage
+import com.smmousavi.i_core.network.dto.movies.MovieCastDto
+import com.smmousavi.i_core.network.dto.movies.MovieDto
+import com.smmousavi.i_core.network.dto.movies.MoviePosterDto
+import com.smmousavi.i_core.network.dto.movies.MoviesCountryDto
+import com.smmousavi.i_core.network.dto.movies.MoviesLanguageDto
+import com.smmousavi.i_core.network.dto.movies.MovieProductionCompanyDto
+import com.smmousavi.i_core.network.dto.movies.MovieThumbnailDto
 
-object MoviesDtoMapper {
+object MovieDtoMapper {
 
-    fun MoviesLanguageItemDto.toDomain(): MoviesLanguageItemModel = MoviesLanguageItemModel(
+    fun MoviesLanguageDto.toDomain(): MovieLanguage = MovieLanguage(
         name = this.name ?: "",
         label = this.label ?: "",
     )
 
-    fun MoviesCountryItemDto.toDomain(): MoviesCountryItemModel = MoviesCountryItemModel(
+    fun MoviesCountryDto.toDomain(): MovieCountry = MovieCountry(
         name = this.name ?: "",
         label = this.label ?: "",
     )
 
-    fun MovieItemDto.toDomain(): MovieItem = MovieItem(
+    fun MovieDto.toDomain(): Movie = Movie(
         id = this.id ?: "",
         averageRating = this.averageRating ?: -1.0,
         budget = this.budget ?: -1L,
@@ -70,31 +74,53 @@ object MoviesDtoMapper {
         url = this.url ?: "",
     )
 
-    fun MovieItemDto.toModel(
+    fun MovieDto.toModel(
         favorite: Boolean = false,
         watchLater: Boolean = false,
         recentlySearched: Boolean = false,
         searchedTime: Long = 0,
-    ): MovieItemModel =
-        MovieItemModel(
+    ): MovieModel =
+        MovieModel(
             id = this.id ?: "",
             title = this.originalTitle ?: "",
             rating = this.averageRating ?: 0.0,
             description = this.description ?: "",
             imageUrl = this.primaryImage ?: "",
-            thumbnailsUrl = this.thumbnails?.map { it.url ?: "" } ?: listOf(),
+            votes = this.numVotes ?: 0,
+            year = this.startYear ?: 0,
+            type = this.type ?: "",
+            durationMins = this.runtimeMinutes ?: 0,
+            interests = this.interests ?: listOf(),
+            thumbnails = this.thumbnails?.map { it.url ?: "" } ?: listOf(),
             favorite = favorite,
             watchLater = watchLater,
             recentlySearched = recentlySearched,
             searchedTime = searchedTime,
         )
 
-    fun ProductionCompanyDto.toDomain(): ProductionCompanyModel = ProductionCompanyModel(
+    fun MovieCastDto.toDomain() = MovieCast(
+        id = this.id ?: "",
+        fullName = this.fullName ?: "",
+        primaryImage = this.primaryImage ?: "",
+        job = this.job ?: "",
+        url = this.url ?: "",
+        characters = this.characters ?: listOf(),
+        thumbnails = this.thumbnails?.map { it.toDomain() } ?: listOf(),
+    )
+
+    fun MoviePosterDto.toDomain() = MoviePoster(
+        id = this.id ?: "",
+        poster = this.poster ?: "",
+        thumbnails = this.thumbnails?.map { it.toDomain() } ?: listOf(),
+        url = this.url ?: "",
+    )
+
+    fun MovieProductionCompanyDto.toDomain(): MovieProductionCompany = MovieProductionCompany(
         id = this.id ?: "",
         name = this.name ?: "",
     )
 
-    fun ThumbnailDto.toDomain(): ThumbnailModel = ThumbnailModel(
+    fun MovieThumbnailDto.toDomain(): MovieThumbnail = MovieThumbnail(
         height = this.height ?: -1,
         url = this.url ?: "",
         width = this.width ?: -1,

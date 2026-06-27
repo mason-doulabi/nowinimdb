@@ -57,6 +57,8 @@ dependencies {
 
     implementation(projects.iFeature.profile.api)
     implementation(projects.iFeature.profile.impl)
+
+    implementation(projects.iFeature.details)
 }
 
 dependencyGuard {

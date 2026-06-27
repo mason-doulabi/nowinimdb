@@ -17,7 +17,7 @@
 package com.smmousavi.domain.usecase.search.recent
 
 import com.smmousavi.domain.repository.SearchMovieRepository
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -26,13 +26,13 @@ class DefaultRecentSearchesUseCase @Inject constructor(
 ) : RecentSearchesUseCase {
 
     override suspend fun setMovieAsRecentlySearched(
-        movie: MovieItemModel,
+        movie: MovieModel,
         recentlySearched: Boolean,
     ) {
         repository.setMovieAsRecentlySearched(movie, recentlySearched)
     }
 
-    override fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>> {
+    override fun getRecentlySearchedMovies(): Flow<List<MovieModel>> {
         return repository.getRecentlySearchedMovies()
     }
 }

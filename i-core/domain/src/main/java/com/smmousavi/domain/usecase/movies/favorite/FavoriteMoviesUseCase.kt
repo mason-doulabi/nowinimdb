@@ -16,12 +16,12 @@
 
 package com.smmousavi.domain.usecase.movies.favorite
 
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 
 interface FavoriteMoviesUseCase {
 
-    suspend fun upsertMovie(movie: MovieItemModel)
+    suspend fun upsertMovie(movie: MovieModel)
 
-    suspend fun getFavoriteMovies(): Flow<List<MovieItemModel>>
+    suspend fun getFavoriteMovies(): Flow<List<MovieModel>>
 }

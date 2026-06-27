@@ -17,17 +17,7 @@
 package com.smmousavi.imbd
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.smmousavi.domain.usecase.generalinfo.MoviesGeneralInfoUseCase
-import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
-import com.smmousavi.domain.usecase.movies.top250.Top250MoviesUseCase
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
-import com.smmousavi.i_core.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

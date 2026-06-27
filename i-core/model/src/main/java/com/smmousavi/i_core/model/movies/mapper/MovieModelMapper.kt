@@ -16,24 +16,29 @@
 
 package com.smmousavi.i_core.model.movies.mapper
 
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.MovieItem
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.movie.Movie
 
-object MoviesModelMapper {
+object MovieModelMapper {
 
-    fun MovieItem.toModel(
+    fun Movie.toModel(
         favorite: Boolean = false,
         watchLater: Boolean = false,
         recentlySearched: Boolean = false,
         searchedTime: Long = 0,
-    ): MovieItemModel =
-        MovieItemModel(
+    ): MovieModel =
+        MovieModel(
             id = this.id,
             title = this.originalTitle,
             rating = this.averageRating,
             description = this.description,
             imageUrl = this.primaryImage,
-            thumbnailsUrl = this.thumbnails.map { it.url },
+            votes = this.numVotes,
+            year = this.startYear,
+            type = this.type,
+            durationMins = this.runtimeMinutes,
+            interests = this.interests,
+            thumbnails = this.thumbnails.map { it.url },
             favorite = favorite,
             watchLater = watchLater,
             recentlySearched = recentlySearched,

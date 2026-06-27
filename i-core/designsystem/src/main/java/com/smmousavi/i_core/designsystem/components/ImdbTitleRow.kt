@@ -35,14 +35,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 
 @Composable
 fun ImdbTitleRow(
     modifier: Modifier = Modifier,
-    data: MovieItemModel,
+    data: MovieModel,
     onDeleteClick: (() -> Unit)? = null,
     onClick: () -> Unit,
 ) {
@@ -95,7 +95,7 @@ fun ImdbTitleRow(
 @Composable
 @Preview(showBackground = true)
 fun ImdbTitleRowPreview() {
-    ImdbTitleRow(data = MovieItem.DEFAULT1.toModel(), onDeleteClick = {}) {}
+    ImdbTitleRow(data = Movie.DEFAULT1.toModel(), onDeleteClick = {}) {}
 }
 
 

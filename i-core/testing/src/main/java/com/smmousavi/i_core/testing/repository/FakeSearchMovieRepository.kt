@@ -17,8 +17,8 @@
 package com.smmousavi.i_core.testing.repository
 
 import com.smmousavi.domain.repository.SearchMovieRepository
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -26,7 +26,7 @@ class FakeSearchMovieRepository : SearchMovieRepository {
 
     var shouldFail = false
 
-    override fun searchMovie(query: String): Flow<Result<List<MovieItem>>> {
+    override fun searchMovie(query: String): Flow<Result<List<Movie>>> {
         return if (shouldFail) {
             flowOf(
                 Result.failure(RuntimeException("Network Error")),
@@ -35,22 +35,22 @@ class FakeSearchMovieRepository : SearchMovieRepository {
             flowOf(
                 Result.success(
                     listOf(
-                        MovieItem.DEFAULT1,
-                        MovieItem.DEFAULT2,
+                        Movie.DEFAULT1,
+                        Movie.DEFAULT2,
                     ),
                 ),
             )
         }
     }
 
-    override fun autoComplete(query: String): Flow<Result<List<MovieItem>>> {
+    override fun autoComplete(query: String): Flow<Result<List<Movie>>> {
         return if (shouldFail) {
             flowOf(Result.failure(RuntimeException("Network Error")))
         } else {
             flowOf(
                 Result.success(
                     listOf(
-                        MovieItem.DEFAULT1,
+                        Movie.DEFAULT1,
                     ),
                 ),
             )
@@ -58,13 +58,13 @@ class FakeSearchMovieRepository : SearchMovieRepository {
     }
 
     override suspend fun setMovieAsRecentlySearched(
-        movie: MovieItemModel,
+        movie: MovieModel,
         recentlySearched: Boolean,
     ) {
         TODO("Not yet implemented")
     }
 
-    override fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>> {
+    override fun getRecentlySearchedMovies(): Flow<List<MovieModel>> {
         TODO("Not yet implemented")
     }
 }

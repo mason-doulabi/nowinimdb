@@ -20,9 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.smmousavi.i_core.navigation.desitnation.ImdbDestination
+import com.smmousavi.i_feature.details.MovieDetailsScreen
 import com.smmousavi.i_feature.movies.impl.MoviesScreen
 import com.smmousavi.i_feature.profile.impl.ProfilScreen
 import com.smmousavi.i_feature.search.impl.SearchScreen
@@ -37,7 +40,11 @@ fun ImdbNavHost(
         navController = navController,
         startDestination = ImdbDestination.Movies.route,
     ) {
-        moviesGraph()
+        moviesGraph(
+            onMovieClicked = { movieId ->
+                navController.navigate(ImdbDestination.MovieDetails.createRoute(movieId))
+            },
+        )
 
         searchGraph()
 
@@ -45,9 +52,28 @@ fun ImdbNavHost(
     }
 }
 
-fun NavGraphBuilder.moviesGraph() {
+fun NavGraphBuilder.moviesGraph(
+    onMovieClicked: (String) -> Unit,
+) {
     composable(ImdbDestination.Movies.route) {
-        MoviesScreen()
+        MoviesScreen(
+            onMovieClicked = onMovieClicked,
+        )
+    }
+
+    composable(
+        route = ImdbDestination.MovieDetails.route,
+        arguments = listOf(
+            navArgument(ImdbDestination.MovieDetails.ARG_MOVIE_ID) {
+                type = NavType.StringType
+            },
+        ),
+    ) { backStackEntry ->
+        val movieId =
+            backStackEntry.arguments!!.getString(ImdbDestination.MovieDetails.ARG_MOVIE_ID)!!
+        MovieDetailsScreen(
+            movieId = movieId,
+        )
     }
 }
 

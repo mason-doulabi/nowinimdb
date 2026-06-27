@@ -16,13 +16,38 @@
 
 package com.smmousavi.i_core.network.service
 
-import com.smmousavi.i_core.network.dto.movies.MovieItemDto
+import com.smmousavi.i_core.network.dto.movies.MovieCastDto
+import com.smmousavi.i_core.network.dto.movies.MovieDto
+import com.smmousavi.i_core.network.dto.movies.MoviePosterDto
 import kotlinx.serialization.InternalSerializationApi
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface MoviesApiService {
 
     @GET("top250-movies")
     @OptIn(InternalSerializationApi::class)
-    suspend fun getTop250Movies(): List<MovieItemDto>
+    suspend fun fetchTop250Movies(): List<MovieDto>
+
+    @GET("most-popular-movies")
+    @OptIn(InternalSerializationApi::class)
+    suspend fun fetchMostPopularMovies(): List<MovieDto>
+
+    @GET("{movieId}")
+    @OptIn(InternalSerializationApi::class)
+    suspend fun fetchMovieDetailsById(
+        @Path("movieId") id: String,
+    ): MovieDto
+
+    @GET("{movieId}/cast")
+    @OptIn(InternalSerializationApi::class)
+    suspend fun fetchMovieCastsById(
+        @Path("movieId") id: String,
+    ): List<MovieCastDto>
+
+    @GET("{movieId}/poster")
+    @OptIn(InternalSerializationApi::class)
+    suspend fun fetchMoviePosterById(
+        @Path("movieId") id: String,
+    ): MoviePosterDto
 }

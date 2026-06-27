@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.network.service
+package com.smmousavi.domain.usecase.movies.top
 
-interface ImbdApiService {
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import kotlinx.coroutines.flow.Flow
+
+interface TopMoviesUseCase {
+    suspend fun top250Movies(): Flow<Result<List<MovieModel>>>
+
+    suspend fun mostPopularMovies(): Flow<Result<List<MovieModel>>>
 }

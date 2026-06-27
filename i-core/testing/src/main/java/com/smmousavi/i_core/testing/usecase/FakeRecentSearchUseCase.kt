@@ -16,27 +16,22 @@
 
 package com.smmousavi.i_core.testing.usecase
 
-import com.smmousavi.domain.usecase.search.SearchMovieUseCase
 import com.smmousavi.domain.usecase.search.recent.RecentSearchesUseCase
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import kotlinx.coroutines.delay
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 
 class FakeRecentSearchUseCase : RecentSearchesUseCase {
 
-    val result = MutableSharedFlow<List<MovieItemModel>>()
+    val result = MutableSharedFlow<List<MovieModel>>()
 
     override suspend fun setMovieAsRecentlySearched(
-        movie: MovieItemModel,
+        movie: MovieModel,
         recentlySearched: Boolean,
     ) {
     }
 
-    override fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>> {
+    override fun getRecentlySearchedMovies(): Flow<List<MovieModel>> {
         return result
     }
 }

@@ -1,4 +1,4 @@
-package com.smmousavi.i_core.presentation
+package com.smmousavi.i_feature.details
 
 import org.junit.Test
 

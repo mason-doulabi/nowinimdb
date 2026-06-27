@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.model.movies.generalinfo
+package com.smmousavi.i_core.network.dto.movies
 
-import androidx.compose.runtime.Immutable
+import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.Serializable
 
-@Immutable
-data class MoviesLanguageItemModel(
-    val name: String,
-    val label: String,
+@Serializable
+@InternalSerializationApi
+data class MoviePosterDto(
+    val id: String?,
+    val poster: String?,
+    val thumbnails: List<MovieThumbnailDto>?,
+    val url: String?
 )

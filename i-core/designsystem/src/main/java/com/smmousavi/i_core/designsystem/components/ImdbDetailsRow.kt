@@ -42,14 +42,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.mapper.MoviesModelMapper.toModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 
 @Composable
 fun ImdbDetailsRow(
     modifier: Modifier = Modifier,
-    data: MovieItemModel,
+    data: MovieModel,
     onClick: () -> Unit,
 ) {
     Card(
@@ -67,7 +67,7 @@ fun ImdbDetailsRow(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(
-                        data.thumbnailsUrl.let {
+                        data.thumbnails.let {
                             if (it.isNotEmpty()) {
                                 it[0]
                             } else {
@@ -131,6 +131,6 @@ fun ImdbDetailsRow(
 @Preview
 fun ImdbDetailsRowPreview() {
     ImdbDetailsRow(
-        data = MovieItem.DEFAULT1.toModel(),
+        data = Movie.DEFAULT1.toModel(),
     ) {}
 }

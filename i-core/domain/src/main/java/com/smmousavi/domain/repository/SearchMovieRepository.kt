@@ -16,17 +16,17 @@
 
 package com.smmousavi.domain.repository
 
-import com.smmousavi.i_core.model.movies.MovieItem
-import com.smmousavi.i_core.model.movies.MovieItemModel
+import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 
 interface SearchMovieRepository {
 
-    fun searchMovie(query: String): Flow<Result<List<MovieItem>>>
+    fun searchMovie(query: String): Flow<Result<List<Movie>>>
 
-    fun autoComplete(query: String): Flow<Result<List<MovieItem>>>
+    fun autoComplete(query: String): Flow<Result<List<Movie>>>
 
-    suspend fun setMovieAsRecentlySearched(movie: MovieItemModel, recentlySearched: Boolean)
+    suspend fun setMovieAsRecentlySearched(movie: MovieModel, recentlySearched: Boolean)
 
-    fun getRecentlySearchedMovies(): Flow<List<MovieItemModel>>
+    fun getRecentlySearchedMovies(): Flow<List<MovieModel>>
 }

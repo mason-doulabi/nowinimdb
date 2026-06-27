@@ -17,7 +17,6 @@
 package com.smmousavi.i_core.network.di
 
 import com.smmousavi.i_core.network.service.GeneralApiService
-import com.smmousavi.i_core.network.service.ImbdApiService
 import com.smmousavi.i_core.network.service.SearchApiService
 import com.smmousavi.i_core.network.service.MoviesApiService
 import dagger.Module

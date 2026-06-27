@@ -20,9 +20,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.generalinfo.MoviesGeneralInfoUseCase
 import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
-import com.smmousavi.domain.usecase.movies.top250.Top250MoviesUseCase
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import com.smmousavi.i_core.model.movies.generalinfo.MoviesGeneralInfoModel
+import com.smmousavi.domain.usecase.movies.top.TopMoviesUseCase
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,33 +31,58 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviesScreenViewModel @Inject constructor(
-    private val generalUseCase: MoviesGeneralInfoUseCase,
-    private val top250UseCase: Top250MoviesUseCase,
+    private val generalInfoUseCase: MoviesGeneralInfoUseCase,
+    private val topMoviesUsesCase: TopMoviesUseCase,
     private val favoriteUseCase: FavoriteMoviesUseCase,
 ) : ViewModel() {
-    private val _generaInfoUiState =
-        MutableStateFlow<UiState<MoviesGeneralInfoModel>>(UiState.Loading)
-    val generalInfoUiState = _generaInfoUiState.asStateFlow()
+
+    private val _genresState = MutableStateFlow<UiState<List<String>>>(UiState.Loading)
+    val genresState = _genresState.asStateFlow()
+
+    private val _typesState = MutableStateFlow<UiState<List<String>>>(UiState.Loading)
+    val typesState = _typesState.asStateFlow()
 
     private val _top250MoviesState =
-        MutableStateFlow<UiState<List<MovieItemModel>>>(UiState.Loading)
+        MutableStateFlow<UiState<List<MovieModel>>>(UiState.Loading)
     val top250MoviesState = _top250MoviesState.asStateFlow()
 
-    private val _favoriteMoviesState =
-        MutableStateFlow<List<MovieItemModel>>(listOf())
-    val favoriteMoviesState = _favoriteMoviesState.asStateFlow()
+    private val _mostPopularMoviesState =
+        MutableStateFlow<UiState<List<MovieModel>>>(UiState.Loading)
+    val mostPopularMoviesState = _mostPopularMoviesState.asStateFlow()
 
-    fun getGeneralInfo() {
+    fun observeGenres() {
         viewModelScope.launch {
-            generalUseCase().collect { info ->
-                _generaInfoUiState.value = UiState.Success(info)
+            generalInfoUseCase.getGenres().collect { result ->
+                result.fold(
+                    onSuccess = { data ->
+                        _genresState.value = UiState.Success(data)
+                    },
+                    onFailure = { e ->
+                        _genresState.value = UiState.Error(e.message, e)
+                    },
+                )
             }
         }
     }
 
-    fun getTop250Movies() {
+    fun observeTypes() {
         viewModelScope.launch {
-            top250UseCase().collect {
+            generalInfoUseCase.getTypes().collect { result ->
+                result.fold(
+                    onSuccess = { data ->
+                        _typesState.value = UiState.Success(data)
+                    },
+                    onFailure = { e ->
+                        _typesState.value = UiState.Error(e.message, e)
+                    },
+                )
+            }
+        }
+    }
+
+    fun observeTop250Movies() {
+        viewModelScope.launch {
+            topMoviesUsesCase.top250Movies().collect {
                 it.fold(
                     onSuccess = { data -> _top250MoviesState.value = UiState.Success(data) },
                     onFailure = {
@@ -69,15 +93,22 @@ class MoviesScreenViewModel @Inject constructor(
         }
     }
 
-    fun getFavoriteMovies() {
+    fun observeMostPopularMovies() {
         viewModelScope.launch {
-            favoriteUseCase.getFavoriteMovies().collect {
-                _favoriteMoviesState.value = it
+            topMoviesUsesCase.mostPopularMovies().collect { result ->
+                result.fold(
+                    onSuccess = { data ->
+                        _mostPopularMoviesState.value = UiState.Success(data)
+                    },
+                    onFailure = { e ->
+                        _mostPopularMoviesState.value = UiState.Error(e.message, e)
+                    },
+                )
             }
         }
     }
 
-    fun setFavoriteMovie(movie: MovieItemModel) {
+    fun setFavoriteMovie(movie: MovieModel) {
         viewModelScope.launch {
             favoriteUseCase.upsertMovie(movie)
         }

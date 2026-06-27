@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package com.smmousavi.domain.usecase.movies.top250
+package com.smmousavi.i_core.model.movies.movie
 
-import com.smmousavi.domain.repository.MoviesRepository
-import com.smmousavi.i_core.model.movies.MovieItemModel
-import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import androidx.compose.runtime.Immutable
 
-class DefaultTop250MoviesUseCase @Inject constructor(
-    val repository: MoviesRepository,
-) : Top250MoviesUseCase {
-
-    override suspend fun invoke(): Flow<Result<List<MovieItemModel>>> {
-        return repository.getTop250()
-    }
-}
+@Immutable
+data class MovieModel(
+    val id: String,
+    val title: String,
+    val rating: Double,
+    val description: String,
+    val imageUrl: String,
+    val votes: Int,
+    val year: Int,
+    val type: String,
+    val durationMins: Int,
+    val interests: List<String>,
+    val thumbnails: List<String>,
+    val favorite: Boolean,
+    val watchLater: Boolean,
+    val recentlySearched: Boolean,
+    val searchedTime: Long,
+)

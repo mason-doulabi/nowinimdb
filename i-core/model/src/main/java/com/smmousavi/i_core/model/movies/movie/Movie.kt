@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.model.movies
+package com.smmousavi.i_core.model.movies.movie
 
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class MovieItem(
+data class Movie(
     val id: String,
     val averageRating: Double,
     val budget: Long,
@@ -39,17 +39,17 @@ data class MovieItem(
     val originalTitle: String,
     val primaryImage: String,
     val primaryTitle: String,
-    val productionCompanies: List<ProductionCompanyModel>,
+    val productionCompanies: List<MovieProductionCompany>,
     val releaseDate: String,
     val runtimeMinutes: Int,
     val spokenLanguages: List<String>,
-    val thumbnails: List<ThumbnailModel>,
+    val thumbnails: List<MovieThumbnail>,
     val trailer: String,
     val type: String,
     val url: String,
 ) {
     companion object {
-        val DEFAULT1 = MovieItem(
+        val DEFAULT1 = Movie(
             id = "tt0068646",
             averageRating = 9.2,
             budget = 6000000,
@@ -84,15 +84,15 @@ data class MovieItem(
             primaryImage = "https://m.media-amazon.com/images/M/MV5BNGEwYjgwOGQtYjg5ZS00Njc1LTk2ZGEtM2QwZWQ2NjdhZTE5XkEyXkFqcGc@.jpg",
             primaryTitle = "The Godfather",
             productionCompanies = listOf(
-                ProductionCompanyModel(
+                MovieProductionCompany(
                     id = "co0023400",
                     name = "Paramount Pictures",
                 ),
-                ProductionCompanyModel(
+                MovieProductionCompany(
                     id = "co0921482",
                     name = "Albert S. Ruddy Productions",
                 ),
-                ProductionCompanyModel(
+                MovieProductionCompany(
                     id = "co0255097",
                     name = "Alfran Productions",
                 ),
@@ -105,12 +105,12 @@ data class MovieItem(
                 "la",
             ),
             thumbnails = listOf(
-                ThumbnailModel(
+                MovieThumbnail(
                     height = 148,
                     width = 100,
                     url = "https://m.media-amazon.com/images/M/MV5BNGEwYjgwOGQtYjg5ZS00Njc1LTk2ZGEtM2QwZWQ2NjdhZTE5XkEyXkFqcGc@._V1_QL75_UX100_CR0,0,100,148_.jpg",
                 ),
-                ThumbnailModel(
+                MovieThumbnail(
                     height = 414,
                     width = 280,
                     url = "https://m.media-amazon.com/images/M/MV5BNGEwYjgwOGQtYjg5ZS00Njc1LTk2ZGEtM2QwZWQ2NjdhZTE5XkEyXkFqcGc@._V1_QL75_UX280_CR0,0,280,414_.jpg",
@@ -121,7 +121,7 @@ data class MovieItem(
             url = "https://www.imdb.com/title/tt0068646/",
         )
 
-        val DEFAULT2 = MovieItem(
+        val DEFAULT2 = Movie(
             id = "tt0468569",
             averageRating = 9.0,
             budget = 185000000,
@@ -163,15 +163,15 @@ data class MovieItem(
             primaryImage = "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@.jpg",
             primaryTitle = "The Dark Knight",
             productionCompanies = listOf(
-                ProductionCompanyModel(
+                MovieProductionCompany(
                     id = "co0002663",
                     name = "Warner Bros.",
                 ),
-                ProductionCompanyModel(
+                MovieProductionCompany(
                     id = "co0159111",
                     name = "Legendary Entertainment",
                 ),
-                ProductionCompanyModel(
+                MovieProductionCompany(
                     id = "co0147954",
                     name = "Syncopy",
                 ),
@@ -180,12 +180,12 @@ data class MovieItem(
             runtimeMinutes = 152,
             spokenLanguages = listOf("en"),
             thumbnails = listOf(
-                ThumbnailModel(
+                MovieThumbnail(
                     height = 148,
                     width = 100,
                     url = "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_QL75_UX100_CR0,0,100,148_.jpg",
                 ),
-                ThumbnailModel(
+                MovieThumbnail(
                     height = 414,
                     width = 280,
                     url = "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_QL75_UX280_CR0,0,280,414_.jpg",
@@ -196,7 +196,7 @@ data class MovieItem(
             url = "https://www.imdb.com/title/tt0468569/",
         )
 
-        val DEFAULT3 = MovieItem(
+        val DEFAULT3 = Movie(
             id = "tt0111161",
             averageRating = 9.3,
             budget = 25000000,
@@ -227,7 +227,7 @@ data class MovieItem(
             primaryImage = "https://m.media-amazon.com/images/M/MV5BMDAyY2FhYjctNDc5OS00MDNlLThiMGUtY2UxYWVkNGY2ZjljXkEyXkFqcGc@.jpg",
             primaryTitle = "The Shawshank Redemption",
             productionCompanies = listOf(
-                ProductionCompanyModel(
+                MovieProductionCompany(
                     id = "co0040620",
                     name = "Castle Rock Entertainment",
                 ),
@@ -236,12 +236,12 @@ data class MovieItem(
             runtimeMinutes = 142,
             spokenLanguages = listOf("en"),
             thumbnails = listOf(
-                ThumbnailModel(
+                MovieThumbnail(
                     url = "https://m.media-amazon.com/images/M/MV5BMDAyY2FhYjctNDc5OS00MDNlLThiMGUtY2UxYWVkNGY2ZjljXkEyXkFqcGc@._V1_QL75_UX100_CR0,0,100,148_.jpg",
                     width = 100,
                     height = 148,
                 ),
-                ThumbnailModel(
+                MovieThumbnail(
                     url = "https://m.media-amazon.com/images/M/MV5BMDAyY2FhYjctNDc5OS00MDNlLThiMGUtY2UxYWVkNGY2ZjljXkEyXkFqcGc@._V1_QL75_UX280_CR0,0,280,414_.jpg",
                     width = 280,
                     height = 414,
@@ -255,13 +255,13 @@ data class MovieItem(
 }
 
 @Immutable
-data class ProductionCompanyModel(
+data class MovieProductionCompany(
     val id: String,
     val name: String,
 )
 
 @Immutable
-data class ThumbnailModel(
+data class MovieThumbnail(
     val height: Int,
     val url: String,
     val width: Int,
