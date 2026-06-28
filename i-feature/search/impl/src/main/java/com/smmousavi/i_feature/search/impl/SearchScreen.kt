@@ -54,6 +54,7 @@ import com.smmousavi.i_core.presentation.UiState
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
+    onMovieClicked: (String) -> Unit,
     searchScreenViewModel: SearchScreenViewModel = hiltViewModel(),
 ) {
     val searchMoviesState by searchScreenViewModel.searchMovieState.collectAsStateWithLifecycle()
@@ -74,6 +75,7 @@ fun SearchScreen(
         onRecentlySearched = { movie, recentlySearched ->
             searchScreenViewModel.setMovieAsRecentlySearched(movie, recentlySearched)
         },
+        onMovieClicked = onMovieClicked,
     ) { query ->
         searchScreenViewModel.onQueryChange(query)
     }
@@ -87,6 +89,7 @@ fun SearchScreenContent(
     recentSearches: List<MovieModel>,
     query: String,
     onRecentlySearched: (MovieModel, Boolean) -> Unit,
+    onMovieClicked: (String) -> Unit,
     onQueryChange: (String) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
@@ -173,13 +176,13 @@ fun SearchScreenContent(
                     modifier = Modifier.padding(top = 16.dp),
                     data = searchMoviesState.data,
                 ) { item ->
+                    onMovieClicked(item.id)
                     onRecentlySearched(item, true)
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun AutoCompleteSuggestions(
@@ -253,5 +256,6 @@ fun SearchScreenPreview() {
         ),
         query = "The Sha",
         onRecentlySearched = { _, _ -> },
+        onMovieClicked = {},
     ) {}
 }

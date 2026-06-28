@@ -37,12 +37,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -68,10 +70,10 @@ import com.smmousavi.i_core.designsystem.components.ImdbMovieCastCard
 import com.smmousavi.i_core.designsystem.components.ImdbRowButton
 import com.smmousavi.i_core.designsystem.components.ImdbRowButtonType
 import com.smmousavi.i_core.designsystem.layouts.MoviesTitledLazyRow
-import com.smmousavi.i_core.model.movies.movie.Movie
-import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
+import com.smmousavi.i_core.model.movies.movie.Movie
 import com.smmousavi.i_core.model.movies.movie.MovieCast
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.model.movies.movie.MoviePoster
 import com.smmousavi.i_core.presentation.UiState
 import com.smmousavi.i_core.presentation.utils.priceSeparated
@@ -81,6 +83,7 @@ fun MovieDetailsScreen(
     modifier: Modifier = Modifier,
     movieId: String,
     viewModel: MovieDetailsScreenViewModel = hiltViewModel(),
+    onBackClick: () -> Unit,
 ) {
     val movieDetailsState by viewModel.movieDetailsState.collectAsStateWithLifecycle()
     val moviePosterState by viewModel.moviePosterState.collectAsStateWithLifecycle()
@@ -97,7 +100,12 @@ fun MovieDetailsScreen(
         detailsState = movieDetailsState,
         posterState = moviePosterState,
         castsState = movieCastState,
-    )
+        onFavoriteClick = { movie ->
+            viewModel.setFavoriteMovie(movie)
+        },
+    ) {
+        onBackClick()
+    }
 }
 
 @Composable
@@ -106,84 +114,105 @@ fun MovieDetailsScreenContent(
     detailsState: UiState<MovieModel>,
     posterState: UiState<MoviePoster>,
     castsState: UiState<List<MovieCast>>,
+    onFavoriteClick: (MovieModel) -> Unit,
+    onBackClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .fillMaxSize(),
     ) {
-        // Movie Title
-        when (detailsState) {
-            is UiState.Error -> {}
-            UiState.Idle -> {}
-            UiState.Loading -> {}
-            is UiState.Success -> {
-                MovieHeaderSection(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp),
-                    title = detailsState.data.title,
-                    year = detailsState.data.year,
-                    type = detailsState.data.type,
-                    durationMins = detailsState.data.durationMins,
-                )
-                Spacer(Modifier.height(16.dp))
-            }
-        }
-
-        // Movie poster
-        when (posterState) {
-            is UiState.Error -> {}
-            UiState.Idle -> {}
-            UiState.Loading -> {}
-            is UiState.Success -> {
-                MoviePosterSection(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f),
-                    posterUrl = posterState.data.poster,
-                    posterId = posterState.data.id,
+        // App Bar
+        Row(modifier = Modifier.fillMaxWidth()) {
+            IconButton(
+                onClick = onBackClick,
+                modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBackIosNew,
+                    contentDescription = "Back",
                 )
             }
         }
 
-        // Movie Details
-        when (detailsState) {
-            is UiState.Error -> {}
-            UiState.Idle -> {}
-            UiState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.TopCenter,
-                ) {
-                    NiaLoadingWheel(contentDesc = "Loading Top 250 Movies")
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState()),
+        ) {
+            // Movie Title
+            when (detailsState) {
+                is UiState.Error -> {}
+                UiState.Idle -> {}
+                UiState.Loading -> {}
+                is UiState.Success -> {
+                    MovieDetailsHeaderSection(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        title = detailsState.data.title,
+                        year = detailsState.data.year,
+                        type = detailsState.data.type,
+                        durationMins = detailsState.data.durationMins,
+                    )
+                    Spacer(Modifier.height(16.dp))
                 }
             }
 
-            is UiState.Success -> {
-                MovieDetailsSection(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    data = detailsState.data,
-                )
+            // Movie poster
+            when (posterState) {
+                is UiState.Error -> {}
+                UiState.Idle -> {}
+                UiState.Loading -> {}
+                is UiState.Success -> {
+                    MovieDetailsPosterSection(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(16f / 9f),
+                        posterUrl = posterState.data.poster,
+                        posterId = posterState.data.id,
+                    )
+                }
             }
-        }
 
-        // Movie Casts
-        when (castsState) {
-            is UiState.Error -> {}
-            UiState.Idle -> {}
-            UiState.Loading -> {}
-            is UiState.Success -> {
-                MoviesTitledLazyRow(
-                    title = "Casts",
-                    items = castsState.data.distinctBy { it.id },
-                    key = { it.id },
-                ) { item ->
-                    ImdbMovieCastCard(
-                        data = item,
-                    ) { }
+            // Movie Details
+            when (detailsState) {
+                is UiState.Error -> {}
+                UiState.Idle -> {}
+                UiState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.TopCenter,
+                    ) {
+                        NiaLoadingWheel(contentDesc = "Loading Top 250 Movies")
+                    }
+                }
+
+                is UiState.Success -> {
+                    MovieDetailsDescriptionsSection(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        data = detailsState.data,
+                    ) { data ->
+                        onFavoriteClick(data)
+                    }
+                }
+            }
+
+            // Movie Casts
+            when (castsState) {
+                is UiState.Error -> {}
+                UiState.Idle -> {}
+                UiState.Loading -> {}
+                is UiState.Success -> {
+                    MoviesTitledLazyRow(
+                        title = "Casts",
+                        items = castsState.data.distinctBy { it.id },
+                        key = { it.id },
+                    ) { item ->
+                        ImdbMovieCastCard(
+                            data = item,
+                        ) { }
+                    }
                 }
             }
         }
@@ -191,7 +220,7 @@ fun MovieDetailsScreenContent(
 }
 
 @Composable
-fun MovieHeaderSection(
+fun MovieDetailsHeaderSection(
     modifier: Modifier = Modifier,
     title: String,
     year: Int,
@@ -220,7 +249,7 @@ fun MovieHeaderSection(
 }
 
 @Composable
-fun MoviePosterSection(
+fun MovieDetailsPosterSection(
     modifier: Modifier = Modifier,
     posterUrl: String,
     posterId: String,
@@ -239,10 +268,12 @@ fun MoviePosterSection(
 }
 
 @Composable
-fun MovieDetailsSection(
+fun MovieDetailsDescriptionsSection(
     modifier: Modifier = Modifier,
     data: MovieModel,
+    onFavoriteClick: (MovieModel) -> Unit,
 ) {
+
     // Movie description Row
     Row(
         modifier = modifier,
@@ -294,7 +325,9 @@ fun MovieDetailsSection(
     ImdbRowButton(
         modifier = Modifier.padding(horizontal = 16.dp),
         type = ImdbRowButtonType.Primary,
-        onClick = {},
+        onClick = {
+            onFavoriteClick(data.copy(favorite = data.favorite.not()))
+        },
     ) {
         Icon(
             modifier = Modifier
@@ -420,6 +453,9 @@ fun MovieDetailsScreenContentPreview() {
             ),
             posterState = UiState.Success(MoviePoster.DEFAULT),
             castsState = UiState.Success(listOf(MovieCast.DEFAULT1)),
-        )
+            onFavoriteClick = {},
+        ) {
+
+        }
     }
 }

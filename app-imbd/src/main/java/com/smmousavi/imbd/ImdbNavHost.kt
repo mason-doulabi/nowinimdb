@@ -41,23 +41,34 @@ fun ImdbNavHost(
         startDestination = ImdbDestination.Movies.route,
     ) {
         moviesGraph(
+            onMovieClick = { movieId ->
+                navController.navigate(ImdbDestination.MovieDetails.createRoute(movieId))
+            },
+            onBackClick = {
+                navController.popBackStack()
+            }
+        )
+
+        searchGraph(
             onMovieClicked = { movieId ->
                 navController.navigate(ImdbDestination.MovieDetails.createRoute(movieId))
             },
+            onBackClick = {
+                navController.popBackStack()
+            }
         )
-
-        searchGraph()
 
         profileGraph()
     }
 }
 
 fun NavGraphBuilder.moviesGraph(
-    onMovieClicked: (String) -> Unit,
+    onMovieClick: (String) -> Unit,
+    onBackClick: () -> Unit,
 ) {
     composable(ImdbDestination.Movies.route) {
         MoviesScreen(
-            onMovieClicked = onMovieClicked,
+            onMovieClicked = onMovieClick,
         )
     }
 
@@ -73,13 +84,34 @@ fun NavGraphBuilder.moviesGraph(
             backStackEntry.arguments!!.getString(ImdbDestination.MovieDetails.ARG_MOVIE_ID)!!
         MovieDetailsScreen(
             movieId = movieId,
+            onBackClick = onBackClick
         )
     }
 }
 
-fun NavGraphBuilder.searchGraph() {
+fun NavGraphBuilder.searchGraph(
+    onMovieClicked: (String) -> Unit,
+    onBackClick: () -> Unit,
+) {
     composable(ImdbDestination.Search.route) {
-        SearchScreen()
+        SearchScreen(onMovieClicked = onMovieClicked)
+    }
+
+    composable(
+        route = ImdbDestination.MovieDetails.route,
+        arguments = listOf(
+            navArgument(ImdbDestination.MovieDetails.ARG_MOVIE_ID) {
+                type = NavType.StringType
+            },
+        ),
+    ) { backStackEntry ->
+        val movieId =
+            backStackEntry.arguments!!.getString(ImdbDestination.MovieDetails.ARG_MOVIE_ID)!!
+        MovieDetailsScreen(
+            movieId = movieId,
+        ) {
+            onBackClick()
+        }
     }
 }
 

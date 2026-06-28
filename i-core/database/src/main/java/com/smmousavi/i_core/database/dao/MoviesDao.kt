@@ -17,6 +17,7 @@
 package com.smmousavi.i_core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
 import com.smmousavi.i_core.database.entity.MovieItemEntity

@@ -118,15 +118,13 @@ fun MoviesScreenContent(
                     title = "Top 250 Movies",
                     key = { it.id },
                 ) { item ->
-                    var favorite by rememberSaveable { mutableStateOf(item.favorite) }
 
                     ImdbMovieCard(
                         data = item,
                         onClick = onClick,
-                        favorite = favorite,
+                        favorite = item.favorite,
                         onFavoriteClick = {
-                            favorite = favorite.not()
-                            onFavoriteClick(item.copy(favorite = favorite))
+                            onFavoriteClick(item.copy(favorite = item.favorite.not()))
                         },
                     )
                 }

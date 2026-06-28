@@ -19,12 +19,12 @@ package com.smmousavi.i_feature.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.movies.details.MovieDetailsUseCase
+import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
 import com.smmousavi.i_core.model.movies.movie.MovieCast
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.model.movies.movie.MoviePoster
 import com.smmousavi.i_core.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -33,6 +33,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsScreenViewModel @Inject constructor(
     private val movieDetailsUseCase: MovieDetailsUseCase,
+    private val favoriteUseCase: FavoriteMoviesUseCase,
 ) : ViewModel() {
 
     private val _moviePosterState = MutableStateFlow<UiState<MoviePoster>>(UiState.Loading)
@@ -86,6 +87,12 @@ class MovieDetailsScreenViewModel @Inject constructor(
                     },
                 )
             }
+        }
+    }
+
+    fun setFavoriteMovie(movie: MovieModel) {
+        viewModelScope.launch {
+            favoriteUseCase.upsertMovie(movie)
         }
     }
 }
