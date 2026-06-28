@@ -32,8 +32,8 @@ import com.smmousavi.i_feature.search.impl.SearchScreen
 
 @Composable
 fun ImdbNavHost(
-    navController: NavHostController,
     modifier: Modifier = Modifier,
+    navController: NavHostController,
 ) {
     NavHost(
         modifier = modifier,

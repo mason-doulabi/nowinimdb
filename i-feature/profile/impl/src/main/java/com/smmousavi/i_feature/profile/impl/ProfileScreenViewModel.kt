@@ -20,6 +20,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
 import com.smmousavi.i_core.model.movies.movie.MovieModel
+import com.smmousavi.i_core.presentation.snackbar.SnackbarEvent
+import com.smmousavi.i_core.presentation.snackbar.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -28,7 +30,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileScreenViewModel @Inject constructor(
-    val favoriteUseCase: FavoriteMoviesUseCase,
+    private val favoriteUseCase: FavoriteMoviesUseCase,
+    private val snackbarManager: SnackbarManager,
 ) : ViewModel() {
 
     val favorites = favoriteUseCase.getFavoriteMovies()
@@ -41,6 +44,12 @@ class ProfileScreenViewModel @Inject constructor(
     fun setMovieAsFavorite(movie: MovieModel) {
         viewModelScope.launch {
             favoriteUseCase.upsertMovie(movie)
+
+            if (movie.favorite) {
+                snackbarManager.emit(SnackbarEvent.FavoriteAdded(movie.title))
+            } else {
+                snackbarManager.emit(SnackbarEvent.FavoriteRemoved(movie.title))
+            }
         }
     }
 }

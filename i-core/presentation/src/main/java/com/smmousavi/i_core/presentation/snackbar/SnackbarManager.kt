@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 The Android Open Source Project
+ * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package com.smmousavi.imbd
+package com.smmousavi.i_core.presentation.snackbar
 
-import androidx.lifecycle.ViewModel
-import com.smmousavi.i_core.presentation.snackbar.SnackbarManager
-import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@HiltViewModel
-class ImdbActivityViewModel @Inject constructor(
-    snackbarManager: SnackbarManager,
-) : ViewModel() {
-    val snackbarEvents = snackbarManager.events
+@Singleton
+class SnackbarManager @Inject constructor() {
+    private val _events = MutableSharedFlow<SnackbarEvent>()
+    val events = _events.asSharedFlow()
 
+    suspend fun emit(event: SnackbarEvent) {
+        _events.emit(event)
+    }
 }

@@ -23,8 +23,12 @@ import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
 import com.smmousavi.domain.usecase.movies.top.TopMoviesUseCase
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.presentation.UiState
+import com.smmousavi.i_core.presentation.snackbar.SnackbarEvent
+import com.smmousavi.i_core.presentation.snackbar.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,6 +38,7 @@ class MoviesScreenViewModel @Inject constructor(
     private val generalInfoUseCase: MoviesGeneralInfoUseCase,
     private val topMoviesUsesCase: TopMoviesUseCase,
     private val favoriteUseCase: FavoriteMoviesUseCase,
+    private val snackbarManager: SnackbarManager,
 ) : ViewModel() {
 
     private val _genresState = MutableStateFlow<UiState<List<String>>>(UiState.Loading)
@@ -111,6 +116,14 @@ class MoviesScreenViewModel @Inject constructor(
     fun setMovieAsFavorite(movie: MovieModel) {
         viewModelScope.launch {
             favoriteUseCase.upsertMovie(movie)
+
+            snackbarManager.emit(
+                if (movie.favorite) {
+                    SnackbarEvent.FavoriteAdded(movie.title)
+                } else {
+                    SnackbarEvent.FavoriteRemoved(movie.title)
+                }
+            )
         }
     }
 }
