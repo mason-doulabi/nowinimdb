@@ -90,7 +90,7 @@ class MovieDetailsScreenViewModel @Inject constructor(
         }
     }
 
-    fun setFavoriteMovie(movie: MovieModel) {
+    fun setMovieAsFavorite(movie: MovieModel) {
         viewModelScope.launch {
             favoriteUseCase.upsertMovie(movie)
         }

@@ -80,7 +80,6 @@ fun MoviesTitledRowPreview() {
         ) { item ->
             ImdbMovieCard(
                 data = item,
-                favorite = false,
                 onClick = {},
                 onFavoriteClick = {},
             )

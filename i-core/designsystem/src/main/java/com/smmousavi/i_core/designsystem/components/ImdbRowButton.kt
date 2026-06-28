@@ -38,8 +38,8 @@ sealed interface ImdbRowButtonType {
 fun ImdbRowButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    contentPadding: PaddingValues = PaddingValues(12.dp),
     type: ImdbRowButtonType,
+    contentPadding: PaddingValues = PaddingValues(12.dp),
     content: @Composable RowScope.() -> Unit,
 ) {
     Button(

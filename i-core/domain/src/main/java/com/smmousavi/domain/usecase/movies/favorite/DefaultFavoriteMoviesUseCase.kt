@@ -29,7 +29,7 @@ class DefaultFavoriteMoviesUseCase @Inject constructor(
         repository.upsertMovie(movie)
     }
 
-    override suspend fun getFavoriteMovies(): Flow<List<MovieModel>> {
+    override fun getFavoriteMovies(): Flow<List<MovieModel>> {
         return repository.getFavoriteMovies()
     }
 }

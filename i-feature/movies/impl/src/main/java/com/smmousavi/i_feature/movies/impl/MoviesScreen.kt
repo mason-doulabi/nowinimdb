@@ -16,6 +16,7 @@
 
 package com.smmousavi.i_feature.movies.impl
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -37,6 +40,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -75,7 +80,7 @@ fun MoviesScreen(
         genresState = moviesGenresState,
         typesState = movieTypesState,
         onFavoriteClick = { item ->
-            viewModel.setFavoriteMovie(item)
+            viewModel.setMovieAsFavorite(item)
         },
     ) { item ->
         onMovieClicked(item.id)
@@ -122,7 +127,6 @@ fun MoviesScreenContent(
                     ImdbMovieCard(
                         data = item,
                         onClick = onClick,
-                        favorite = item.favorite,
                         onFavoriteClick = {
                             onFavoriteClick(item.copy(favorite = item.favorite.not()))
                         },
@@ -204,7 +208,7 @@ fun MoviesScreenContent(
                 MoviesTitledLazyRow(
                     modifier = Modifier.fillMaxWidth(),
                     items = mostPopularMoviesState.data.distinctBy { it.id },
-                    title = "Most Popluar Movies",
+                    title = "Most Popular Movies",
                     key = { it.id },
                 ) { item ->
                     var favorite by rememberSaveable { mutableStateOf(item.favorite) }
@@ -212,7 +216,6 @@ fun MoviesScreenContent(
                     ImdbMovieCard(
                         data = item,
                         onClick = onClick,
-                        favorite = favorite,
                         onFavoriteClick = {
                             favorite = favorite.not()
                             onFavoriteClick(item.copy(favorite = favorite))

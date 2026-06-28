@@ -23,5 +23,5 @@ interface FavoriteMoviesUseCase {
 
     suspend fun upsertMovie(movie: MovieModel)
 
-    suspend fun getFavoriteMovies(): Flow<List<MovieModel>>
+    fun getFavoriteMovies(): Flow<List<MovieModel>>
 }

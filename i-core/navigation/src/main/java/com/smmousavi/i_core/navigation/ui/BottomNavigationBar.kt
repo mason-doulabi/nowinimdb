@@ -60,7 +60,7 @@ fun ImdbBottomNavigationBar(
 @Preview(showBackground = true)
 fun ImdbBottomNavigationBarPreview() {
     ImdbBottomNavigationBar(
-        navItems = BottomNavigationItem.DEFAULTS,
+        navItems = BottomNavigationItem.ITEMS,
         currentDestination = ImdbDestination.Movies,
     ) { }
 }

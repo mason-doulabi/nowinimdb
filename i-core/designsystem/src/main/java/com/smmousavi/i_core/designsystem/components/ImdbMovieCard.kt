@@ -53,7 +53,6 @@ import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 fun ImdbMovieCard(
     modifier: Modifier = Modifier,
     data: MovieModel,
-    favorite: Boolean,
     onFavoriteClick: (MovieModel) -> Unit,
     onClick: (MovieModel) -> Unit,
 ) {
@@ -96,7 +95,7 @@ fun ImdbMovieCard(
                     Icon(
                         modifier = Modifier.size(24.dp),
                         tint = MaterialTheme.colorScheme.tertiary,
-                        imageVector = if (favorite) {
+                        imageVector = if (data.favorite) {
                             Icons.Filled.Favorite
                         } else {
                             Icons.Filled.FavoriteBorder
@@ -144,7 +143,6 @@ fun ImdbMovieCard(
 fun ImdbMovieCardPreview() {
     ImdbMovieCard(
         data = Movie.DEFAULT1.toModel(),
-        favorite = false,
         onClick = {},
         onFavoriteClick = {},
     )

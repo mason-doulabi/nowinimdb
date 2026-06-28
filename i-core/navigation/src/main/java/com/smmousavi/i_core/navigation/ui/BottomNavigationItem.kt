@@ -26,7 +26,7 @@ data class BottomNavigationItem(
     val icon: ImageVector,
 ) {
     companion object {
-        val DEFAULTS = listOf(
+        val ITEMS = listOf(
             BottomNavigationItem(
                 ImdbDestination.Movies,
                 label = "Movies",

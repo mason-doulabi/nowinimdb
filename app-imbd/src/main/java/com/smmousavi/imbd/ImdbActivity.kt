@@ -61,7 +61,7 @@ fun ImdbActivityContent(
         modifier = modifier,
         bottomBar = {
             ImdbBottomNavigationBar(
-                navItems = BottomNavigationItem.DEFAULTS,
+                navItems = BottomNavigationItem.ITEMS,
                 currentDestination = currentDestination,
                 onDestinationClick = { destination ->
                     navController.navigate(destination.route) {

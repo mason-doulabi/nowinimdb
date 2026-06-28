@@ -101,7 +101,7 @@ fun MovieDetailsScreen(
         posterState = moviePosterState,
         castsState = movieCastState,
         onFavoriteClick = { movie ->
-            viewModel.setFavoriteMovie(movie)
+            viewModel.setMovieAsFavorite(movie)
         },
     ) {
         onBackClick()

@@ -46,7 +46,7 @@ fun ImdbNavHost(
             },
             onBackClick = {
                 navController.popBackStack()
-            }
+            },
         )
 
         searchGraph(
@@ -55,10 +55,17 @@ fun ImdbNavHost(
             },
             onBackClick = {
                 navController.popBackStack()
-            }
+            },
         )
 
-        profileGraph()
+        profileGraph(
+            onMovieClicked = { movieId ->
+                navController.navigate(ImdbDestination.MovieDetails.createRoute(movieId))
+            },
+            onBackClick = {
+                navController.popBackStack()
+            },
+        )
     }
 }
 
@@ -72,6 +79,7 @@ fun NavGraphBuilder.moviesGraph(
         )
     }
 
+
     composable(
         route = ImdbDestination.MovieDetails.route,
         arguments = listOf(
@@ -84,7 +92,7 @@ fun NavGraphBuilder.moviesGraph(
             backStackEntry.arguments!!.getString(ImdbDestination.MovieDetails.ARG_MOVIE_ID)!!
         MovieDetailsScreen(
             movieId = movieId,
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
         )
     }
 }
@@ -115,8 +123,28 @@ fun NavGraphBuilder.searchGraph(
     }
 }
 
-fun NavGraphBuilder.profileGraph() {
+fun NavGraphBuilder.profileGraph(
+    onMovieClicked: (String) -> Unit,
+    onBackClick: () -> Unit,
+) {
     composable(ImdbDestination.Profile.route) {
-        ProfilScreen()
+        ProfilScreen(onMovieClick = onMovieClicked)
+    }
+
+    composable(
+        route = ImdbDestination.MovieDetails.route,
+        arguments = listOf(
+            navArgument(ImdbDestination.MovieDetails.ARG_MOVIE_ID) {
+                type = NavType.StringType
+            },
+        ),
+    ) { backStackEntry ->
+        val movieId =
+            backStackEntry.arguments!!.getString(ImdbDestination.MovieDetails.ARG_MOVIE_ID)!!
+        MovieDetailsScreen(
+            movieId = movieId,
+        ) {
+            onBackClick()
+        }
     }
 }

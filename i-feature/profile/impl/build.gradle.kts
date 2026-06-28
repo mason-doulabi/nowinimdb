@@ -9,6 +9,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.iCore.domain)
+    implementation(projects.iCore.designsystem)
+    implementation(projects.iCore.presentation)
+
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)

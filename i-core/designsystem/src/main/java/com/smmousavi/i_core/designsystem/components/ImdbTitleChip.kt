@@ -16,6 +16,7 @@
 
 package com.smmousavi.i_core.designsystem.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -48,7 +49,7 @@ fun ImdbTitleChip(
         shape = RoundedCornerShape(4.dp),
     ) {
         Column(
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(text = title, style = MaterialTheme.typography.titleSmall)
