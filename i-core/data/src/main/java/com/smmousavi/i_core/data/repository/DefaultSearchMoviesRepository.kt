@@ -17,14 +17,17 @@
 package com.smmousavi.i_core.data.repository
 
 import com.smmousavi.domain.repository.SearchMovieRepository
+import com.smmousavi.i_core.data.datasource.movies.local.MoviesLocalDataSource
 import com.smmousavi.i_core.data.datasource.search.local.SearchMoviesLocalDataSource
 import com.smmousavi.i_core.data.datasource.search.remote.SearchMoviesRemoteDataSource
 import com.smmousavi.i_core.data.mapper.dto.MovieDtoMapper.toDomain
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toEntity
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toModel
+import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 import com.smmousavi.i_core.model.movies.movie.Movie
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -32,13 +35,13 @@ import javax.inject.Inject
 class DefaultSearchMoviesRepository @Inject constructor(
     private val remoteDataSource: SearchMoviesRemoteDataSource,
     private val localDataSource: SearchMoviesLocalDataSource,
+    private val moviesLocalDataSource: MoviesLocalDataSource,
 ) : SearchMovieRepository {
 
-    override fun searchMovie(query: String): Flow<Result<List<Movie>>> = flow {
+    override fun fetchSearchMovieResult(query: String): Flow<Result<List<Movie>>> = flow {
         emit(
             remoteDataSource.searchMovie(query).fold(
                 onSuccess = { data ->
-
                     Result.success(data.results.map { it.toDomain() })
                 },
                 onFailure = { error ->
@@ -48,7 +51,18 @@ class DefaultSearchMoviesRepository @Inject constructor(
         )
     }
 
-    override fun autoComplete(query: String): Flow<Result<List<Movie>>> = flow {
+    override fun getSearchMovieResult(query: String): Flow<Result<List<MovieModel>>> = combine(
+        fetchSearchMovieResult(query),
+        moviesLocalDataSource.getFavoriteMovies(),
+    ) { searchResult, favorites ->
+        val favoritesId = favorites.map { it.id }.toHashSet()
+        searchResult.fold(
+            onSuccess = { data -> Result.success(data.map { it.toModel(favorite = it.id in favoritesId) }) },
+            onFailure = { e -> Result.failure(e) },
+        )
+    }
+
+    override fun fetchAutoCompleteResult(query: String): Flow<Result<List<Movie>>> = flow {
         emit(
             remoteDataSource.autoComplete(query).fold(
                 onSuccess = { data ->
@@ -58,6 +72,23 @@ class DefaultSearchMoviesRepository @Inject constructor(
                     Result.failure(error)
                 },
             ),
+        )
+    }
+
+    override fun getAutoCompleteResult(query: String): Flow<Result<List<MovieModel>>> = combine(
+        fetchAutoCompleteResult(query),
+        moviesLocalDataSource.getFavoriteMovies(),
+    ) { autoCompleteResult, favorites ->
+        val favoritesId = favorites.map { it.id }.toHashSet()
+        autoCompleteResult.fold(
+            onSuccess = { data ->
+                Result.success(
+                    data.map { movie ->
+                        movie.toModel(favorite = movie.id in favoritesId)
+                    }.take(5),
+                )
+            },
+            onFailure = { e -> Result.failure(e) },
         )
     }
 

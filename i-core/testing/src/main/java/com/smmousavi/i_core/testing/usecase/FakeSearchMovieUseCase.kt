@@ -17,7 +17,9 @@
 package com.smmousavi.i_core.testing.usecase
 
 import com.smmousavi.domain.usecase.search.SearchMovieUseCase
+import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -27,12 +29,12 @@ class FakeSearchMovieUseCase : SearchMovieUseCase {
 
     var callCount = 0
     var lastQuery = ""
-    var result: Result<List<Movie>> =
+    var result: Result<List<MovieModel>> =
         Result.success(
-            listOf(Movie.DEFAULT1),
+            listOf(Movie.DEFAULT1.toModel()),
         )
 
-    override fun searchMovie(query: String): Flow<Result<List<Movie>>> = flow {
+    override fun searchMovie(query: String): Flow<Result<List<MovieModel>>> = flow {
         callCount++
         lastQuery = query
 
@@ -40,7 +42,7 @@ class FakeSearchMovieUseCase : SearchMovieUseCase {
         emit(result)
     }
 
-    override fun autoComplete(query: String): Flow<Result<List<Movie>>> {
+    override fun autoComplete(query: String): Flow<Result<List<MovieModel>>> {
         return flowOf(result)
     }
 }

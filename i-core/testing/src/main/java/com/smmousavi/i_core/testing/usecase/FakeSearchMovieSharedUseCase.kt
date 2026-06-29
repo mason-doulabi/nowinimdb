@@ -18,6 +18,7 @@ package com.smmousavi.i_core.testing.usecase
 
 import com.smmousavi.domain.usecase.search.SearchMovieUseCase
 import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flowOf
@@ -26,19 +27,19 @@ class FakeSearchMovieSharedUseCase : SearchMovieUseCase {
 
     var callCount = 0
     var lastQuery = ""
-    private val flowController = MutableSharedFlow<Result<List<Movie>>>()
+    private val flowController = MutableSharedFlow<Result<List<MovieModel>>>()
 
-    override fun searchMovie(query: String): Flow<Result<List<Movie>>> {
+    override fun searchMovie(query: String): Flow<Result<List<MovieModel>>> {
         callCount++
         lastQuery = query
         return flowController
     }
 
-    override fun autoComplete(query: String): Flow<Result<List<Movie>>> {
+    override fun autoComplete(query: String): Flow<Result<List<MovieModel>>> {
         return flowOf(Result.success(emptyList()))
     }
 
-    suspend fun emitSuccess(movies: List<Movie>) {
+    suspend fun emitSuccess(movies: List<MovieModel>) {
         return flowController.emit(Result.success(movies))
     }
 

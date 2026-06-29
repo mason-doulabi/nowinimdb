@@ -26,7 +26,7 @@ class FakeSearchMovieRepository : SearchMovieRepository {
 
     var shouldFail = false
 
-    override fun searchMovie(query: String): Flow<Result<List<Movie>>> {
+    override fun fetchSearchMovieResult(query: String): Flow<Result<List<Movie>>> {
         return if (shouldFail) {
             flowOf(
                 Result.failure(RuntimeException("Network Error")),
@@ -43,7 +43,11 @@ class FakeSearchMovieRepository : SearchMovieRepository {
         }
     }
 
-    override fun autoComplete(query: String): Flow<Result<List<Movie>>> {
+    override fun getSearchMovieResult(query: String): Flow<Result<List<MovieModel>>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun fetchAutoCompleteResult(query: String): Flow<Result<List<Movie>>> {
         return if (shouldFail) {
             flowOf(Result.failure(RuntimeException("Network Error")))
         } else {
@@ -55,6 +59,10 @@ class FakeSearchMovieRepository : SearchMovieRepository {
                 ),
             )
         }
+    }
+
+    override fun getAutoCompleteResult(query: String): Flow<Result<List<MovieModel>>> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun setMovieAsRecentlySearched(

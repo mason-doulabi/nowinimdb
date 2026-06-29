@@ -22,9 +22,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface SearchMovieRepository {
 
-    fun searchMovie(query: String): Flow<Result<List<Movie>>>
+    fun fetchSearchMovieResult(query: String): Flow<Result<List<Movie>>>
 
-    fun autoComplete(query: String): Flow<Result<List<Movie>>>
+    fun getSearchMovieResult(query: String): Flow<Result<List<MovieModel>>>
+
+    fun fetchAutoCompleteResult(query: String): Flow<Result<List<Movie>>>
+
+    fun getAutoCompleteResult(query: String): Flow<Result<List<MovieModel>>>
 
     suspend fun setMovieAsRecentlySearched(movie: MovieModel, recentlySearched: Boolean)
 

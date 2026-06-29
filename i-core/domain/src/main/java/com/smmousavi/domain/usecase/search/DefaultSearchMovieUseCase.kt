@@ -18,6 +18,7 @@ package com.smmousavi.domain.usecase.search
 
 import com.smmousavi.domain.repository.SearchMovieRepository
 import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -25,11 +26,11 @@ class DefaultSearchMovieUseCase @Inject constructor(
     private val repository: SearchMovieRepository,
 ) : SearchMovieUseCase {
 
-    override fun searchMovie(query: String): Flow<Result<List<Movie>>> {
-        return repository.searchMovie(query)
+    override fun searchMovie(query: String): Flow<Result<List<MovieModel>>> {
+        return repository.getSearchMovieResult(query)
     }
 
-    override fun autoComplete(query: String): Flow<Result<List<Movie>>> {
-        return repository.autoComplete(query)
+    override fun autoComplete(query: String): Flow<Result<List<MovieModel>>> {
+        return repository.getAutoCompleteResult(query)
     }
 }

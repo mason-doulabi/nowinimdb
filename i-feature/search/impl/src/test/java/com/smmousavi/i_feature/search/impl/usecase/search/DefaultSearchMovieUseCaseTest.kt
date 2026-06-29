@@ -58,7 +58,7 @@ class DefaultSearchMovieUseCaseTest {
     @Test
     fun searchMovie_returnsFailure_whenRepositoryFails() = runTest {
         repository.shouldFail = true
-        val result = repository.searchMovie("Dark").first()
+        val result = repository.fetchSearchMovieResult("Dark").first()
 
         assertTrue { result.isFailure }
     }
@@ -66,7 +66,7 @@ class DefaultSearchMovieUseCaseTest {
     @Test
     fun autoComplete_returnsFailure_whenRepositoryFails() = runTest {
         repository.shouldFail = true
-        val result = repository.autoComplete("Dark").first()
+        val result = repository.fetchAutoCompleteResult("Dark").first()
 
         assertTrue { result.isFailure }
     }

@@ -17,11 +17,12 @@
 package com.smmousavi.domain.usecase.search
 
 import com.smmousavi.i_core.model.movies.movie.Movie
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import kotlinx.coroutines.flow.Flow
 
 interface SearchMovieUseCase {
 
-    fun searchMovie(query: String): Flow<Result<List<Movie>>>
+    fun searchMovie(query: String): Flow<Result<List<MovieModel>>>
 
-    fun autoComplete(query: String): Flow<Result<List<Movie>>>
+    fun autoComplete(query: String): Flow<Result<List<MovieModel>>>
 }

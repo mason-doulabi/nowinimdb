@@ -21,7 +21,6 @@ import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.search.SearchMovieUseCase
 import com.smmousavi.domain.usecase.search.recent.RecentSearchesUseCase
 import com.smmousavi.i_core.model.movies.movie.MovieModel
-import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
 import com.smmousavi.i_core.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -67,7 +66,7 @@ class SearchScreenViewModel @Inject constructor(
                     .map { result ->
                         result.fold(
                             onSuccess = { data ->
-                                UiState.Success(data.map { it.toModel() })
+                                UiState.Success(data)
                             },
                             onFailure = { error ->
                                 UiState.Error(error.message, error)
@@ -100,11 +99,7 @@ class SearchScreenViewModel @Inject constructor(
                     .map { result ->
                         result.fold(
                             onSuccess = { data ->
-                                UiState.Success(
-                                    data
-                                        .take(5)
-                                        .map { it.toModel() },
-                                )
+                                UiState.Success(data)
                             },
                             onFailure = { error ->
                                 UiState.Error(error.message, error)
