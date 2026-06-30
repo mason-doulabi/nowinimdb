@@ -20,6 +20,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.movies.details.MovieDetailsUseCase
 import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
+import com.smmousavi.i_core.common.error.ImdbError
+import com.smmousavi.i_core.common.error.toImdbError
 import com.smmousavi.i_core.model.movies.movie.MovieCast
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.model.movies.movie.MoviePoster
@@ -57,6 +59,7 @@ class MovieDetailsScreenViewModel @Inject constructor(
                     },
                     onFailure = { e ->
                         _movieDetailsState.value = UiState.Error(e.message, e)
+                        snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
                     },
                 )
             }
@@ -72,6 +75,7 @@ class MovieDetailsScreenViewModel @Inject constructor(
                     },
                     onFailure = { e ->
                         _moviePosterState.value = UiState.Error(e.message, e)
+                        snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
                     },
                 )
             }
@@ -87,6 +91,7 @@ class MovieDetailsScreenViewModel @Inject constructor(
                     },
                     onFailure = { e ->
                         _moviePosterState.value = UiState.Error(e.message, e)
+                        snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
                     },
                 )
             }

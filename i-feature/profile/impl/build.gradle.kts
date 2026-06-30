@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.iCore.common)
     implementation(projects.iCore.domain)
     implementation(projects.iCore.designsystem)
     implementation(projects.iCore.presentation)

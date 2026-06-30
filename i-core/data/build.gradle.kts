@@ -17,6 +17,8 @@ dependencies {
     api(projects.iCore.domain)
 
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.play.services.base)
+    implementation(libs.play.services.location)
 
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.kotlinx.serialization.json)
@@ -24,4 +26,6 @@ dependencies {
     testImplementation(projects.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
+
+
 }

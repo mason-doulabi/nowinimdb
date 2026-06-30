@@ -3,6 +3,7 @@ package com.smmousavi.i_core.data.repository
 import com.smmousavi.domain.repository.MoviesGeneralInfoRepository
 import com.smmousavi.i_core.data.datasource.movies.remote.generalinfo.MoviesGeneralInfoDataSource
 import com.smmousavi.i_core.data.mapper.dto.MovieDtoMapper.toDomain
+import com.smmousavi.i_core.data.mapper.ErrorMapper
 import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieCountry
 import com.smmousavi.i_core.model.movies.movie.generalinfo.MovieLanguage
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +17,8 @@ class DefaultMoviesGeneralInfoRepository @Inject constructor(
     override fun getTypes(): Flow<Result<List<String>>> = flow {
         emit(
             moviesGeneralInfoDataSource.getTypes().fold(
-                onSuccess = { Result.success(it) },
-                onFailure = { Result.failure(it) },
+                onSuccess = { data -> Result.success(data) },
+                onFailure = { e -> Result.failure(ErrorMapper.map(e)) },
             ),
         )
     }
@@ -25,8 +26,8 @@ class DefaultMoviesGeneralInfoRepository @Inject constructor(
     override fun getGenres(): Flow<Result<List<String>>> = flow {
         emit(
             moviesGeneralInfoDataSource.getGenres().fold(
-                onSuccess = { Result.success(it) },
-                onFailure = { Result.failure(it) },
+                onSuccess = { data -> Result.success(data) },
+                onFailure = { e -> Result.failure(ErrorMapper.map(e)) },
             ),
         )
     }
@@ -34,8 +35,14 @@ class DefaultMoviesGeneralInfoRepository @Inject constructor(
     override fun getCountries(): Flow<Result<List<MovieCountry>>> = flow {
         emit(
             moviesGeneralInfoDataSource.getCountries().fold(
-                onSuccess = { Result.success(it.map { country -> country.toDomain() }) },
-                onFailure = { Result.failure(it) },
+                onSuccess = { data ->
+                    Result.success(
+                        data.map { country ->
+                            country.toDomain()
+                        },
+                    )
+                },
+                onFailure = { e -> Result.failure(ErrorMapper.map(e)) },
             ),
         )
     }
@@ -43,8 +50,14 @@ class DefaultMoviesGeneralInfoRepository @Inject constructor(
     override fun getLanguages(): Flow<Result<List<MovieLanguage>>> = flow {
         emit(
             moviesGeneralInfoDataSource.getLanguages().fold(
-                onSuccess = { Result.success(it.map { language -> language.toDomain() }) },
-                onFailure = { Result.failure(it) },
+                onSuccess = { data ->
+                    Result.success(
+                        data.map { language ->
+                            language.toDomain()
+                        },
+                    )
+                },
+                onFailure = { e -> Result.failure(ErrorMapper.map(e)) },
             ),
         )
     }

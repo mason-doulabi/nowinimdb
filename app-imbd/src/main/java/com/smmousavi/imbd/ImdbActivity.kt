@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -31,6 +32,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -69,9 +72,10 @@ fun ImdbActivityContent(
     )
 
     LaunchedEffect(Unit) {
-        snackbarEvent.collect { event ->
-            collectSnackbarEvent(event, snackbarHostState)
-        }
+        snackbarEvent.distinctUntilChanged()
+            .collect { event ->
+                collectSnackbarEvent(event, snackbarHostState)
+            }
     }
 
     Scaffold(
@@ -130,6 +134,14 @@ private suspend fun collectSnackbarEvent(
         is SnackbarEvent.LoginSuccess -> {
             snackbarHostState.showSnackbar(
                 "Welcome ${event.userName}",
+            )
+        }
+
+        is SnackbarEvent.Error -> {
+            snackbarHostState.showSnackbar(
+                "Error: ${event.imdbError.msg}",
+                duration = SnackbarDuration.Indefinite,
+                withDismissAction = true,
             )
         }
     }

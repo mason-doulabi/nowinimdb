@@ -14,27 +14,21 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.presentation.snackbar
+package com.smmousavi.i_core.common.error
 
-import com.smmousavi.i_core.common.error.ImdbError
+sealed class ImdbError(val msg: String) : Throwable(msg) {
 
-sealed interface SnackbarEvent {
+    data object Network : ImdbError("Request Time out")
 
-    data class FavoriteAdded(
-        val movieTitle: String,
-    ) : SnackbarEvent
+    data object Timeout : ImdbError("Request Time out")
 
-    data class FavoriteRemoved(
-        val movieTitle: String,
-    ) : SnackbarEvent
+    data object Unauthorized : ImdbError("Unauthorized attempt")
 
-    data class LoginSuccess(
-        val userName: String,
-    ) : SnackbarEvent
+    data object TooManyRequests : ImdbError("Too many request")
 
-    data class Error(
-        val imdbError: ImdbError
-    ): SnackbarEvent
+    data object NotFound : ImdbError("Not found")
 
-    data object LoggedOut : SnackbarEvent
+    data object Unknow : ImdbError("Unknown error")
+
+    data class Validation(val report: String) : ImdbError(report)
 }

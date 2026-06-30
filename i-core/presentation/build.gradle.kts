@@ -10,6 +10,7 @@ android {
 }
 
 dependencies {
+    api(projects.iCore.common)
     api(libs.androidx.metrics)
     api(projects.core.analytics)
     api(projects.iCore.designsystem)

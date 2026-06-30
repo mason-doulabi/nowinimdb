@@ -19,11 +19,13 @@ package com.smmousavi.i_feature.profile.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
+import com.smmousavi.i_core.common.error.toImdbError
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.presentation.snackbar.SnackbarEvent
 import com.smmousavi.i_core.presentation.snackbar.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +37,9 @@ class ProfileScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     val favorites = favoriteUseCase.getFavoriteMovies()
+        .catch { e ->
+            snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
+        }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),

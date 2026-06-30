@@ -20,8 +20,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.search.SearchMovieUseCase
 import com.smmousavi.domain.usecase.search.recent.RecentSearchesUseCase
+import com.smmousavi.i_core.common.error.toImdbError
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.presentation.UiState
+import com.smmousavi.i_core.presentation.snackbar.SnackbarEvent
+import com.smmousavi.i_core.presentation.snackbar.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,6 +45,7 @@ import javax.inject.Inject
 class SearchScreenViewModel @Inject constructor(
     val searchMovieUseCase: SearchMovieUseCase,
     val recentSearchesUseCase: RecentSearchesUseCase,
+    val snackbarManager: SnackbarManager,
 ) : ViewModel() {
 
     private val _searchQueryState = MutableStateFlow("")
@@ -76,6 +80,7 @@ class SearchScreenViewModel @Inject constructor(
                     .onStart { emit(UiState.Loading) } // on flow starts emitting
                     .catch { e -> // catch any errors on any emits
                         emit(UiState.Error(e.message, e))
+                        snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
                     }
             }
         }
@@ -108,9 +113,8 @@ class SearchScreenViewModel @Inject constructor(
                     }
                     .onStart { emit(UiState.Loading) }
                     .catch { e ->
-                        emit(
-                            UiState.Error(e.message, e),
-                        )
+                        emit(UiState.Error(e.message, e))
+                        snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
                     }
             }
         }

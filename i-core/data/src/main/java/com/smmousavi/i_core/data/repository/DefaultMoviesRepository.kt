@@ -21,6 +21,7 @@ import com.smmousavi.i_core.data.datasource.movies.remote.MoviesRemoteDataSource
 import com.smmousavi.i_core.data.mapper.dto.MovieDtoMapper.toDomain
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toEntity
 import com.smmousavi.i_core.data.mapper.entity.MoviesEntityMapper.toModel
+import com.smmousavi.i_core.data.mapper.ErrorMapper
 import com.smmousavi.i_core.model.movies.movie.Movie
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.model.movies.mapper.MovieModelMapper.toModel
@@ -68,7 +69,7 @@ class DefaultMoviesRepository @Inject constructor(
                     },
                 )
             },
-            onFailure = { Result.failure(it) },
+            onFailure = { e -> Result.failure(ErrorMapper.map(e)) },
         )
     }
 
@@ -85,7 +86,7 @@ class DefaultMoviesRepository @Inject constructor(
                     },
                 )
             },
-            onFailure = { Result.failure(it) },
+            onFailure = { e -> Result.failure(ErrorMapper.map(e)) },
         )
     }
 
@@ -104,7 +105,7 @@ class DefaultMoviesRepository @Inject constructor(
             onSuccess = { movie ->
                 Result.success(movie.toModel(favorite = movie.id in favoritesId))
             },
-            onFailure = { Result.failure(it) },
+            onFailure = { e -> Result.failure(ErrorMapper.map(e)) },
         )
     }
 
@@ -114,7 +115,7 @@ class DefaultMoviesRepository @Inject constructor(
                 onSuccess = { casts ->
                     Result.success(casts.map { it.toDomain() })
                 },
-                onFailure = { Result.failure(it) },
+                onFailure = { e -> Result.failure(ErrorMapper.map(e)) },
             ),
         )
     }
@@ -123,7 +124,7 @@ class DefaultMoviesRepository @Inject constructor(
         emit(
             moviesRemoteDataSource.fetchMoviePosterById(id).fold(
                 onSuccess = { poster -> Result.success(poster.toDomain()) },
-                onFailure = { Result.failure(it) },
+                onFailure = { e -> Result.failure(ErrorMapper.map(e)) },
             ),
         )
     }

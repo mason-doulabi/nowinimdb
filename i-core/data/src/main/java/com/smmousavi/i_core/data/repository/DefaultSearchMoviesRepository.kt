@@ -40,14 +40,8 @@ class DefaultSearchMoviesRepository @Inject constructor(
 
     override fun fetchSearchMovieResult(query: String): Flow<Result<List<Movie>>> = flow {
         emit(
-            remoteDataSource.searchMovie(query).fold(
-                onSuccess = { data ->
-                    Result.success(data.results.map { it.toDomain() })
-                },
-                onFailure = { error ->
-                    Result.failure(error)
-                },
-            ),
+            remoteDataSource.searchMovie(query)
+                .map { search -> search.results.map { it.toDomain() } },
         )
     }
 
@@ -57,21 +51,21 @@ class DefaultSearchMoviesRepository @Inject constructor(
     ) { searchResult, favorites ->
         val favoritesId = favorites.map { it.id }.toHashSet()
         searchResult.fold(
-            onSuccess = { data -> Result.success(data.map { it.toModel(favorite = it.id in favoritesId) }) },
+            onSuccess = { data ->
+                Result.success(
+                    data.map { movie ->
+                        movie.toModel(favorite = movie.id in favoritesId)
+                    },
+                )
+            },
             onFailure = { e -> Result.failure(e) },
         )
     }
 
     override fun fetchAutoCompleteResult(query: String): Flow<Result<List<Movie>>> = flow {
         emit(
-            remoteDataSource.autoComplete(query).fold(
-                onSuccess = { data ->
-                    Result.success(data.map { it.toDomain() })
-                },
-                onFailure = { error ->
-                    Result.failure(error)
-                },
-            ),
+            remoteDataSource.autoComplete(query)
+                .map { autoComplete -> autoComplete.map { it.toDomain() } },
         )
     }
 

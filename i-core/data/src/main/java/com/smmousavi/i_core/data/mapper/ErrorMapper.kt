@@ -14,27 +14,35 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.presentation.snackbar
+package com.smmousavi.i_core.data.mapper
 
 import com.smmousavi.i_core.common.error.ImdbError
+import retrofit2.HttpException
+import java.io.IOException
+import java.net.SocketTimeoutException
 
-sealed interface SnackbarEvent {
+object ErrorMapper {
 
-    data class FavoriteAdded(
-        val movieTitle: String,
-    ) : SnackbarEvent
+    fun map(throwable: Throwable): ImdbError = when (throwable) {
 
-    data class FavoriteRemoved(
-        val movieTitle: String,
-    ) : SnackbarEvent
+        is SocketTimeoutException -> ImdbError.Timeout
 
-    data class LoginSuccess(
-        val userName: String,
-    ) : SnackbarEvent
+        is IOException -> ImdbError.Network
 
-    data class Error(
-        val imdbError: ImdbError
-    ): SnackbarEvent
+        is HttpException -> {
+            when (throwable.code()) {
+                401 -> ImdbError.Unauthorized
 
-    data object LoggedOut : SnackbarEvent
+                404 -> ImdbError.NotFound
+
+                429 -> ImdbError.TooManyRequests
+
+                else -> ImdbError.Unknow
+            }
+        }
+
+        else -> {
+            ImdbError.Unknow
+        }
+    }
 }

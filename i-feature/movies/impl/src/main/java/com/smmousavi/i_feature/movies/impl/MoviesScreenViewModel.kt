@@ -21,6 +21,7 @@ import androidx.lifecycle.viewModelScope
 import com.smmousavi.domain.usecase.generalinfo.MoviesGeneralInfoUseCase
 import com.smmousavi.domain.usecase.movies.favorite.FavoriteMoviesUseCase
 import com.smmousavi.domain.usecase.movies.top.TopMoviesUseCase
+import com.smmousavi.i_core.common.error.toImdbError
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.presentation.UiState
 import com.smmousavi.i_core.presentation.snackbar.SnackbarEvent
@@ -64,6 +65,7 @@ class MoviesScreenViewModel @Inject constructor(
                     },
                     onFailure = { e ->
                         _genresState.value = UiState.Error(e.message, e)
+                        snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
                     },
                 )
             }
@@ -79,6 +81,7 @@ class MoviesScreenViewModel @Inject constructor(
                     },
                     onFailure = { e ->
                         _typesState.value = UiState.Error(e.message, e)
+                        snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
                     },
                 )
             }
@@ -90,8 +93,9 @@ class MoviesScreenViewModel @Inject constructor(
             topMoviesUsesCase.top250Movies().collect {
                 it.fold(
                     onSuccess = { data -> _top250MoviesState.value = UiState.Success(data) },
-                    onFailure = {
-                        // display error
+                    onFailure = { e->
+                        _top250MoviesState.value = UiState.Error(e.message, e)
+                        snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
                     },
                 )
             }
@@ -107,6 +111,7 @@ class MoviesScreenViewModel @Inject constructor(
                     },
                     onFailure = { e ->
                         _mostPopularMoviesState.value = UiState.Error(e.message, e)
+                        snackbarManager.emit(SnackbarEvent.Error(e.toImdbError()))
                     },
                 )
             }

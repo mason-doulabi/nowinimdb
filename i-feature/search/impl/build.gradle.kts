@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    api(projects.iCore.common)
     api(projects.iCore.domain)
     api(projects.iCore.designsystem)
     api(projects.iCore.presentation)

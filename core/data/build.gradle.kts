@@ -30,6 +30,8 @@ dependencies {
     api(projects.core.database)
     api(projects.core.datastore)
     api(projects.core.network)
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.base)
 
     implementation(projects.core.analytics)
     implementation(projects.core.notifications)

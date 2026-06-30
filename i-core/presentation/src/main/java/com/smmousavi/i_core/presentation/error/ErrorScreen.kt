@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.presentation.snackbar
+package com.smmousavi.i_core.presentation.error
 
-import com.smmousavi.i_core.common.error.ImdbError
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 
-sealed interface SnackbarEvent {
-
-    data class FavoriteAdded(
-        val movieTitle: String,
-    ) : SnackbarEvent
-
-    data class FavoriteRemoved(
-        val movieTitle: String,
-    ) : SnackbarEvent
-
-    data class LoginSuccess(
-        val userName: String,
-    ) : SnackbarEvent
-
-    data class Error(
-        val imdbError: ImdbError
-    ): SnackbarEvent
-
-    data object LoggedOut : SnackbarEvent
+@Composable
+fun MoviesErrorScreen(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    
 }
+
+@Composable
+@Preview
+fun MoviesErrorScreenPreview() {
+    MoviesErrorScreen() {}
+}
+
+
