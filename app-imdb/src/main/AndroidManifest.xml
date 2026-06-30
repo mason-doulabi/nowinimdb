@@ -18,42 +18,23 @@
         android:name="android.permission.ACCESS_ADSERVICES_AD_ID"
         tools:node="remove" />
 
-    <!-- Compose Activity -->
-    <!--<application
-        android:name="com.smmousavi.imdb.ImdbApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.Nowinandroid">
-        <activity
-            android:name="com.smmousavi.imdb.ImdbActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Nowinandroid">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>-->
-
-    <!-- XML Activity -->
     <application
-        android:name="com.smmousavi.imdb.ImdbApplication"
+        android:name=".ImdbApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light">
+        android:theme="@style/Theme.Imdb.Xml">
         <activity
-            android:name="com.smmousavi.imdb.xml.MainActivity"
+            android:name=".xml.ResultActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Imdb.Xml" />
+        <activity
+            android:name=".xml.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:theme="@style/Theme.Imdb.Xml">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
