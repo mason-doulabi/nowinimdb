@@ -91,7 +91,7 @@ check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
 }
 
 //IMDb-specific modules
-include(":app-imbd")
+include(":app-imdb")
 include(":i-core:network")
 include(":i-core:presentation")
 include(":i-core:model")
