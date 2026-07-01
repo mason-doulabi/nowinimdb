@@ -16,6 +16,12 @@
 
 package com.smmousavi.i_core.presentation.utils
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
+
 fun Int.priceSeparated(): String {
     val result = StringBuilder()
     val inputStr = this.toString()
@@ -32,4 +38,12 @@ fun Int.priceSeparated(): String {
     }
 
     return result.toString()
+}
+
+fun LifecycleOwner.collectOnLifecycleStarted(onCollect: suspend () -> Unit) {
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
+            onCollect()
+        }
+    }
 }

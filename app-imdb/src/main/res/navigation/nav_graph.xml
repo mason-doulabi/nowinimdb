@@ -3,26 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/moviesFragmentNav">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.smmousavi.imdb.xml.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/moviesFragmentNav"
+        android:name="com.smmousavi.i_feature.movies.impl.xml.MoviesFragment"
+        android:label="@string/movies_fragment_label"
+        tools:layout="@layout/fragment_movies">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_MoviesFragment_to_DetailsFragment"
+            app:destination="@id/detailsFragmentNav" />
     </fragment>
+
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.smmousavi.imdb.xml.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/searchFragmentNav"
+        android:name="com.smmousavi.i_feature.search.impl.xml.SearchFragment"
+        android:label="@string/search_fragment_label"
+        tools:layout="@layout/fragment_search">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_SearchFragment_to_DetailsFragment"
+            app:destination="@id/detailsFragmentNav" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragmentNav"
+        android:name="com.smmousavi.i_feature.profile.impl.xml.ProfileFragment"
+        android:label="@string/profile_fragment_label"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_ProfileFragment_to_DetailsFragment"
+            app:destination="@id/detailsFragmentNav" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragmentNav"
+        android:name="com.smmousavi.i_feature.details.xml.DetailsFragment"
+        android:label="@string/details_fragment_label"
+        tools:layout="@layout/fragment_details">
+
+        <argument
+            android:name="movie_id"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_DetailsFragment_to_MoviesFragment"
+            app:destination="@id/moviesFragmentNav" />
+
+        <action
+            android:id="@+id/action_DetailsFragment_to_SearchFragment"
+            app:destination="@id/searchFragmentNav" />
+
+        <action
+            android:id="@+id/action_DetailsFragment_to_ProfileFragment"
+            app:destination="@id/profileFragmentNav" />
     </fragment>
 </navigation>

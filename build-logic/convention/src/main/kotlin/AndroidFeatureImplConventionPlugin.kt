@@ -44,6 +44,12 @@ class AndroidFeatureImplConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.navigation3.runtime").get())
                 "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
 
+                "implementation"(libs.findLibrary("androidx.activity.ktx").get())
+                "implementation"(libs.findLibrary("androidx.appcompat").get())
+                "implementation"(libs.findLibrary("androidx.constraintlayout").get())
+                "implementation"(libs.findLibrary("androidx.navigation.fragment.ktx").get())
+                "implementation"(libs.findLibrary("androidx.navigation.ui.ktx").get())
+
                 "androidTestImplementation"(
                     libs.findLibrary("androidx.lifecycle.runtimeTesting").get(),
                 )
