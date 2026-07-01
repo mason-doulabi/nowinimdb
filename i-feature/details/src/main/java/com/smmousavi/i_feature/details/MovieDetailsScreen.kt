@@ -76,7 +76,7 @@ import com.smmousavi.i_core.model.movies.movie.MovieCast
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.model.movies.movie.MoviePoster
 import com.smmousavi.i_core.presentation.UiState
-import com.smmousavi.i_core.presentation.utils.priceSeparated
+import com.smmousavi.i_core.presentation.priceSeparated
 
 @Composable
 fun MovieDetailsScreen(

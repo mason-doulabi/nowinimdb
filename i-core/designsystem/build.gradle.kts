@@ -8,6 +8,9 @@ plugins {
 android {
     namespace = "com.smmousavi.i_core.designsystem"
     testOptions.unitTests.isIncludeAndroidResources = true
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 
@@ -16,6 +19,13 @@ dependencies {
 
     api(projects.core.designsystem)
     api(projects.iCore.model)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.material)
 
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.foundation.layout)

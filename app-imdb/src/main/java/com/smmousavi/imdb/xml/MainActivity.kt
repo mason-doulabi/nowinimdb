@@ -5,17 +5,17 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.material3.SnackbarDuration
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.smmousavi.i_core.presentation.snackbar.SnackbarEvent
-import com.smmousavi.i_core.presentation.utils.collectOnLifecycleStarted
+import com.smmousavi.i_core.presentation.collectOnLifecycleStarted
 import com.smmousavi.imdb.MainActivityViewModel
 import com.smmousavi.imdb.R
 import com.smmousavi.imdb.databinding.ActivityMainBinding
@@ -77,14 +77,12 @@ class MainActivity : AppCompatActivity() {
     private fun applyWindowInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom,
             )
-
             insets
         }
     }
@@ -131,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(
                     binding.root,
                     "Error: ${event.imdbError}",
-                    Snackbar.LENGTH_LONG,
+                    Snackbar.LENGTH_INDEFINITE,
                 )
                     .setAction("Dismiss") {
                     }

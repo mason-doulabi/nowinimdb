@@ -14,24 +14,14 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.presentation.error
+package com.smmousavi.i_core.presentation.xml
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
-@Composable
-fun MoviesErrorScreen(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    
+abstract class BaseViewHolder<in T>(
+    view: View,
+) : RecyclerView.ViewHolder(view) {
+
+    abstract fun bind(item: T)
 }
-
-@Composable
-@Preview
-fun MoviesErrorScreenPreview() {
-    MoviesErrorScreen() {}
-}
-
-

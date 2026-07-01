@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="180dp"
+    android:layout_height="360dp"
+    tools:ignore="ResourceName">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvRootCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgMovieCover"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="2:3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imgFavoriteIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_favorite_outline"
+                app:layout_constraintBottom_toBottomOf="@id/imgMovieCover"
+                app:layout_constraintStart_toStartOf="@id/imgMovieCover" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/imgRatingIcon"
+                app:layout_constraintEnd_toStartOf="@id/imgRatingIcon"
+                app:layout_constraintTop_toTopOf="@id/imgRatingIcon"
+                tools:text="5.6" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imgRatingIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_star_baseline"
+                app:layout_constraintBottom_toBottomOf="@id/imgFavoriteIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/imgFavoriteIcon" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtMovieTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="2"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/imgMovieCover"
+                tools:text="Matrix" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtMovieDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/imgMovieCover"
+                app:layout_constraintStart_toStartOf="@id/imgMovieCover"
+                app:layout_constraintTop_toBottomOf="@id/txtMovieTitle"
+                tools:text="The new edge of the world, would be on you back! Just DO NOT look around!" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

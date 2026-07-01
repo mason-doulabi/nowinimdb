@@ -1,4 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" tools:ignore="ResourceName">Hello movies fragment</string>
+    <string name="top_250_movies_title" tools:ignore="ResourceName">Top 250 Movies</string>
+    <string name="movies_type_title" tools:ignore="ResourceName">Movie Types</string>
+    <string name="most_popular_movies_title" tools:ignore="ResourceName">Most Popular Movies</string>
+    <string name="movies_genre_title" tools:ignore="ResourceName">Movies Genre</string>
 </resources>

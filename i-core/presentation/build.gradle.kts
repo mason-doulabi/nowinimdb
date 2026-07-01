@@ -7,6 +7,9 @@ plugins {
 
 android {
     namespace = "com.smmousavi.i_core.presentation"
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -16,6 +19,14 @@ dependencies {
     api(projects.iCore.designsystem)
     api(projects.iCore.model)
 
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.recyclerview)
+
+    implementation(libs.material)
     implementation(libs.androidx.browser)
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.compose)

@@ -1,6 +1,5 @@
 package com.smmousavi.i_core.presentation
 
-import com.smmousavi.i_core.presentation.utils.priceSeparated
 import org.junit.Test
 
 import kotlin.test.assertEquals

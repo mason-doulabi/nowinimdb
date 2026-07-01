@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.google.samples.apps.nowinandroid.configureGradleManagedDevices
 import com.google.samples.apps.nowinandroid.libs
@@ -32,6 +33,9 @@ class AndroidFeatureImplConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 testOptions.animationsDisabled = true
                 configureGradleManagedDevices(this)
+                buildFeatures {
+                    viewBinding = true
+                }
             }
 
             dependencies {
@@ -43,9 +47,11 @@ class AndroidFeatureImplConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.hilt.lifecycle.viewModelCompose").get())
                 "implementation"(libs.findLibrary("androidx.navigation3.runtime").get())
                 "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
+                "implementation"(libs.findLibrary("coil").get())
 
                 "implementation"(libs.findLibrary("androidx.activity.ktx").get())
                 "implementation"(libs.findLibrary("androidx.appcompat").get())
+                "implementation"(libs.findLibrary("androidx.recyclerview").get())
                 "implementation"(libs.findLibrary("androidx.constraintlayout").get())
                 "implementation"(libs.findLibrary("androidx.navigation.fragment.ktx").get())
                 "implementation"(libs.findLibrary("androidx.navigation.ui.ktx").get())

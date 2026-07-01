@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_core.presentation.utils
+package com.smmousavi.i_core.presentation
 
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.State
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
+import kotlin.text.iterator
 
 fun Int.priceSeparated(): String {
     val result = StringBuilder()
@@ -42,7 +43,7 @@ fun Int.priceSeparated(): String {
 
 fun LifecycleOwner.collectOnLifecycleStarted(onCollect: suspend () -> Unit) {
     lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED) {
+        repeatOnLifecycle(State.STARTED) {
             onCollect()
         }
     }

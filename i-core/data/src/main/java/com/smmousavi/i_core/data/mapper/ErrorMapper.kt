@@ -31,7 +31,7 @@ object ErrorMapper {
 
         is HttpException -> {
             when (throwable.code()) {
-                401 -> ImdbError.Unauthorized
+                403 -> ImdbError.Unauthorized
 
                 404 -> ImdbError.NotFound
 
