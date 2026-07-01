@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" tools:ignore="ResourceName">Hello search fragment</string>
+    <string name="hint_search_movie">Search movie</string>
 </resources>

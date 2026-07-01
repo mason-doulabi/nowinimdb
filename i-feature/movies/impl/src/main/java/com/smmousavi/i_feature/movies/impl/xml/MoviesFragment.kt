@@ -7,9 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.smmousavi.i_core.designsystem.R
+import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.presentation.UiState
 import com.smmousavi.i_core.presentation.collectOnLifecycleStarted
 import com.smmousavi.i_core.presentation.xml.HorizontalSpaceItemDecoration
+import com.smmousavi.i_core.presentation.xml.VerticalSpaceItemDecoration
 import com.smmousavi.i_feature.movies.impl.MoviesScreenViewModel
 import com.smmousavi.i_feature.movies.impl.databinding.FragmentMoviesBinding
 import com.smmousavi.i_feature.movies.impl.xml.rv.MoviesListAdapter
@@ -24,14 +28,14 @@ class MoviesFragment : Fragment() {
 
     private val viewModel: MoviesScreenViewModel by viewModels()
 
-    private val top250Adapter by lazy {
+    private val top250MoviesAdapter by lazy {
         MoviesListAdapter(
             onMovieClick = { /* handle click */ },
             onFavoriteClick = { viewModel.setMovieAsFavorite(it) },
         )
     }
 
-    private val popularAdapter by lazy {
+    private val mostPopularMoviesAdapter by lazy {
         MoviesListAdapter(
             onMovieClick = { /* handle click */ },
             onFavoriteClick = { viewModel.setMovieAsFavorite(it) },
@@ -53,7 +57,8 @@ class MoviesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerViews()
+        setupTop250MoviesAdapter()
+        setMostPopularMoviesAdapter()
         observeViewModel()
 
         viewModel.observeTop250Movies()
@@ -62,29 +67,43 @@ class MoviesFragment : Fragment() {
         viewModel.observeTypes()
     }
 
-    private fun setupRecyclerViews() {
-        binding.rvTop250Movies.addItemDecoration(HorizontalSpaceItemDecoration(32))
-        binding.rvTop250Movies.adapter = top250Adapter
-        binding.rvMostPopularMovies.addItemDecoration(HorizontalSpaceItemDecoration(32))
-        binding.rvMostPopularMovies.adapter = popularAdapter
+    private fun setupTop250MoviesAdapter() = with(binding.rvTop250Movies) {
+        adapter = top250MoviesAdapter
+        addItemDecoration(
+            HorizontalSpaceItemDecoration(
+                resources.getDimensionPixelSize(R.dimen.small_space),
+            ),
+        )
+        (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+    }
+
+    private fun setMostPopularMoviesAdapter() = with(binding.rvMostPopularMovies) {
+        adapter = mostPopularMoviesAdapter
+        addItemDecoration(
+            HorizontalSpaceItemDecoration(
+                resources.getDimensionPixelSize(R.dimen.small_space),
+            ),
+        )
+        (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
     }
 
     private fun observeViewModel() {
         collectOnLifecycleStarted {
             viewModel.top250MoviesState.collect { state ->
-                handleUiState(state, top250Adapter)
+                renderUiState(state, top250MoviesAdapter)
             }
         }
+
         collectOnLifecycleStarted {
             viewModel.mostPopularMoviesState.collect { state ->
-                handleUiState(state, popularAdapter)
+                renderUiState(state, mostPopularMoviesAdapter)
             }
         }
     }
 
-    private fun <T> handleUiState(
-        state: UiState<List<T>>,
-        adapter: ListAdapter<T, *>,
+    private fun renderUiState(
+        state: UiState<List<MovieModel>>,
+        adapter: ListAdapter<MovieModel, *>,
     ) {
         when (state) {
             is UiState.Error -> {
