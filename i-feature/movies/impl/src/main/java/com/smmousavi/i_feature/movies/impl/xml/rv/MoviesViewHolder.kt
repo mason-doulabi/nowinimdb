@@ -17,10 +17,7 @@
 package com.smmousavi.i_feature.movies.impl.xml.rv
 
 import android.util.Log
-import coil3.load
-import coil3.request.allowHardware
-import coil3.request.crossfade
-import coil3.size.Scale
+import coil.load
 import com.smmousavi.i_core.designsystem.databinding.ItemMovieCardBinding
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.presentation.xml.BaseViewHolder
@@ -31,24 +28,24 @@ class MoviesViewHolder(
     private val onFavoriteClick: (MovieModel) -> Unit,
 ) : BaseViewHolder<MovieModel>(binding.root) {
 
-    override fun bind(item: MovieModel): Unit = with(binding) {
+    override fun bind(item: MovieModel) = with(binding) {
         root.setOnClickListener {
             onMovieClick(item)
         }
-
-        imgFavoriteIcon.setOnClickListener {
-            onFavoriteClick(item)
-        }
-
-        txtMovieTitle.text = item.title
-        txtMovieDescription.text = item.description
-        txtRating.text = item.rating.toString()
         imgMovieCover.load(
             if (item.thumbnails.isNotEmpty()) {
                 item.thumbnails.first()
             } else {
                 item.imageUrl
             },
-        )
+        ) {
+            crossfade(true)
+        }
+        imgFavoriteIcon.setOnClickListener {
+            onFavoriteClick(item)
+        }
+        txtMovieTitle.text = item.title
+        txtMovieDescription.text = item.description
+        txtRating.text = item.rating.toString()
     }
 }

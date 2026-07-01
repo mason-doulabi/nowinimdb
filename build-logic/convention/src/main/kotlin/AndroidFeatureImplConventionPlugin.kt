@@ -47,7 +47,7 @@ class AndroidFeatureImplConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.hilt.lifecycle.viewModelCompose").get())
                 "implementation"(libs.findLibrary("androidx.navigation3.runtime").get())
                 "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
-                "implementation"(libs.findLibrary("coil").get())
+                "implementation"(libs.findLibrary("coil.kt").get())
 
                 "implementation"(libs.findLibrary("androidx.activity.ktx").get())
                 "implementation"(libs.findLibrary("androidx.appcompat").get())

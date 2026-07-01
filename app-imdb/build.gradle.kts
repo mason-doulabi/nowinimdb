@@ -51,7 +51,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.material)
-    implementation(libs.coil)
+    implementation(libs.coil.kt)
 
     implementation(projects.iCore.common)
     implementation(projects.iCore.data)

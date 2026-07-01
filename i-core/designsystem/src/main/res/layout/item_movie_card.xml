@@ -27,13 +27,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgFavoriteIcon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_margin="8dp"
                 android:padding="4dp"
                 android:src="@drawable/ic_favorite_outline"
+                android:tint="@color/primary_red"
                 app:layout_constraintBottom_toBottomOf="@id/imgMovieCover"
                 app:layout_constraintStart_toStartOf="@id/imgMovieCover" />
 
@@ -42,18 +43,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
-                android:textSize="16sp"
+                android:textColor="@color/primary_yellow"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@id/imgRatingIcon"
                 app:layout_constraintEnd_toStartOf="@id/imgRatingIcon"
                 app:layout_constraintTop_toTopOf="@id/imgRatingIcon"
                 tools:text="5.6" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgRatingIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
                 android:src="@drawable/ic_star_baseline"
+                android:tint="@color/primary_yellow"
                 app:layout_constraintBottom_toBottomOf="@id/imgFavoriteIcon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/imgFavoriteIcon" />
