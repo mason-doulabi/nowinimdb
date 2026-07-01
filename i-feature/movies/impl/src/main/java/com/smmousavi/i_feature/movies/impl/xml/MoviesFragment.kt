@@ -31,14 +31,26 @@ class MoviesFragment : Fragment() {
     private val top250MoviesAdapter by lazy {
         MoviesListAdapter(
             onMovieClick = { /* handle click */ },
-            onFavoriteClick = { viewModel.setMovieAsFavorite(it) },
+            onFavoriteClick = {
+                viewModel.setMovieAsFavorite(
+                    it.copy(
+                        favorite = it.favorite.not(),
+                    ),
+                )
+            },
         )
     }
 
     private val mostPopularMoviesAdapter by lazy {
         MoviesListAdapter(
             onMovieClick = { /* handle click */ },
-            onFavoriteClick = { viewModel.setMovieAsFavorite(it) },
+            onFavoriteClick = {
+                viewModel.setMovieAsFavorite(
+                    it.copy(
+                        favorite = it.favorite.not(),
+                    ),
+                )
+            },
         )
     }
 

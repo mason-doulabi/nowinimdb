@@ -1,4 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" tools:ignore="ResourceName">Hello profile fragment</string>
+    <string name="txt_sign_in_sign_up" tools:ignore="ResourceName">Sign In / Sign Up</string>
+    <string name="txt_favorite_movies" tools:ignore="ResourceName">Favorite Movies</string>
+    <string name="txt_sign_in" tools:ignore="ResourceName">Sign In</string>
 </resources>

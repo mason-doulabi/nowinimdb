@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentProfileRoot"
     android:layout_width="match_parent"
@@ -7,9 +8,81 @@
     tools:context=".xml.ProfileFragment"
     tools:ignore="ResourceName">
 
-    <TextView
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgUserProfile"
+        android:layout_width="81dp"
+        android:layout_height="81dp"
+        android:layout_margin="16dp"
+        android:tint="@color/primary_yellow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/CircleImageStyle"
+        app:srcCompat="@drawable/ic_person_outlined" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:text="@string/txt_sign_in"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/imgUserProfile"
+        app:layout_constraintStart_toEndOf="@id/imgUserProfile"
+        app:layout_constraintTop_toTopOf="@id/imgUserProfile" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgNotification"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/imgUserProfile"
+        app:layout_constraintEnd_toStartOf="@id/imgSettings"
+        app:layout_constraintTop_toTopOf="@id/imgUserProfile"
+        app:srcCompat="@drawable/ic_notifications_outlined" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgSettings"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/imgUserProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgUserProfile"
+        app:srcCompat="@drawable/ic_settings_outlined" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSignIn"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        android:padding="18dp"
+        android:text="@string/txt_sign_in_sign_up"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/imgUserProfile" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtFavoriteMoviesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/txt_favorite_movies"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSignIn" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFavoriteMovies"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtFavoriteMoviesTitle"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

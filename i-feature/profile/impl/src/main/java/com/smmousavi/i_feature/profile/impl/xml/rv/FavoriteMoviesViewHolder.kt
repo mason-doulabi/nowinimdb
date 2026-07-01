@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smmousavi.i_feature.movies.impl.xml.rv
+package com.smmousavi.i_feature.profile.impl.xml.rv
 
 import coil.load
 import com.smmousavi.i_core.designsystem.R
@@ -22,15 +22,14 @@ import com.smmousavi.i_core.designsystem.databinding.ItemMovieCardBinding
 import com.smmousavi.i_core.model.movies.movie.MovieModel
 import com.smmousavi.i_core.presentation.xml.BaseViewHolder
 
-class MoviesViewHolder(
+class FavoriteMoviesViewHolder(
     private val binding: ItemMovieCardBinding,
-    private val onMovieClick: (MovieModel) -> Unit,
-    private val onFavoriteClick: (MovieModel) -> Unit,
+    private val onClick: (MovieModel) -> Unit,
 ) : BaseViewHolder<MovieModel>(binding.root) {
 
     override fun bind(item: MovieModel) = with(binding) {
         root.setOnClickListener {
-            onMovieClick(item)
+            onClick(item)
         }
         imgMovieCover.load(
             if (item.thumbnails.isNotEmpty()) {
@@ -41,16 +40,10 @@ class MoviesViewHolder(
         ) {
             crossfade(true)
         }
-        imgFavoriteIcon.setOnClickListener {
-            onFavoriteClick(item)
-        }
         txtMovieTitle.text = item.title
         txtMovieDescription.text = item.description
         txtRating.text = item.rating.toString()
-        if (item.favorite) {
-            imgFavoriteIcon.setImageResource(R.drawable.ic_favorite_outlined)
-        } else {
-            imgFavoriteIcon.setImageResource(R.drawable.ic_favorite_baseline)
-        }
+        imgFavoriteIcon
+            .setImageResource(R.drawable.ic_favorite_outlined)
     }
 }

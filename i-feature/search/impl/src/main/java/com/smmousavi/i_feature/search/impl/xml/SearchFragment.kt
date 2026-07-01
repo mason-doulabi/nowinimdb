@@ -50,7 +50,6 @@ class SearchFragment : Fragment() {
         setupEditTextWatcher()
         setupRecyclerView()
 
-
         collectOnLifecycleStarted {
             viewModel.searchMovieState.collect {
                 renderUiState(it)
