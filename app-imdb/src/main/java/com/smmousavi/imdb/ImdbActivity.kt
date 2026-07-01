@@ -27,7 +27,6 @@ import com.smmousavi.i_core.navigation.desitnation.ImdbDestination
 import com.smmousavi.i_core.navigation.ui.BottomNavigationItem
 import com.smmousavi.i_core.navigation.ui.ImdbBottomNavigationBar
 import com.smmousavi.i_core.presentation.snackbar.SnackbarEvent
-import com.smmousavi.imdb.xml.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

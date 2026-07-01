@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.smmousavi.imdb.xml
+package com.smmousavi.imdb
 
 import androidx.lifecycle.ViewModel
 import com.smmousavi.i_core.presentation.snackbar.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
